@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Refleksi Ceria - Ceritakan pengalaman belajar pecahanmu hari ini.">
+    <title>Galaksi Pecahan - Refleksi Ceria</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .refl-panel { max-width: 700px; margin: 24px auto; }
+        .mood-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 20px 0; }
+        .mood-btn { width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--glass-border);
+            background: rgba(255,255,255,0.05); font-size: 2.2rem; cursor: pointer;
+            transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
+        .mood-btn:hover { transform: scale(1.15); border-color: var(--star-gold); }
+        .mood-btn.selected { border-color: var(--star-gold); background: rgba(255,215,0,0.15);
+            box-shadow: 0 0 15px rgba(255,215,0,0.3); transform: scale(1.1); }
+        .refl-textarea { width: 100%; min-height: 140px; border-radius: var(--radius-md);
+            padding: 18px; font-size: 1.05rem; font-family: 'Nunito', sans-serif;
+            border: 2px solid var(--glass-border); background: rgba(255,255,255,0.06);
+            color: var(--text-primary); resize: vertical; transition: all 0.3s ease; }
+        .refl-textarea::placeholder { color: rgba(255,255,255,0.35); }
+        .refl-textarea:focus { outline: none; border-color: var(--plasma-cyan);
+            box-shadow: 0 0 12px rgba(0,229,255,0.2); }
+        .past-refl { margin-top: 24px; }
+        .refl-entry { background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm); padding: 14px; margin-bottom: 10px; }
+        .refl-entry .date { font-size: 0.8rem; color: var(--text-secondary); }
+        .refl-entry .text { margin-top: 6px; font-size: 0.95rem; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <script src="js/script.js"></script>
+    <script>
+        renderTopNav('Refleksi Ceria', true, 'dashboard.html');
+        const s = SpaceStore.get();
+        let selectedMood = '';
+
+        document.body.insertAdjacentHTML('beforeend', `
+        <main class="page-container">
+            <div class="glass-panel refl-panel">
+                <div class="section-heading">🎨 Refleksi Ceria</div>
+                <div class="section-subtitle">Bagaimana perasaanmu setelah belajar hari ini?</div>
+
+                <div class="mood-grid">
+                    <button class="mood-btn" data-mood="🤩" onclick="selectMood(this)" title="Senang Sekali">🤩</button>
+                    <button class="mood-btn" data-mood="😊" onclick="selectMood(this)" title="Senang">😊</button>
+                    <button class="mood-btn" data-mood="🤔" onclick="selectMood(this)" title="Biasa Saja">🤔</button>
+                    <button class="mood-btn" data-mood="😔" onclick="selectMood(this)" title="Bingung">😔</button>
+                </div>
+
+                <form id="reflForm" onsubmit="submitRefl(event)">
+                    <textarea class="refl-textarea" id="reflText" placeholder="Ceritakan apa yang kamu pelajari hari ini... 😁" required></textarea>
+                    <div style="text-align:center;margin-top:16px">
+                        <button type="submit" class="btn-primary">Kirim Refleksi 🚀</button>
+                    </div>
+                </form>
+
+                <div class="past-refl" id="pastRefl"></div>
+            </div>
+        </main>`);
+
+        function selectMood(btn) {
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedMood = btn.dataset.mood;
+            AudioManager.playClick();
+        }
+
+        function submitRefl(e) {
+            e.preventDefault();
+            const text = document.getElementById('reflText').value.trim();
+            if (!text || !selectedMood) {
+                alert('Pilih mood dan tulis ceritamu dulu ya! 😊');
+                return;
+            }
+            SpaceStore.addReflection(text, selectedMood);
+            SpaceStore.completeMission('mission4');
+            SpaceStore.addBadge('🎖️');
+            AudioManager.playCorrect();
+            document.getElementById('reflText').value = '';
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+            renderPastReflections();
+            showCelebration(SpaceStore.get('totalXP'), () => navigasiHalaman('dashboard.html'));
+        }
+
+        function renderPastReflections() {
+            const refs = SpaceStore.get('reflections') || [];
+            const el = document.getElementById('pastRefl');
+            if (refs.length === 0) { el.innerHTML = ''; return; }
+            el.innerHTML = '<div style="font-weight:700;margin-bottom:10px;font-size:1rem">📝 Refleksi Sebelumnya</div>' +
+                refs.slice(-3).reverse().map(r =>
+                    `<div class="refl-entry"><div class="date">${r.mood} ${new Date(r.date).toLocaleDateString('id-ID')}</div><div class="text">${r.text}</div></div>`
+                ).join('');
+        }
+        renderPastReflections();
+    </script>
+</body>
+</html>

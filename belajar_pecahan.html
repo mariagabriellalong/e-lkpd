@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stasiun Belajar Pecahan - Materi pembelajaran pecahan interaktif untuk siswa SD.">
+    <title>Galaksi Pecahan - Stasiun Belajar</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .station-panel {
+            max-width: 800px;
+            margin: 24px auto;
+        }
+
+        .objective-banner {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(57, 255, 20, 0.05));
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .objective-banner h3 {
+            color: var(--plasma-cyan);
+            font-family: 'Baloo 2';
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .objective-banner p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .step-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        .content-card {
+            margin-bottom: 20px;
+        }
+
+        .content-card h2 {
+            font-family: 'Baloo 2';
+            font-size: 1.6rem;
+            color: var(--star-gold);
+            margin-bottom: 12px;
+        }
+
+        .content-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            margin: 16px 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            border-radius: var(--radius-md);
+        }
+
+        .fraction-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 24px;
+            margin: 16px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+        }
+
+        .fraction-svg-box {
+            text-align: center;
+        }
+
+        .fraction-svg-box .label {
+            color: var(--text-primary);
+            font-family: 'Baloo 2';
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin-top: 8px;
+        }
+
+        .step-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            gap: 12px;
+        }
+
+        .key-point {
+            background: rgba(255, 215, 0, 0.08);
+            border-left: 4px solid var(--star-gold);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 12px 0;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .astronaut-idle {
+            font-size: 4rem;
+            text-align: center;
+            animation: breathe 4s ease-in-out infinite;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/script.js"></script>
+    <script>
+        renderTopNav('Stasiun Belajar', true, 'dashboard.html');
+
+        const totalSteps = 3;
+        let currentStep = 1;
+
+        document.body.insertAdjacentHTML('beforeend', `
+        <main class="page-container">
+            <div class="glass-panel station-panel">
+                <!-- Objective Panel (CP/TP) -->
+                <div class="objective-banner">
+                    <h3>🎯 Alur Tujuan Pembelajaran</h3>
+                    <p>- Peserta didik mampu mengenali dan menyebutkan bentuk pecahan sederhana dengan bantuan gambar visual, sehingga siswa dapat memahami hubungan antara simbol pecahan dan bentuk nyata.</p>
+                    <p>- Peserta didik mampu menentukan nilai pecahan dari suatu gambar dengan mengamati bagian yang diambil maupun yang tersisa, sehingga kemampuan berpikir numerasi siswa mulai berkembang secara bertahap.</p>
+                    <p>- Peserta didik mampu membandingkan pecahan sederhana menggunakan media visual interaktif, sehingga siswa dapat memahami mana pecahan yang lebih besar atau lebih kecil.</p>
+                    <p>- Peserta didik menunjukkan peningkatan fokus dan keaktifan dalam pembelajaran melalui penggunaan media E-LKPD interaktif yang dirancang sesuai dengan karakteristik siswa sekolah dasar.</p>
+                    </div>
+                <!-- Stepper -->
+                <div class="stepper" id="stepper"></div>
+
+                <!-- Step 1: Video -->
+                <div class="step-content active" id="step1">
+                    <div class="content-card">
+                        <div class="astronaut-idle">👨‍🚀</div>
+                        <h2>🎬 Apa itu Pecahan?</h2>
+                        <p>Halo, Kadet Angkasa! Sebelum kita menjelajah galaksi, yuk tonton video seru ini untuk mengenal apa itu pecahan!</p>
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/nwXZV4fLwx8" title="Video Pembelajaran Pecahan" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <div class="key-point">💡 <strong>Ingat!</strong> Pecahan adalah bagian dari sesuatu yang utuh. Contohnya: jika kamu memotong pizza jadi 2 bagian sama besar, setiap bagian adalah ½ (setengah).</div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Visual Fractions -->
+                <div class="step-content" id="step2">
+                    <div class="content-card">
+                        <h2>🍕 Mengenal Pecahan dengan Gambar</h2>
+                        <p>Perhatikan gambar di bawah ini! Setiap gambar menunjukkan pecahan yang berbeda-beda.</p>
+
+                        <div class="fraction-visual">
+                            <div class="fraction-svg-box">
+                                <svg width="120" height="120" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
+                                    <path d="M60 5 A55 55 0 0 1 60 115" fill="var(--comet-orange)" stroke="var(--star-gold)" stroke-width="2"/>
+                                    <path d="M60 115 A55 55 0 0 1 60 5" fill="rgba(255,255,255,0.1)" stroke="var(--star-gold)" stroke-width="2"/>
+                                    <line x1="60" y1="5" x2="60" y2="115" stroke="var(--star-gold)" stroke-width="2"/>
+                                </svg>
+                                <div class="label">½</div>
+                            </div>
+                            <div class="fraction-svg-box">
+                                <svg width="120" height="120" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
+                                    <path d="M60 60 L60 5 A55 55 0 0 1 115 60 Z" fill="var(--plasma-cyan)" stroke="var(--star-gold)" stroke-width="2"/>
+                                    <path d="M60 60 L115 60 A55 55 0 0 1 60 115 Z" fill="rgba(255,255,255,0.08)" stroke="var(--star-gold)" stroke-width="2"/>
+                                    <path d="M60 60 L60 115 A55 55 0 0 1 5 60 Z" fill="rgba(255,255,255,0.08)" stroke="var(--star-gold)" stroke-width="2"/>
+                                    <path d="M60 60 L5 60 A55 55 0 0 1 60 5 Z" fill="rgba(255,255,255,0.08)" stroke="var(--star-gold)" stroke-width="2"/>
+                                </svg>
+                                <div class="label">¼</div>
+                            </div>
+                            <div class="fraction-svg-box">
+                                <svg width="120" height="120" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
+                                    <path d="M60 60 L60 5 A55 55 0 0 1 107.5 87.5 Z" fill="var(--nova-pink)" stroke="var(--star-gold)" stroke-width="2"/>
+                                    <path d="M60 60 L107.5 87.5 A55 55 0 0 1 12.5 87.5 Z" fill="rgba(255,255,255,0.08)" stroke="var(--star-gold)" stroke-width="2"/>
+                                    <path d="M60 60 L12.5 87.5 A55 55 0 0 1 60 5 Z" fill="rgba(255,255,255,0.08)" stroke="var(--star-gold)" stroke-width="2"/>
+                                </svg>
+                                <div class="label">⅓</div>
+                            </div>
+                        </div>
+
+                        <div class="key-point">💡 <strong>Pembilang</strong> = bagian yang diambil (angka atas). <strong>Penyebut</strong> = total bagian keseluruhan (angka bawah).</div>
+                        <div class="key-point">🦜 <strong>Tips dari Kami:</strong> Bayangkan sebuah kue yang dipotong. Penyebut memberitahu berapa potongan, pembilang memberitahu berapa yang kamu ambil!</div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Summary -->
+                <div class="step-content" id="step3">
+                    <div class="content-card">
+                        <h2>📝 Rangkuman Materi</h2>
+                        <p>Hebat, Kadet! Kamu sudah belajar tentang pecahan. Yuk kita ingat kembali:</p>
+
+                        <div class="key-point">1️⃣ <strong>Pecahan</strong> menyatakan bagian dari keseluruhan.</div>
+                        <div class="key-point">2️⃣ <strong>½ (setengah)</strong> artinya 1 dari 2 bagian yang sama besar.</div>
+                        <div class="key-point">3️⃣ <strong>¼ (seperempat)</strong> artinya 1 dari 4 bagian yang sama besar.</div>
+                        <div class="key-point">4️⃣ <strong>⅓ (sepertiga)</strong> artinya 1 dari 3 bagian yang sama besar.</div>
+
+                        <div class="astronaut-idle" style="font-size:5rem">🎉</div>
+                        <p style="text-align:center;color:var(--star-gold);font-weight:700;font-size:1.2rem">Materi selesai! Siap untuk Game Pizza Planet?</p>
+                    </div>
+                </div>
+
+                <!-- Step Navigation -->
+                <div class="step-nav">
+                    <button class="btn-secondary" id="btnPrev" style="display:none" onclick="changeStep(-1)">⬅ Sebelumnya</button>
+                    <div style="flex:1"></div>
+                    <button class="btn-primary" id="btnNext" onclick="changeStep(1)">Selanjutnya ➡</button>
+                </div>
+            </div>
+        </main>`);
+
+        function renderStepper() {
+            const el = document.getElementById('stepper');
+            let html = '';
+            for (let i = 1; i <= totalSteps; i++) {
+                const cls = i === currentStep ? 'active' : (i < currentStep ? 'completed' : '');
+                html += `<div class="step-dot ${cls}" onclick="goToStep(${i})">${i < currentStep ? '✓' : i}</div>`;
+                if (i < totalSteps) html += `<div class="step-line ${i < currentStep ? 'completed' : ''}"></div>`;
+            }
+            el.innerHTML = html;
+        }
+
+        function changeStep(dir) {
+            const next = currentStep + dir;
+            if (next < 1 || next > totalSteps) {
+                if (next > totalSteps) {
+                    SpaceStore.completeMission('mission1');
+                    SpaceStore.addXP(50);
+                    SpaceStore.addBadge('⭐');
+                    navigasiHalaman('dashboard.html');
+                }
+                return;
+            }
+            goToStep(next);
+        }
+
+        function goToStep(n) {
+            AudioManager.playClick();
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + n).classList.add('active');
+            currentStep = n;
+            renderStepper();
+            document.getElementById('btnPrev').style.display = n > 1 ? '' : 'none';
+            document.getElementById('btnNext').textContent = n === totalSteps ? 'Selesai & Lanjut 🚀' : 'Selanjutnya ➡';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        renderStepper();
+    </script>
+</body>
+
+</html>

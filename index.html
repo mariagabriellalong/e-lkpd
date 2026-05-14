@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Space Adventure Fractions - eLKPD Matematika Pecahan untuk siswa SD dengan tema petualangan luar angkasa dan budaya Dayak Kalimantan.">
+    <title>Galaksi Pecahan - Mulai Petualangan!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-wrap {
+            min-height: 100vh; display: flex;
+            align-items: center; justify-content: center;
+            padding: 24px;
+        }
+        .login-panel {
+            max-width: 440px; width: 100%;
+            padding: 50px 40px;
+            animation: slideUp 1s cubic-bezier(0.68,-0.55,0.265,1.55);
+            text-align: center;
+        }
+        .logo-mascot {
+            font-size: 5rem; margin-bottom: 10px;
+            filter: drop-shadow(0 8px 20px rgba(255,215,0,0.4));
+            animation: float 3s ease-in-out infinite;
+        }
+        .login-title {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 2.4rem; font-weight: 900;
+            background: linear-gradient(135deg, var(--star-gold), var(--comet-orange));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 6px;
+        }
+        .login-sub { color: var(--text-secondary); font-size: 1rem; margin-bottom: 30px; }
+        .form-group { margin-bottom: 18px; text-align: left; }
+        .form-label {
+            display: block; color: var(--text-primary);
+            font-weight: 700; margin-bottom: 6px; font-size: 0.95rem;
+        }
+        .login-footer {
+            margin-top: 24px; color: var(--text-secondary); font-size: 0.9rem;
+        }
+        .login-footer a {
+            color: var(--plasma-cyan); text-decoration: none; font-weight: 700;
+            transition: color var(--transition-fast);
+        }
+        .login-footer a:hover { color: var(--star-gold); }
+
+        /* Dayak ornament */
+        .dayak-ornament {
+            width: 120px; height: 30px; margin: 0 auto 20px;
+            background: linear-gradient(90deg, transparent, var(--star-gold), transparent);
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 30'%3E%3Cpath d='M0 15Q15 0 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3Cpath d='M0 15Q15 30 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3C/svg%3E");
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 30'%3E%3Cpath d='M0 15Q15 0 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3Cpath d='M0 15Q15 30 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3C/svg%3E");
+            opacity: 0.6;
+        }
+
+        /* Floating mascots */
+        .mascot-side {
+            position: fixed; font-size: 3rem; animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); pointer-events: none; z-index: 0;
+        }
+        .mascot-left { left: 5%; bottom: 15%; animation-delay: 0.5s; }
+        .mascot-right { right: 5%; bottom: 20%; animation-delay: 1s; }
+
+        @media (max-width: 600px) {
+            .login-panel { padding: 35px 24px; }
+            .login-title { font-size: 1.8rem; }
+            .logo-mascot { font-size: 3.5rem; }
+            .mascot-side { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating mascots -->
+    <div class="mascot-side mascot-left anim-breathe">🦧</div>
+    <div class="mascot-side mascot-right anim-blink">🦜</div>
+
+    <main class="login-wrap">
+        <section class="glass-panel login-panel">
+            <div class="logo-mascot">🚀</div>
+            <div class="dayak-ornament"></div>
+            <h1 class="login-title">Galaksi Pecahan</h1>
+            <p class="login-sub">Petualangan Matematika Luar Angkasa! 🌌</p>
+
+            <form id="loginForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="username" class="form-label">Siapa Namamu? 😊</label>
+                    <input type="text" id="username" class="input-field" placeholder="Tulis namamu disini..." required aria-required="true">
+                </div>
+
+                <div class="form-group">
+                    <label for="kelas" class="form-label">Kelas Berapa? 🏫</label>
+                    <input type="text" id="kelas" class="input-field" placeholder="Contoh: 3A atau 4..." required aria-required="true">
+                </div>
+
+                <button type="submit" class="btn-primary" style="width:100%">Mulai Petualangan! 🚀</button>
+            </form>
+
+            <div class="login-footer">
+                Ingin coba dulu? <a href="#" id="guestBtn">Masuk sebagai Tamu</a>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            AudioManager.playClick();
+            const username = document.getElementById('username').value.trim();
+            const kelas = document.getElementById('kelas').value.trim();
+            localStorage.setItem('username', username);
+            localStorage.setItem('kelas', kelas);
+            SpaceStore.set({ username, kelas });
+            navigasiHalaman('dashboard.html');
+        });
+
+        document.getElementById('guestBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            AudioManager.playClick();
+            localStorage.setItem('username', 'Tamu Ceria');
+            localStorage.setItem('kelas', '-');
+            SpaceStore.set({ username: 'Tamu Ceria', kelas: '-' });
+            navigasiHalaman('dashboard.html');
+        });
+    </script>
+</body>
+</html>
