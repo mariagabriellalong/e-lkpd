@@ -45,7 +45,7 @@ const SpaceStore = {
     this._updateRank();
   },
 
-  get(key) { return key ? this._state[key] : { ...this._state }; },
+  get(key) { return key ? this._state[key] :  { ...this._state }; },
 
   set(updates) {
     Object.assign(this._state, updates);

@@ -4,45 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Space Adventure Fractions - eLKPD Matematika Pecahan untuk siswa SD dengan tema petualangan luar angkasa.">
-    <title>E-LKPD Matematika - Universitas Mulawarman</title>
+    <title>Galaksi Pecahan - Mulai Petualangan!</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .login-wrap {
             min-height: 100vh; display: flex;
             align-items: center; justify-content: center;
             padding: 24px; position: relative; overflow: hidden;
-            /* Vibrant space gradient for kids */
             background: radial-gradient(circle at top right, #3b145e 0%, #111b3d 40%, #0a0e27 100%);
         }
         
         .login-panel {
-            max-width: 500px; width: 100%;
+            max-width: 440px; width: 100%;
             padding: 50px 40px;
             animation: slideUp 1s cubic-bezier(0.68,-0.55,0.265,1.55);
             text-align: center; z-index: 10;
-            background: rgba(255,255,255,0.08); /* slightly brighter glass */
-            border: 2px solid rgba(0, 229, 255, 0.3); /* Cyan glowing border */
+            background: rgba(255,255,255,0.08); 
+            border: 2px solid rgba(0, 229, 255, 0.3);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 229, 255, 0.1);
         }
         
         .logo-mascot {
-            margin-bottom: 15px;
+            font-size: 5rem; margin-bottom: 10px;
             filter: drop-shadow(0 8px 20px rgba(0, 229, 255, 0.4));
             animation: float 3s ease-in-out infinite;
         }
         
         .login-title {
             font-family: 'Baloo 2', sans-serif;
-            font-size: 2.8rem; font-weight: 900;
+            font-size: 2.6rem; font-weight: 900;
             background: linear-gradient(135deg, var(--plasma-cyan), #b388ff);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text; margin-bottom: 6px;
             line-height: 1.1; filter: drop-shadow(0 4px 10px rgba(0, 229, 255, 0.2));
         }
         
-        .login-sub { color: var(--star-gold); font-size: 1.25rem; font-weight: 800; margin-bottom: 30px; letter-spacing: 1px; }
+        .login-sub { color: var(--star-gold); font-size: 1.1rem; font-weight: 800; margin-bottom: 30px; letter-spacing: 1px; }
         
-        /* Dayak ornament - adjusted color to fit vibrant theme */
+        .form-group { margin-bottom: 18px; text-align: left; }
+        .form-label {
+            display: block; color: var(--text-primary);
+            font-weight: 700; margin-bottom: 6px; font-size: 0.95rem;
+        }
+        .input-field {
+            background: rgba(0,0,0,0.3); border-color: rgba(0,229,255,0.3);
+            color: white; border-radius: 12px;
+        }
+        .input-field:focus { border-color: var(--plasma-cyan); box-shadow: 0 0 15px rgba(0,229,255,0.3); }
+
+        .btn-mulai {
+            display: block; width: 100%; text-decoration: none; padding: 16px; margin-top: 10px; border: none; cursor: pointer;
+            background: linear-gradient(135deg, var(--aurora-green), #00c853);
+            color: #003300; font-family: 'Baloo 2', sans-serif; font-weight: 900; font-size: 1.2rem;
+            border-radius: var(--radius-full); box-shadow: 0 6px 0 #009624, 0 0 20px rgba(57,255,20,0.4);
+            transition: all var(--transition-med); animation: pulseGlow 2s infinite;
+        }
+        .btn-mulai:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #009624, 0 0 30px rgba(57,255,20,0.6); }
+        .btn-mulai:active { transform: translateY(4px); box-shadow: 0 0 0 #009624; }
+
+        .login-footer { margin-top: 24px; color: var(--text-secondary); font-size: 0.9rem; }
+        .login-footer a { color: var(--plasma-cyan); text-decoration: none; font-weight: 700; transition: color var(--transition-fast); }
+        .login-footer a:hover { color: var(--aurora-green); }
+
         .dayak-ornament {
             width: 120px; height: 30px; margin: 0 auto 20px;
             background: linear-gradient(90deg, transparent, var(--plasma-cyan), transparent);
@@ -51,7 +74,6 @@
             opacity: 0.8;
         }
 
-        /* Floating Astronaut Mascots */
         .mascot-side {
             position: absolute; font-size: 4rem; animation: float 4s ease-in-out infinite;
             filter: drop-shadow(0 4px 15px rgba(0,229,255,0.4)); pointer-events: none; z-index: 1;
@@ -60,32 +82,6 @@
         .mascot-right { right: 10%; bottom: 25%; animation-delay: 1s; font-size: 4.5rem; }
         .mascot-rocket { left: 15%; bottom: 15%; font-size: 3.5rem; animation: float 5s ease-in-out infinite alternate; filter: drop-shadow(0 0 10px rgba(255,107,53,0.5)); }
         .mascot-planet { right: 15%; top: 15%; font-size: 5rem; animation: breathe 6s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(255,215,0,0.3)); }
-
-        .univ-title {
-            color: var(--text-primary);
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 1.25rem;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-
-        .univ-sub {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 25px;
-        }
-        
-        .btn-mulai {
-            display: block; width: 100%; text-decoration: none; padding: 18px; margin-top: 10px;
-            background: linear-gradient(135deg, var(--aurora-green), #00c853);
-            color: #003300; font-family: 'Baloo 2', sans-serif; font-weight: 900; font-size: 1.3rem;
-            border-radius: var(--radius-full); box-shadow: 0 6px 0 #009624, 0 0 20px rgba(57,255,20,0.4);
-            transition: all var(--transition-med); animation: pulseGlow 2s infinite;
-        }
-        .btn-mulai:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #009624, 0 0 30px rgba(57,255,20,0.6); }
-        .btn-mulai:active { transform: translateY(4px); box-shadow: 0 0 0 #009624; }
 
         @media (max-width: 1024px) {
             .mascot-left { left: 5%; } .mascot-right { right: 5%; }
@@ -116,27 +112,52 @@
         <div class="stars-layer layer2"></div>
 
         <section class="glass-panel login-panel">
-            
-            <!-- University Logo -->
-            <div class="logo-mascot">
-                <img src="img/univ.png" alt="Logo Universitas" style="width: 105px; height: 105px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,229,255,0.4));">
-            </div>
-            
-            <h2 class="univ-title">Universitas Mulawarman</h2>
-            <p class="univ-sub">Program Studi PGSD E</p>
-
+            <div class="logo-mascot">🚀</div>
             <div class="dayak-ornament"></div>
-            
             <h1 class="login-title">Galaksi Pecahan</h1>
-            <p class="login-sub">Petualangan Astronot Cilik! ✨</p>
+            <p class="login-sub">Siap Terbang, Astronot Cilik? 🌌</p>
 
-            <a href="login.html" class="btn-mulai" onclick="if(typeof AudioManager !== 'undefined') AudioManager.playClick();">
-                Mulai Berpetualang! 🚀
-            </a>
+            <form id="loginForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="username" class="form-label">Siapa Namamu? 😊</label>
+                    <input type="text" id="username" class="input-field" placeholder="Tulis namamu disini..." required aria-required="true">
+                </div>
 
+                <div class="form-group">
+                    <label for="kelas" class="form-label">Kelas Berapa? 🏫</label>
+                    <input type="text" id="kelas" class="input-field" placeholder="Contoh: 3A atau 4..." required aria-required="true">
+                </div>
+
+                <button type="submit" class="btn-mulai">Siap Meluncur! 🚀</button>
+            </form>
+
+            <div class="login-footer">
+                Ingin lihat-lihat dulu? <a href="#" id="guestBtn">Masuk sebagai Tamu</a>
+            </div>
         </section>
     </main>
 
     <script src="js/script.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(typeof AudioManager !== 'undefined') AudioManager.playClick();
+            const username = document.getElementById('username').value.trim();
+            const kelas = document.getElementById('kelas').value.trim();
+            localStorage.setItem('username', username);
+            localStorage.setItem('kelas', kelas);
+            SpaceStore.set({ username, kelas });
+            navigasiHalaman('dashboard.html');
+        });
+
+        document.getElementById('guestBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if(typeof AudioManager !== 'undefined') AudioManager.playClick();
+            localStorage.setItem('username', 'Tamu Ceria');
+            localStorage.setItem('kelas', '-');
+            SpaceStore.set({ username: 'Tamu Ceria', kelas: '-' });
+            navigasiHalaman('dashboard.html');
+        });
+    </script>
 </body>
 </html>
