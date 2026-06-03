@@ -267,11 +267,32 @@ const AudioManager = {
   _ctx: null,
   _bgmGain: null,
   _sfxGain: null,
-  _bgmSource: null,
+  _bgmAudio: null,
   _isMuted: false,
+  _lastClickTime: 0,
 
   init() {
-    // Lazy init on user interaction
+    if (!this._bgmAudio) {
+      this._bgmAudio = new Audio('sound/pou.mp3');
+      this._bgmAudio.loop = true;
+      this._bgmAudio.volume = 0.4;
+      
+      this._isMuted = SpaceStore.get('isMusicPlaying') === false;
+      if (this._isMuted) {
+          this._bgmAudio.pause();
+      }
+
+      // Auto-start BGM on first interaction across all pages
+      const startBgm = () => {
+        if (!this._isMuted && this._bgmAudio.paused) {
+          this._bgmAudio.play().catch(e => console.log('BGM play blocked:', e));
+        }
+        document.removeEventListener('click', startBgm);
+        document.removeEventListener('touchstart', startBgm);
+      };
+      document.addEventListener('click', startBgm);
+      document.addEventListener('touchstart', startBgm);
+    }
   },
 
   _ensureContext() {
@@ -304,17 +325,49 @@ const AudioManager = {
   playCorrect() { this.playTone(523, 0.1); setTimeout(() => this.playTone(659, 0.1), 100); setTimeout(() => this.playTone(784, 0.2), 200); },
   playWrong()   { this.playTone(200, 0.3, 'sawtooth'); },
   playLevelUp() { [523,659,784,1047].forEach((f,i) => setTimeout(() => this.playTone(f, 0.2), i*120)); },
-  playClick()   { this.playTone(800, 0.05, 'square'); },
+  
+  playClick() { 
+    const now = Date.now();
+    if (now - this._lastClickTime < 100) return; // Mencegah double-sound (misal touch & click bersamaan)
+    this._lastClickTime = now;
+    if (!this._isMuted) {
+        this.playTone(600, 0.08, 'sine'); 
+    }
+  },
 
   toggleMute() {
     this._isMuted = !this._isMuted;
+    SpaceStore.set({ isMusicPlaying: !this._isMuted });
+    
     if (this._bgmGain) this._bgmGain.gain.value = this._isMuted ? 0 : 0.15;
     if (this._sfxGain) this._sfxGain.gain.value = this._isMuted ? 0 : 0.4;
+    
+    if (this._bgmAudio) {
+      if (this._isMuted) {
+        this._bgmAudio.pause();
+      } else {
+        this._bgmAudio.play().catch(e => console.log('BGM play blocked:', e));
+      }
+    }
     return this._isMuted;
   },
 
   isMuted() { return this._isMuted; }
 };
+
+AudioManager.init();
+
+// Menambahkan suara klik global untuk seluruh sentuhan/klik di layar
+document.addEventListener('click', () => {
+  if (typeof AudioManager !== 'undefined') {
+    AudioManager.playClick();
+  }
+});
+document.addEventListener('touchstart', () => {
+  if (typeof AudioManager !== 'undefined') {
+    AudioManager.playClick();
+  }
+}, {passive: true});
 
 // ============ UI HELPERS ============
 function navigasiHalaman(url) {
@@ -410,6 +463,11 @@ function showCelebration(score, onClose) {
       <button class="btn-gold" id="celebClose">Lanjutkan 🌿</button>
     </div>`;
   document.body.appendChild(overlay);
+  
+  // Play clap sound from folder
+  const clapSound = new Audio('sound/clap.mp3');
+  clapSound.play().catch(e => console.log('Audio error:', e));
+  
   AudioManager.playLevelUp();
   setTimeout(() => {
     animateCounter(document.getElementById('celebScore'), 0, score, 1500);

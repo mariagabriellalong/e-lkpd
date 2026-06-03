@@ -141,5 +141,12 @@
     </main>
 
     <script src="js/script.js"></script>
+    <script>
+        // Auto-redirect to login page after 3.5 seconds
+        setTimeout(() => {
+            if(typeof AudioManager !== 'undefined') AudioManager.playClick();
+            navigasiHalaman('login.html');
+        }, 3500);
+    </script>
 </body>
 </html>
