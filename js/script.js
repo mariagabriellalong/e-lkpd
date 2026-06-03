@@ -275,7 +275,7 @@ const AudioManager = {
     if (!this._bgmAudio) {
       this._bgmAudio = new Audio('sound/pou.mp3');
       this._bgmAudio.loop = true;
-      this._bgmAudio.volume = 0.4;
+      this._bgmAudio.volume = 0.12; // Suara dikecilkan
       
       this._isMuted = SpaceStore.get('isMusicPlaying') === false;
       if (this._isMuted) {
@@ -371,10 +371,50 @@ document.addEventListener('touchstart', () => {
 
 // ============ UI HELPERS ============
 function navigasiHalaman(url) {
+  if (url.startsWith('http') || url.startsWith('mailto')) {
+      window.location.href = url;
+      return;
+  }
   document.body.style.opacity = '0';
   document.body.style.transition = 'opacity 0.4s ease';
-  setTimeout(() => { window.location.href = url; }, 400);
+  
+  setTimeout(async () => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Fetch failed');
+      const text = await response.text();
+      
+      window.history.pushState({}, '', url);
+      
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      
+      document.title = doc.title;
+      document.body.innerHTML = doc.body.innerHTML;
+      
+      // Re-run inline scripts from the new page
+      const scripts = document.body.querySelectorAll('script');
+      scripts.forEach(s => {
+        if (!s.src) {
+            const newScript = document.createElement('script');
+            newScript.textContent = s.textContent;
+            document.body.appendChild(newScript);
+        }
+      });
+      
+      // Trigger initialization for the new page
+      document.dispatchEvent(new Event('DOMContentLoaded'));
+      
+    } catch(e) {
+      console.error('SPA Navigation failed:', e);
+      window.location.href = url; // Fallback to normal navigation
+    }
+  }, 400);
 }
+
+window.addEventListener('popstate', () => {
+    window.location.reload();
+});
 
 function createForestBackground() {
   // Remove any old stars layers
