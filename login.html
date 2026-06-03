@@ -3,97 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Space Adventure Fractions - eLKPD Matematika Pecahan untuk siswa SD dengan tema petualangan luar angkasa.">
-    <title>Galaksi Pecahan - Mulai Petualangan!</title>
+    <meta name="description" content="Rimba Ajaib Pecahan - Masuk dan mulai petualangan belajar pecahan di hutan ajaib!">
+    <title>Rimba Pecahan - Mulai Petualangan!</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .login-wrap {
             min-height: 100vh; display: flex;
             align-items: center; justify-content: center;
             padding: 24px; position: relative; overflow: hidden;
-            background: radial-gradient(circle at top right, #3b145e 0%, #111b3d 40%, #0a0e27 100%);
+            background: linear-gradient(160deg, #87ceeb 0%, #b8f0d0 50%, #78c896 100%);
         }
-        
+
         .login-panel {
             max-width: 440px; width: 100%;
             padding: 50px 40px;
             animation: slideUp 1s cubic-bezier(0.68,-0.55,0.265,1.55);
             text-align: center; z-index: 10;
-            background: rgba(255,255,255,0.08); 
-            border: 2px solid rgba(0, 229, 255, 0.3);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 229, 255, 0.1);
+            background: rgba(255,255,255,0.88);
+            border: 2px solid rgba(255,255,255,0.95);
+            box-shadow: 0 20px 60px rgba(45,138,78,0.2), 0 0 40px rgba(249,202,36,0.08);
         }
-        
+
         .logo-mascot {
-            font-size: 5rem; margin-bottom: 10px;
-            filter: drop-shadow(0 8px 20px rgba(0, 229, 255, 0.4));
+            font-size: 5.5rem; margin-bottom: 10px;
+            filter: drop-shadow(0 8px 20px rgba(45,138,78,0.3));
             animation: float 3s ease-in-out infinite;
+            line-height: 1;
         }
-        
+
         .login-title {
             font-family: 'Baloo 2', sans-serif;
             font-size: 2.6rem; font-weight: 900;
-            background: linear-gradient(135deg, var(--plasma-cyan), #b388ff);
+            background: linear-gradient(135deg, #1a5c35, #27ae60);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text; margin-bottom: 6px;
-            line-height: 1.1; filter: drop-shadow(0 4px 10px rgba(0, 229, 255, 0.2));
+            line-height: 1.1;
         }
-        
-        .login-sub { color: var(--star-gold); font-size: 1.1rem; font-weight: 800; margin-bottom: 30px; letter-spacing: 1px; }
-        
+
+        .login-sub { color: var(--honey-orange); font-size: 1.1rem; font-weight: 800; margin-bottom: 30px; letter-spacing: 1px; }
+
         .form-group { margin-bottom: 18px; text-align: left; }
         .form-label {
-            display: block; color: var(--text-primary);
+            display: block; color: var(--forest-mid);
             font-weight: 700; margin-bottom: 6px; font-size: 0.95rem;
         }
         .input-field {
-            background: rgba(0,0,0,0.3); border-color: rgba(0,229,255,0.3);
-            color: white; border-radius: 12px;
+            background: rgba(255,255,255,0.9); border-color: rgba(45,138,78,0.35);
+            color: var(--text-primary); border-radius: 14px;
         }
-        .input-field:focus { border-color: var(--plasma-cyan); box-shadow: 0 0 15px rgba(0,229,255,0.3); }
+        .input-field:focus { border-color: var(--forest-mid); box-shadow: 0 0 15px rgba(45,138,78,0.2); }
 
         .btn-mulai {
             display: block; width: 100%; text-decoration: none; padding: 16px; margin-top: 10px; border: none; cursor: pointer;
-            background: linear-gradient(135deg, var(--aurora-green), #00c853);
-            color: #003300; font-family: 'Baloo 2', sans-serif; font-weight: 900; font-size: 1.2rem;
-            border-radius: var(--radius-full); box-shadow: 0 6px 0 #009624, 0 0 20px rgba(57,255,20,0.4);
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 900; font-size: 1.2rem;
+            border-radius: var(--radius-full); box-shadow: 0 6px 0 #1e8449, 0 0 20px rgba(39,174,96,0.3);
             transition: all var(--transition-med); animation: pulseGlow 2s infinite;
         }
-        .btn-mulai:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #009624, 0 0 30px rgba(57,255,20,0.6); }
-        .btn-mulai:active { transform: translateY(4px); box-shadow: 0 0 0 #009624; }
+        .btn-mulai:hover  { transform: translateY(-3px); box-shadow: 0 9px 0 #1e8449, 0 0 30px rgba(39,174,96,0.5); }
+        .btn-mulai:active { transform: translateY(4px);  box-shadow: 0 0 0 #1e8449; }
 
         .login-footer { margin-top: 24px; color: var(--text-secondary); font-size: 0.9rem; }
-        .login-footer a { color: var(--plasma-cyan); text-decoration: none; font-weight: 700; transition: color var(--transition-fast); }
-        .login-footer a:hover { color: var(--aurora-green); }
+        .login-footer a { color: var(--forest-mid); text-decoration: none; font-weight: 700; transition: color var(--transition-fast); }
+        .login-footer a:hover { color: var(--leaf-vivid); }
 
-        .dayak-ornament {
-            width: 120px; height: 30px; margin: 0 auto 20px;
-            background: linear-gradient(90deg, transparent, var(--plasma-cyan), transparent);
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 30'%3E%3Cpath d='M0 15Q15 0 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3Cpath d='M0 15Q15 30 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3C/svg%3E");
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 30'%3E%3Cpath d='M0 15Q15 0 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3Cpath d='M0 15Q15 30 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3C/svg%3E");
-            opacity: 0.8;
+        /* Forest vine ornament */
+        .forest-ornament {
+            width: 140px; height: 32px; margin: 0 auto 20px;
+            background: linear-gradient(90deg, transparent, var(--leaf-vivid), transparent);
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 32'%3E%3Cpath d='M0 16Q18 2 35 16T70 16T105 16T140 16' stroke='white' stroke-width='4' fill='none'/%3E%3Ccircle cx='20' cy='10' r='5' fill='white'/%3E%3Ccircle cx='55' cy='22' r='5' fill='white'/%3E%3Ccircle cx='90' cy='10' r='5' fill='white'/%3E%3Ccircle cx='125' cy='22' r='5' fill='white'/%3E%3C/svg%3E");
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 32'%3E%3Cpath d='M0 16Q18 2 35 16T70 16T105 16T140 16' stroke='white' stroke-width='4' fill='none'/%3E%3Ccircle cx='20' cy='10' r='5' fill='white'/%3E%3Ccircle cx='55' cy='22' r='5' fill='white'/%3E%3Ccircle cx='90' cy='10' r='5' fill='white'/%3E%3Ccircle cx='125' cy='22' r='5' fill='white'/%3E%3C/svg%3E");
+            opacity: 0.75;
         }
 
         .mascot-side {
             position: absolute; font-size: 4rem; animation: float 4s ease-in-out infinite;
-            filter: drop-shadow(0 4px 15px rgba(0,229,255,0.4)); pointer-events: none; z-index: 1;
+            filter: drop-shadow(0 4px 12px rgba(45,138,78,0.3)); pointer-events: none; z-index: 1;
         }
-        .mascot-left { left: 10%; top: 20%; animation-delay: 0.5s; }
-        .mascot-right { right: 10%; bottom: 25%; animation-delay: 1s; font-size: 4.5rem; }
-        .mascot-rocket { left: 15%; bottom: 15%; font-size: 3.5rem; animation: float 5s ease-in-out infinite alternate; filter: drop-shadow(0 0 10px rgba(255,107,53,0.5)); }
-        .mascot-planet { right: 15%; top: 15%; font-size: 5rem; animation: breathe 6s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(255,215,0,0.3)); }
+        .mascot-left   { left: 10%; top: 20%; animation-delay: 0.5s; }
+        .mascot-right  { right: 10%; bottom: 25%; animation-delay: 1s; font-size: 4.5rem; }
+        .mascot-flower { left: 15%; bottom: 15%; font-size: 3.5rem; animation: float 5s ease-in-out infinite alternate; }
+        .mascot-tree   { right: 15%; top: 15%; font-size: 5rem; animation: breathe 6s ease-in-out infinite; }
 
         @media (max-width: 1024px) {
             .mascot-left { left: 5%; } .mascot-right { right: 5%; }
-            .mascot-rocket { left: 8%; } .mascot-planet { right: 8%; }
+            .mascot-flower { left: 8%; } .mascot-tree { right: 8%; }
         }
         @media (max-width: 768px) {
-            .mascot-left, .mascot-right, .mascot-rocket, .mascot-planet { opacity: 0.4; }
-            .mascot-right { bottom: 10%; } .mascot-left { top: 10%; }
+            .mascot-left, .mascot-right, .mascot-flower, .mascot-tree { opacity: 0.4; }
         }
         @media (max-width: 600px) {
             .login-panel { padding: 35px 24px; }
-            .login-title { font-size: 2.2rem; }
+            .login-title { font-size: 2.1rem; }
             .mascot-side { display: none; }
         }
     </style>
@@ -101,21 +102,21 @@
 <body>
 
     <main class="login-wrap">
-        <!-- Floating Space Elements -->
-        <div class="mascot-side mascot-left anim-breathe">👨‍🚀</div>
-        <div class="mascot-side mascot-right anim-float">👩‍🚀</div>
-        <div class="mascot-side mascot-rocket">🚀</div>
-        <div class="mascot-side mascot-planet">🪐</div>
-        
-        <!-- Stars layer from style.css -->
-        <div class="stars-layer layer1"></div>
-        <div class="stars-layer layer2"></div>
+        <!-- Floating Forest Elements -->
+        <div class="mascot-side mascot-left anim-breathe">🦋</div>
+        <div class="mascot-side mascot-right anim-float">🐝</div>
+        <div class="mascot-side mascot-flower">🌸</div>
+        <div class="mascot-side mascot-tree">🌳</div>
+
+        <!-- Forest leaf layers -->
+        <div class="forest-layer layer1"></div>
+        <div class="forest-layer layer2"></div>
 
         <section class="glass-panel login-panel">
-            <div class="logo-mascot">🚀</div>
-            <div class="dayak-ornament"></div>
-            <h1 class="login-title">Galaksi Pecahan</h1>
-            <p class="login-sub">Siap Terbang, Astronot Cilik? 🌌</p>
+            <div class="logo-mascot">🦉</div>
+            <div class="forest-ornament"></div>
+            <h1 class="login-title">Rimba Pecahan</h1>
+            <p class="login-sub">Siap Berpetualang, Sobat Cilik? 🌿</p>
 
             <form id="loginForm" autocomplete="off">
                 <div class="form-group">
@@ -128,11 +129,12 @@
                     <input type="text" id="kelas" class="input-field" placeholder="Contoh: 3A atau 4..." required aria-required="true">
                 </div>
 
-                <button type="submit" class="btn-mulai">Siap Meluncur! 🚀</button>
+                <button type="submit" class="btn-mulai">Siap Berpetualang! 🌿</button>
             </form>
 
             <div class="login-footer">
-                Ingin lihat-lihat dulu? <a href="#" id="guestBtn">Masuk sebagai Tamu</a>
+                Ingin lihat-lihat dulu? <a href="#" id="guestBtn">Masuk sebagai Tamu</a><br><br>
+                <a href="admin_login.html" style="font-weight: normal; font-size: 0.85rem; color: #555;">👑 Masuk sebagai Admin</a>
             </div>
         </section>
     </main>

@@ -1,4 +1,4 @@
-/* === SPACE ADVENTURE FRACTIONS - STATE MANAGEMENT ENGINE === */
+/* === RIMBA AJAIB PECAHAN - STATE MANAGEMENT ENGINE === */
 
 // ============ GLOBAL STATE STORE (Zustand-like pattern) ============
 const SpaceStore = {
@@ -16,10 +16,11 @@ const SpaceStore = {
       isOnFire: false,
       wrongAttempts: {},
       collectedBadges: [],
-      currentRank: 'Kadet Angkasa',
+      currentRank: 'Kuncup Hutan',
       lessonProgress: { mission1: false, mission2: false, mission3: false, mission4: false, mission5: false },
       quizScores: {},
       reflections: [],
+      feedbacks: [],
       isMusicPlaying: false,
       totalCorrect: 0,
       totalAnswered: 0,
@@ -27,7 +28,7 @@ const SpaceStore = {
   },
 
   init() {
-    const saved = localStorage.getItem('spaceAdventureState');
+    const saved = localStorage.getItem('rimbaAjaibState');
     if (saved) {
       try {
         this._state = { ...this.getDefaultState(), ...JSON.parse(saved) };
@@ -35,7 +36,17 @@ const SpaceStore = {
         this._state = this.getDefaultState();
       }
     } else {
-      this._state = this.getDefaultState();
+      // Migrate from old space theme key
+      const oldSaved = localStorage.getItem('spaceAdventureState');
+      if (oldSaved) {
+        try {
+          this._state = { ...this.getDefaultState(), ...JSON.parse(oldSaved) };
+        } catch (e) {
+          this._state = this.getDefaultState();
+        }
+      } else {
+        this._state = this.getDefaultState();
+      }
     }
     // Sync username/kelas from login
     const u = localStorage.getItem('username');
@@ -45,7 +56,7 @@ const SpaceStore = {
     this._updateRank();
   },
 
-  get(key) { return key ? this._state[key] :  { ...this._state }; },
+  get(key) { return key ? this._state[key] : { ...this._state }; },
 
   set(updates) {
     Object.assign(this._state, updates);
@@ -53,18 +64,18 @@ const SpaceStore = {
     this._notify();
   },
 
-  _save() { localStorage.setItem('spaceAdventureState', JSON.stringify(this._state)); },
+  _save() { localStorage.setItem('rimbaAjaibState', JSON.stringify(this._state)); },
   subscribe(fn) { this._listeners.push(fn); },
   _notify() { this._listeners.forEach(fn => fn(this._state)); },
 
   // ============ XP & LEVELING LOGIC ============
   _updateRank() {
     const lvl = this._state.currentLevel;
-    if (lvl >= 10) this._state.currentRank = 'Admiral Galaksi';
-    else if (lvl >= 7) this._state.currentRank = 'Komandan Bintang';
-    else if (lvl >= 5) this._state.currentRank = 'Kapten Galaksi';
-    else if (lvl >= 3) this._state.currentRank = 'Navigator Antariksa';
-    else this._state.currentRank = 'Kadet Angkasa';
+    if      (lvl >= 10) this._state.currentRank = 'Raja Rimba';
+    else if (lvl >= 7)  this._state.currentRank = 'Penjaga Pohon';
+    else if (lvl >= 5)  this._state.currentRank = 'Ahli Hutan';
+    else if (lvl >= 3)  this._state.currentRank = 'Penjelajah Rimba';
+    else                this._state.currentRank = 'Kuncup Hutan';
   },
 
   getXPForLevel(lvl) { return 200 + (lvl - 1) * 100; },
@@ -149,15 +160,98 @@ const SpaceStore = {
     }
   },
 
-  // ============ REFLECTION ============
+  // ============ REFLECTION & FEEDBACK ============
+  // Data feedback dan refleksi disimpan TERPISAH dari state siswa
+  // agar tidak hilang/tertimpa saat siswa baru login.
   addReflection(text, mood) {
-    this._state.reflections.push({ text, mood, date: new Date().toISOString() });
-    this._save();
+    const reflections = JSON.parse(localStorage.getItem('rimbaReflections') || '[]');
+    reflections.push({
+      text,
+      mood,
+      date: new Date().toISOString(),
+      username: this._state.username,
+      kelas: this._state.kelas
+    });
+    localStorage.setItem('rimbaReflections', JSON.stringify(reflections));
+  },
+
+  addFeedback(text, username, kelas) {
+    const feedbacks = JSON.parse(localStorage.getItem('rimbaFeedbacks') || '[]');
+    feedbacks.push({
+      text,
+      username: username || this._state.username,
+      kelas: kelas || this._state.kelas,
+      date: new Date().toISOString()
+    });
+    localStorage.setItem('rimbaFeedbacks', JSON.stringify(feedbacks));
+  },
+
+  getAllReflections() {
+    return JSON.parse(localStorage.getItem('rimbaReflections') || '[]');
+  },
+
+  getAllFeedbacks() {
+    return JSON.parse(localStorage.getItem('rimbaFeedbacks') || '[]');
+  },
+
+  exportToJSON() {
+    const exportData = {
+      reflections: this.getAllReflections(),
+      feedbacks: this.getAllFeedbacks(),
+      exportDate: new Date().toISOString(),
+      exportFrom: window.location.hostname || 'local'
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+    const a = document.createElement('a');
+    a.href = dataStr;
+    a.download = "data_admin_rimba_pecahan.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  },
+
+  importFromJSON(jsonString) {
+    try {
+      const imported = JSON.parse(jsonString);
+      // Ambil data yang sudah ada
+      const existingRefl = this.getAllReflections();
+      const existingFb = this.getAllFeedbacks();
+
+      // Gabungkan — cek duplikasi berdasarkan tanggal+teks
+      if (imported.reflections && Array.isArray(imported.reflections)) {
+        imported.reflections.forEach(r => {
+          const isDuplicate = existingRefl.some(e => e.date === r.date && e.text === r.text);
+          if (!isDuplicate) existingRefl.push(r);
+        });
+        localStorage.setItem('rimbaReflections', JSON.stringify(existingRefl));
+      }
+      if (imported.feedbacks && Array.isArray(imported.feedbacks)) {
+        imported.feedbacks.forEach(f => {
+          const isDuplicate = existingFb.some(e => e.date === f.date && e.text === f.text);
+          if (!isDuplicate) existingFb.push(f);
+        });
+        localStorage.setItem('rimbaFeedbacks', JSON.stringify(existingFb));
+      }
+      this._notify();
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
+
+  clearAllFeedbackData() {
+    localStorage.removeItem('rimbaReflections');
+    localStorage.removeItem('rimbaFeedbacks');
+    this._notify();
   },
 
   // ============ RESET ============
   resetAll() {
+    localStorage.removeItem('rimbaAjaibState');
     localStorage.removeItem('spaceAdventureState');
+    localStorage.removeItem('rimbaReflections');
+    localStorage.removeItem('rimbaFeedbacks');
     localStorage.removeItem('username');
     localStorage.removeItem('kelas');
     this._state = this.getDefaultState();
@@ -208,9 +302,9 @@ const AudioManager = {
   },
 
   playCorrect() { this.playTone(523, 0.1); setTimeout(() => this.playTone(659, 0.1), 100); setTimeout(() => this.playTone(784, 0.2), 200); },
-  playWrong() { this.playTone(200, 0.3, 'sawtooth'); },
+  playWrong()   { this.playTone(200, 0.3, 'sawtooth'); },
   playLevelUp() { [523,659,784,1047].forEach((f,i) => setTimeout(() => this.playTone(f, 0.2), i*120)); },
-  playClick() { this.playTone(800, 0.05, 'square'); },
+  playClick()   { this.playTone(800, 0.05, 'square'); },
 
   toggleMute() {
     this._isMuted = !this._isMuted;
@@ -229,11 +323,17 @@ function navigasiHalaman(url) {
   setTimeout(() => { window.location.href = url; }, 400);
 }
 
-function createStarsBackground() {
-  const l1 = document.createElement('div'); l1.className = 'stars-layer layer1';
-  const l2 = document.createElement('div'); l2.className = 'stars-layer layer2';
-  document.body.prepend(l2); document.body.prepend(l1);
+function createForestBackground() {
+  // Remove any old stars layers
+  document.querySelectorAll('.stars-layer').forEach(el => el.remove());
+  const l1 = document.createElement('div'); l1.className = 'forest-layer layer1';
+  const l2 = document.createElement('div'); l2.className = 'forest-layer layer2';
+  document.body.prepend(l2);
+  document.body.prepend(l1);
 }
+
+// Keep old function name for backward compatibility
+function createStarsBackground() { createForestBackground(); }
 
 function renderTopNav(title, showBack = true, backUrl = 'dashboard.html') {
   const nav = document.createElement('nav');
@@ -242,7 +342,7 @@ function renderTopNav(title, showBack = true, backUrl = 'dashboard.html') {
   nav.innerHTML = `
     <div class="nav-left">
       ${showBack ? `<a href="${backUrl}" class="nav-back-btn" onclick="event.preventDefault();navigasiHalaman('${backUrl}')">⬅ Kembali</a>` : ''}
-      <span class="nav-title">🚀 ${title}</span>
+      <span class="nav-title">🌿 ${title}</span>
     </div>
     <div class="nav-right">
       <span style="font-size:0.85rem;color:var(--text-secondary)" id="navXP"></span>
@@ -261,9 +361,9 @@ function updateNavXP() {
   const el = document.getElementById('navXP');
   if (el) {
     const s = SpaceStore.get();
-    el.textContent = `⚡${s.totalXP} XP | Lv.${s.currentLevel}`;
+    el.textContent = `🌿${s.totalXP} XP | Lv.${s.currentLevel}`;
   }
-  // Fire effect
+  // Glow effect when on fire (combo streak)
   const nav = document.getElementById('topNav');
   if (nav) {
     nav.classList.toggle('nav-fire', SpaceStore.get('isOnFire'));
@@ -280,7 +380,7 @@ function renderXPBar(containerId, currentXP, maxXP) {
       <div class="xp-bar-wrap">
         <div class="xp-bar-track"><div class="xp-bar-fill" style="width:${pct}%"></div></div>
         <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:var(--text-secondary);margin-top:4px">
-          <span>⚡ ${currentXP} XP</span><span>${maxXP} XP</span>
+          <span>🌿 ${currentXP} XP</span><span>${maxXP} XP</span>
         </div>
       </div>`;
   }
@@ -303,11 +403,11 @@ function showCelebration(score, onClose) {
   overlay.className = 'celebration-overlay active';
   overlay.innerHTML = `
     <div class="trophy">🏆</div>
-    <div style="font-family:'Baloo 2',sans-serif;font-size:1.6rem;color:var(--text-primary);margin:10px 0">Misi Selesai!</div>
+    <div style="font-family:'Baloo 2',sans-serif;font-size:1.6rem;color:#ffffff;margin:10px 0">Misi Selesai! 🌟</div>
     <div class="score-counter" id="celebScore">0</div>
-    <div style="color:var(--text-secondary);margin-bottom:20px">Total Poin XP</div>
+    <div style="color:rgba(255,255,255,0.75);margin-bottom:20px">Total Poin XP</div>
     <div style="animation:slideDown 1s 1.5s both">
-      <button class="btn-gold" id="celebClose">Lanjutkan 🚀</button>
+      <button class="btn-gold" id="celebClose">Lanjutkan 🌿</button>
     </div>`;
   document.body.appendChild(overlay);
   AudioManager.playLevelUp();
@@ -327,5 +427,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.transition = 'opacity 0.5s ease';
     document.body.style.opacity = '1';
   });
-  createStarsBackground();
+  createForestBackground();
 });

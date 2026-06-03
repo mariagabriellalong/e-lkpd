@@ -3,40 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Kuis Tantangan Galaksi Pecahan - Uji kemampuan pecahanmu!">
-    <title>Galaksi Pecahan - Kuis Tantangan</title>
+    <meta name="description" content="Kuis Tantangan Rimba Pecahan - Uji kemampuan pecahanmu!">
+    <title>Rimba Pecahan - Kuis Tantangan</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .quiz-panel { max-width: 750px; margin: 24px auto; }
         .quiz-header { display: flex; justify-content: space-between; align-items: center;
             flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
-        .quiz-stat { font-family: 'Baloo 2'; font-weight: 800; font-size: 1rem;
-            padding: 6px 14px; border-radius: var(--radius-full);
-            background: rgba(255,255,255,0.06); border: 1px solid var(--glass-border); }
-        .quiz-q { font-family: 'Baloo 2'; font-size: 1.4rem; font-weight: 800;
-            text-align: center; margin: 20px 0 16px; line-height: 1.4; }
-        .quiz-visual { text-align: center; font-size: 4rem; margin: 16px 0;
-            animation: breathe 4s ease-in-out infinite; }
-        .quiz-opts { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin: 16px 0; }
-        .qopt { background: rgba(255,255,255,0.06); border: 2px solid var(--glass-border);
-            color: var(--text-primary); font-family: 'Baloo 2'; font-size: 1.3rem;
-            font-weight: 800; padding: 16px; border-radius: var(--radius-md); cursor: pointer;
-            transition: all 0.3s ease; }
-        .qopt:hover { background: rgba(255,255,255,0.12); border-color: white; transform: scale(1.03); }
-        .qopt.correct { border-color: var(--aurora-green) !important;
-            background: rgba(57,255,20,0.15) !important; box-shadow: 0 0 20px rgba(57,255,20,0.3) !important; }
-        .qopt.wrong { animation: shake 0.5s; border-color: #ff4444 !important;
-            background: rgba(255,68,68,0.15) !important; }
-        .quiz-fb { text-align: center; font-weight: 700; font-size: 1rem; min-height: 28px; margin-top: 10px; }
-        .timer-wrap { margin-bottom: 12px; }
-        .timer-label { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 4px;
-            display: flex; justify-content: space-between; }
+        .quiz-stat { font-family: 'Baloo 2'; font-weight: 800; font-size: 1.1rem;
+            padding: 8px 16px; border-radius: var(--radius-full);
+            background: rgba(45, 138, 78, 0.08); border: 1px solid rgba(45, 138, 78, 0.3); color: var(--forest-dark); }
+        .quiz-q { font-family: 'Baloo 2'; font-size: 1.25rem; font-weight: 600;
+            text-align: left; line-height: 1.6; color: var(--forest-dark); 
+            padding: 24px; background: rgba(255, 255, 255, 0.9); border: 2px solid var(--leaf-vivid); 
+            border-radius: 12px; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .quiz-visual { text-align: center; }
+        .quiz-opts { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin: 24px 0; }
+        .qopt { background: rgba(255, 255, 255, 0.7); border: 2px solid rgba(45, 138, 78, 0.3);
+            color: var(--forest-dark); font-family: 'Baloo 2'; font-size: 1.4rem;
+            font-weight: 800; padding: 18px; border-radius: var(--radius-md); cursor: pointer;
+            transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .qopt:hover { background: rgba(255, 255, 255, 1); border-color: var(--leaf-vivid); transform: scale(1.03); box-shadow: 0 6px 15px rgba(45, 138, 78, 0.15); }
+        .qopt.correct { border-color: var(--leaf-vivid) !important;
+            background: rgba(39, 174, 96, 0.15) !important; box-shadow: 0 0 20px rgba(39, 174, 96, 0.3) !important; color: var(--leaf-vivid); }
+        .qopt.wrong { animation: shake 0.5s; border-color: #e74c3c !important;
+            background: rgba(231, 76, 60, 0.15) !important; color: #e74c3c; }
+        .quiz-fb { text-align: center; font-weight: 700; font-size: 1.15rem; min-height: 28px; margin-top: 10px; }
         .result-panel { text-align: center; animation: zoomIn 0.6s ease; }
         .result-emoji { font-size: 5rem; margin-bottom: 12px; }
-        .result-score { font-family: 'Baloo 2'; font-size: 2.5rem; font-weight: 900;
-            color: var(--star-gold); }
-        .result-detail { color: var(--text-secondary); margin: 10px 0 24px; font-size: 1.05rem; }
-        @media(max-width:500px) { .quiz-opts { grid-template-columns: 1fr; } .quiz-q { font-size: 1.15rem; } }
+        .result-score { font-family: 'Baloo 2'; font-size: 2.8rem; font-weight: 900;
+            color: var(--sunny-yellow); text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .result-detail { color: var(--text-secondary); margin: 10px 0 24px; font-size: 1.15rem; }
+        
+        /* RESPONSIVE DESIGN - Make mobile look like desktop but scaled */
+        @media(max-width:500px) { 
+            /* Keep 2 columns on mobile to match desktop layout */
+            .quiz-opts { grid-template-columns: repeat(2,1fr); gap: 12px; } 
+            /* Prevent fonts from being too big on mobile */
+            .qopt { font-size: 1.15rem; padding: 14px; } 
+            .quiz-q { font-size: 1.1rem; padding: 16px; } 
+            .quiz-stat { font-size: 1rem; padding: 6px 12px; }
+        }
     </style>
 </head>
 <body>
@@ -46,275 +53,70 @@
 <audio id="clapSound" src="sound/clap.mp3"></audio>
 <script>
 
-renderTopNav('Kuis Tantangan', true, 'dashboard.html');
+renderTopNav('Tantangan Rimba', true, 'dashboard.html');
 
 // ================= QUIZ DATA =================
 const quizQs = [
-
     {
         id:'kq1',
-        q:'Adit memiliki pizza yang dipotong menjadi 8 bagian sama besar. Ia memakan 2 potong pizza. Pecahan pizza yang dimakan Adit adalah …',
-
-        pizza:{
-            total:8,
-            filled:2
-        },
-
-        opts:['2/8','6/8','8/2','1/8'],
-        correct:'2/8',
-        hint:'Pizza dibagi 8 bagian dan dimakan 2 bagian.'
+        q:'Perhatikan gambar martabak manis berikut!<br><br>Bayangkan kamu membeli sebuah martabak manis berbentuk lingkaran seperti pada deskripsi gambar di atas. Martabak tersebut sudah dipotong menjadi 6 bagian yang sama besar. Kamu lalu memberikan 4 bagian yang berwarna kuning kepada teman-temanmu.<br><br>Berapakah nilai pecahan untuk bagian martabak yang berwarna kuning tersebut?',
+        img:'game1.png',
+        opts:['2/6','4/6','5/6','6/6'],
+        correct:'4/6',
+        hint:'Ada 4 bagian kuning dari total 6 bagian martabak.'
     },
-
-    {
-        id:'kq2',
-        q:'Cinta membeli pizza yang dipotong menjadi 6 bagian sama besar. Jika ia makan 3 potong, maka sisa pizza adalah …',
-
-        pizza:{
-            total:6,
-            filled:3
-        },
-
-        opts:['3/6','2/6','6/3','1/6'],
-        correct:'3/6',
-        hint:'Total pizza 6 bagian. Dimakan 3 bagian, sisa 3 bagian.'
-    },
-
     {
         id:'kq3',
-        q:'Reski memiliki pizza yang dipotong menjadi 4 bagian sama besar. Jika ia memakan 1 bagian, maka pecahan pizza yang belum dimakan adalah …',
-
-        pizza:{
-            total:4,
-            filled:3
-        },
-
-        opts:['1/4','2/4','3/4','4/4'],
-        correct:'3/4',
-        hint:'Total 4 bagian. Dimakan 1 bagian, sisa 3 bagian.'
+        q:'Di dalam kotak mainan Dino, terdapat 10 buah kelereng dengan ukuran yang sama. Setelah dilihat dengan teliti, ada 3 kelereng berwarna merah, sedangkan sisanya berwarna biru.<br><br>Berapakah pecahan yang menunjukkan banyaknya kelereng berwarna merah dibandingkan dengan seluruh kelereng yang ada di dalam kotak Dino?',
+        opts:['3/10','7/10','10/3','2/10'],
+        correct:'3/10',
+        hint:'Ada 3 kelereng merah dari total 10 kelereng.'
     },
-
     {
         id:'kq4',
-        q:'Maria membagikan pizza yang dipotong menjadi 10 bagian sama besar. Jika 5 bagian dimakan, maka pecahan pizza yang dimakan adalah …',
-
-        pizza:{
-            total:10,
-            filled:5
-        },
-
-        opts:['5/10','1/10','10/5','5/5'],
-        correct:'5/10',
-        hint:'Yang dimakan ada 5 dari total 10 bagian.'
+        q:'Andi, Beni, dan Cici masing-masing mendapatkan satu gulung tali rafi yang ukurannya sama persis dari ayah untuk membuat kerajinan tangan. Tali mereka masing-masing sudah ditandai menjadi 12 potongan kecil yang sama panjang.<br><br>Andi menggunakan 4/12 bagian talinya.<br><br>Beni menggunakan 7/12 bagian talinya.<br><br>Cici menggunakan 5/12 bagian talinya.<br><br>Jika kita melihat bagian yang mereka gunakan, siapakah anak yang menggunakan tali paling panjang?',
+        opts:['Andi','Beni','Cici','Andi dan Cici'],
+        correct:'Beni',
+        hint:'Bandingkan pembilangnya. Angka 7 lebih besar dari 4 dan 5.'
     },
-
     {
         id:'kq5',
-        q:'Caca dan Ria makan pizza bersama. Pizza dipotong menjadi 12 bagian sama besar. Jika mereka makan 6 bagian, maka pecahan pizza yang dimakan adalah …',
-
-        pizza:{
-            total:12,
-            filled:6
-        },
-
-        opts:['12/6','3/12','6/12','1/12'],
-        correct:'6/12',
-        hint:'Yang dimakan 6 bagian dari total 12 bagian.'
+        q:'Kakak menuliskan lima angka pecahan secara acak di selembar kertas, yaitu: 5/9, 2/9, 8/9, 1/9, dan 4/9. Kakak memintamu untuk menyusun kembali pecahan-pecahan tersebut mulai dari yang nilainya paling kecil hingga ke yang paling besar.<br><br>Setelah kamu berhasil menyusunnya dengan rapi, pecahan manakah yang posisinya berada tepat di tengah-tengah urutan?',
+        opts:['2/9','4/9','5/9','8/9'],
+        correct:'4/9',
+        hint:'Urutkan dari yang terkecil: 1/9, 2/9, 4/9, 5/9, 8/9. Mana yang posisinya di tengah?'
+    },
+    {
+        id:'kq2',
+        q:'Perhatikan gambar kue lapis berikut!<br><br>Sebuah kue lapis dipotong menjadi 5 bagian yang sama besar seperti pada ilustrasi di atas. Dari kelima potongan tersebut, ada 2 potongan yang diberi topping keju parut di atasnya, sedangkan potongan sisanya dibiarkan polos.<br><br>Berapakah nilai pecahan yang menunjukkan potongan kue lapis dengan topping keju?',
+        img:'game2.png',
+        opts:['1/5','2/5','3/5','5/5'],
+        correct:'2/5',
+        hint:'Ada 2 potong dengan topping keju dari total 5 potong kue.'
+    },
+    {
+        id:'kq6',
+        q:'Ibu membeli sebuah roti tawar panjang di supermarket. Roti tersebut kemudian dipotong-potong menjadi 8 bagian sama besar. Sebelum sarapan dimulai, Siska mengambil 3 bagian roti untuk dimakan bersama susu.<br><br>Maka, bentuk pecahan untuk bagian roti yang diambil oleh Siska adalah....',
+        opts:['1/8','3/8','5/8','8/8'],
+        correct:'3/8',
+        hint:'Siska mengambil 3 bagian dari total 8 bagian roti.'
     }
-
 ];
 
-// ================= GAMBAR PIZZA =================
-function renderPizzaQuiz(cfg) {
-
-    const size = 230;
-    const cx = 115;
-    const cy = 115;
-    const r = 88;
-
-    let slices = '';
-    let toppings = '';
-
-    for (let i = 0; i < cfg.total; i++) {
-
-        const startAngle = ((i * 360 / cfg.total) - 90) * Math.PI / 180;
-        const endAngle = ((((i + 1) * 360 / cfg.total)) - 90) * Math.PI / 180;
-
-        const x1 = cx + r * Math.cos(startAngle);
-        const y1 = cy + r * Math.sin(startAngle);
-
-        const x2 = cx + r * Math.cos(endAngle);
-        const y2 = cy + r * Math.sin(endAngle);
-
-        const largeArc = (360 / cfg.total > 180) ? 1 : 0;
-
-        // WARNA POTONGAN
-        const fillColor =
-            i < cfg.filled
-                ? '#ffcc66'
-                : '#fff4cc';
-
-        // SLICE
-        slices += `
-            <path
-                d="M${cx},${cy}
-                L${x1},${y1}
-                A${r},${r} 0 ${largeArc},1 ${x2},${y2}
-                Z"
-                fill="${fillColor}"
-                stroke="#5b3415"
-                stroke-width="3"
-            />
-        `;
-
-        // TOPPING
-        if (i < cfg.filled) {
-
-            const mid = (startAngle + endAngle) / 2;
-
-            const tx = cx + (r * 0.55) * Math.cos(mid);
-            const ty = cy + (r * 0.55) * Math.sin(mid);
-
-            toppings += `
-
-                <!-- PEPPERONI -->
-                <circle
-                    cx="${tx}"
-                    cy="${ty}"
-                    r="12"
-                    fill="#cc0000"
-                    stroke="#7a0000"
-                    stroke-width="3"
-                />
-
-                <!-- TOMAT -->
-                <circle
-                    cx="${tx-15}"
-                    cy="${ty+8}"
-                    r="6"
-                    fill="#ff3b30"
-                />
-
-                <!-- PAPRIKA -->
-                <circle
-                    cx="${tx+12}"
-                    cy="${ty-10}"
-                    r="5"
-                    fill="#22c55e"
-                />
-
-                <!-- OLIVE -->
-                <circle
-                    cx="${tx+5}"
-                    cy="${ty+15}"
-                    r="4"
-                    fill="#111"
-                />
-            `;
-        }
+// ================= GAMBAR KUIS =================
+function renderVisualQuiz(q) {
+    if (q.img) {
+        return `<img src="img/${q.img}" alt="Visualisasi Kuis" style="max-width:100%; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); max-height:250px;">`;
     }
-
-    return `
-    <svg width="${size}" height="${size}" viewBox="0 0 230 230">
-
-        <!-- SHADOW -->
-        <circle
-            cx="${cx}"
-            cy="${cy+8}"
-            r="${r+18}"
-            fill="rgba(0,0,0,0.3)"
-        />
-
-        <!-- ROTI -->
-        <circle
-            cx="${cx}"
-            cy="${cy}"
-            r="${r+15}"
-            fill="#d97706"
-            stroke="#92400e"
-            stroke-width="8"
-        />
-
-        <!-- KEJU -->
-        <circle
-            cx="${cx}"
-            cy="${cy}"
-            r="${r}"
-            fill="#ffd966"
-        />
-
-        <!-- SLICE -->
-        ${slices}
-
-        <!-- TOPPING -->
-        ${toppings}
-
-        <!-- GARIS LUAR -->
-        <circle
-            cx="${cx}"
-            cy="${cy}"
-            r="${r}"
-            fill="none"
-            stroke="#5b3415"
-            stroke-width="4"
-        />
-
-    </svg>
-    `;
+    return '';
 }
 
 // ================= QUIZ =================
 let qi = 0,
     qScore = 0,
-    qCorrect = 0,
-    timerVal = 30,
-    timerInterval = null;
+    qCorrect = 0;
 
-function startTimer() {
-
-    timerVal = 30;
-
-    clearInterval(timerInterval);
-
-    timerInterval = setInterval(() => {
-
-        timerVal--;
-
-        const el = document.getElementById('timerFill');
-        const tl = document.getElementById('timerSec');
-
-        if (el)
-            el.style.width = ((timerVal / 30) * 100) + '%';
-
-        if (tl)
-            tl.textContent = timerVal + 's';
-
-        if (timerVal <= 0) {
-
-            clearInterval(timerInterval);
-
-            autoNext();
-        }
-
-    }, 1000);
-}
-
-function autoNext() {
-
-    SpaceStore.registerWrongAnswer(quizQs[qi].id);
-
-    document.getElementById('quizFb').innerHTML =
-        '<span style="color:#ff6666">⏰ Waktu habis!</span>';
-
-    setTimeout(() => {
-
-        qi++;
-
-        qi >= quizQs.length
-            ? showResult()
-            : loadQuiz();
-
-    }, 1500);
-}
+function startTimer() { }
 
 function loadQuiz() {
 
@@ -344,31 +146,11 @@ function loadQuiz() {
 
         </div>
 
-        <div class="timer-wrap">
+        <div class="quiz-q fun-callout yellow">
 
-            <div class="timer-label">
-
-                <span>⛽ Bahan Bakar Roket</span>
-
-                <span id="timerSec">30s</span>
-
+            <div class="quiz-visual" style="margin: ${q.img ? '0 0 20px 0' : '0'};">
+                ${renderVisualQuiz(q)}
             </div>
-
-            <div class="timer-bar-wrap">
-
-                <div class="timer-bar-fill" id="timerFill"></div>
-
-            </div>
-
-        </div>
-
-        <div class="quiz-visual">
-
-            ${renderPizzaQuiz(q.pizza)}
-
-        </div>
-
-        <div class="quiz-q">
 
             ${q.q}
 
@@ -395,9 +177,9 @@ function loadQuiz() {
                 id="quizHintBtn"
                 onclick="showQuizHint()">
 
-                <span class="hint-icon">🦜</span>
+                <span class="hint-icon">🦉</span>
 
-                Petunjuk dari Enggang
+                Petunjuk dari Tuan Enggang
 
             </button>
 
@@ -410,8 +192,6 @@ function loadQuiz() {
 }
 
 function checkQuiz(btn, val) {
-
-    clearInterval(timerInterval);
 
     const q = quizQs[qi];
 
@@ -426,18 +206,14 @@ function checkQuiz(btn, val) {
 
         SpaceStore.registerCorrectAnswer();
 
-        const timeBonus =
-            timerVal > 20 ? 50 : 0;
-
-        const xp =
-            SpaceStore.addXP(100, timeBonus);
+        const xp = SpaceStore.addXP(100, 0);
 
         qScore += xp;
 
         qCorrect++;
 
         document.getElementById('quizFb').innerHTML =
-            `<span style="color:var(--aurora-green)">✅ Benar! +${xp} XP</span>`;
+            `<span style="color:var(--leaf-vivid)">✅ Benar! +${xp} XP</span>`;
 
     } else {
 
@@ -451,7 +227,7 @@ function checkQuiz(btn, val) {
         qScore = Math.max(0, qScore - 20);
 
         document.getElementById('quizFb').innerHTML =
-            '<span style="color:#ff6666">❌ Jawaban salah!</span>';
+            '<span style="color:#e74c3c">❌ Jawaban salah!</span>';
 
         if (attempts > 2) {
 
@@ -470,8 +246,6 @@ function checkQuiz(btn, val) {
                     if (!b.classList.contains('wrong'))
                         b.style.pointerEvents = 'auto';
                 });
-
-            startTimer();
 
         }, 800);
 
@@ -494,12 +268,10 @@ function showQuizHint() {
     AudioManager.playClick();
 
     document.getElementById('quizFb').innerHTML =
-        `<span style="color:var(--star-gold)">🦜 ${quizQs[qi].hint}</span>`;
+        `<span style="color:var(--honey-orange)">🦉 ${quizQs[qi].hint}</span>`;
 }
 
 function showResult() {
-
-    clearInterval(timerInterval);
 
     // MAINKAN SOUND APRESIASI
     document.getElementById('horeSound').play();
@@ -509,7 +281,7 @@ function showResult() {
 
     SpaceStore.completeMission('mission3');
 
-    SpaceStore.addBadge('🏅');
+    SpaceStore.addBadge('🌟');
 
     const pct =
         Math.round((qCorrect / quizQs.length) * 100);
@@ -529,7 +301,8 @@ function showResult() {
                 font-family:'Baloo 2';
                 font-size:1.8rem;
                 font-weight:800;
-                margin-bottom:6px">
+                margin-bottom:6px;
+                color:var(--forest-dark)">
 
                 🎉 Kuis Selesai! 🎉
 
@@ -550,7 +323,8 @@ function showResult() {
             </div>
 
             <h2 style="
-                color:#ffd700;
+                color:var(--sunny-yellow);
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
                 margin-bottom:20px;
                 animation:pulse 1s infinite;
             ">
@@ -560,7 +334,7 @@ function showResult() {
             <button class="btn-gold"
                 onclick="navigasiHalaman('dashboard.html')">
 
-                Kembali ke Peta Misi 🗺️
+                Kembali ke Peta Rimba 🗺️
 
             </button>
 
@@ -581,9 +355,9 @@ function showResult() {
 document.body.insertAdjacentHTML(
     'beforeend',
     `<main class="page-container">
-        <div class="glass-panel quiz-panel"
+        <div class="kid-card quiz-panel"
             id="quizArea">
-
+            <div class="card-accent rainbow"></div>
             Memuat...
 
         </div>

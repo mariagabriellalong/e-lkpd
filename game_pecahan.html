@@ -3,589 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Game Pizza Planet - Latihan interaktif pecahan dengan drag-and-drop.">
-    <title>Galaksi Pecahan - Game Pizza Planet</title>
+    <meta name="description" content="Latihan soal pecahan - Game Pizza Hutan">
+    <title>Rimba Pecahan - Latihan Soal</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .game-panel { max-width: 800px; margin: 24px auto; }
-        .game-header { display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
-        .game-stat { font-family: 'Baloo 2'; font-weight: 800; font-size: 1.1rem;
-            padding: 6px 16px; border-radius: var(--radius-full);
-            background: rgba(255,255,255,0.06); border: 1px solid var(--glass-border); }
-        .combo-indicator { padding: 6px 16px; border-radius: var(--radius-full);
-            font-weight: 800; font-size: 0.9rem; transition: all 0.3s ease; }
-        .combo-indicator.fire { background: linear-gradient(135deg, #0066ff, #00aaff);
-            color: white; animation: pulseGlow 1s ease infinite; }
-        .combo-indicator.normal { background: rgba(255,255,255,0.06); color: var(--text-secondary); }
-        .question-area { text-align: center; margin: 20px 0; }
-        .question-text { font-family: 'Baloo 2'; font-size: 1.5rem; font-weight: 800;
-            color: var(--text-primary); margin-bottom: 16px; line-height: 1.4; }
-
-        /* SVG Pizza Visual */
-        .pizza-visual { margin: 20px auto; text-align: center; }
-        .pizza-visual svg { filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
-            transition: transform 0.3s ease; cursor: default; }
-        .pizza-visual svg:hover { transform: scale(1.05); }
-
-        /* Drag and Drop */
-        .dnd-area { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;
-            align-items: flex-start; margin: 20px 0; }
-        .drag-item { padding: 14px 24px; border-radius: var(--radius-sm);
-            background: rgba(255,255,255,0.08); border: 2px solid var(--glass-border);
-            font-family: 'Baloo 2'; font-weight: 800; font-size: 1.4rem;
-            cursor: grab; user-select: none; touch-action: none;
-            transition: all 0.2s ease; color: var(--text-primary); }
-        .drag-item:hover { background: rgba(255,255,255,0.15); border-color: var(--star-gold);
-            transform: translateY(-3px); box-shadow: 0 6px 16px rgba(255,215,0,0.2); }
-        .drag-item:active { cursor: grabbing; transform: scale(1.1); }
-        .drag-item.dragging { opacity: 0.4; }
-        .drop-target { min-width: 140px; min-height: 70px; border: 3px dashed var(--glass-border);
-            border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;
-            font-size: 1rem; color: var(--text-secondary); padding: 16px;
-            transition: all 0.3s ease; background: rgba(255,255,255,0.02); }
-        .drop-target.over { border-color: var(--plasma-cyan); background: rgba(0,229,255,0.08);
-            box-shadow: 0 0 20px rgba(0,229,255,0.2); transform: scale(1.03); }
-        .drop-target.correct { border-color: var(--aurora-green) !important;
-            background: rgba(57,255,20,0.1) !important; border-style: solid !important; }
-        .drop-target.wrong { border-color: #ff4444 !important; background: rgba(255,68,68,0.1) !important; }
-
-        /* Options grid (for MC questions) */
-        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 20px 0; }
-        .opt-btn { background: rgba(255,255,255,0.06); border: 2px solid var(--glass-border);
-            color: var(--text-primary); font-family: 'Baloo 2'; font-size: 1.5rem;
-            font-weight: 800; padding: 18px; border-radius: var(--radius-md); cursor: pointer;
-            transition: all 0.3s ease; }
-        .opt-btn:hover { background: rgba(255,255,255,0.15); border-color: white;
-            transform: scale(1.03); box-shadow: 0 0 15px rgba(255,255,255,0.15); }
-        .opt-btn.correct { border-color: var(--aurora-green) !important;
-            background: rgba(57,255,20,0.15) !important; box-shadow: 0 0 25px rgba(57,255,20,0.3) !important; }
-        .opt-btn.wrong { animation: shake 0.5s ease; border-color: #ff4444 !important;
-            background: rgba(255,68,68,0.15) !important; }
-
-        /* Hint button */
-        .hint-area { text-align: center; margin-top: 12px; }
-        .btn-hint { display: none; }
-        .btn-hint.visible { display: inline-flex; align-items: center; gap: 8px;
-            animation: slideUp 0.5s cubic-bezier(0.68,-0.55,0.265,1.55) forwards; }
-
-        .feedback-text { text-align: center; font-weight: 700; font-size: 1.1rem; margin-top: 12px;
-            min-height: 30px; }
-        .fb-correct { color: var(--aurora-green); }
-        .fb-wrong { color: #ff6666; }
-
-        @media (max-width: 500px) {
-            .options-grid { grid-template-columns: 1fr; }
-            .question-text { font-size: 1.2rem; }
+        .game-panel { max-width: 800px; margin: 24px auto; padding: 24px;}
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .question-list { display: flex; flex-direction: column; animation: fadeIn 0.8s ease; }
+        
+        .kid-card {
+            background: white; border: 3px solid rgba(45,138,78,0.15);
+            border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(45,138,78,0.06);
+            transition: all 0.3s cubic-bezier(0.25,0.8,0.25,1);
+            position: relative; overflow: hidden;
         }
+        .kid-card:hover {
+            transform: translateY(-4px); box-shadow: 0 14px 32px rgba(45,138,78,0.12);
+            border-color: var(--sunny-yellow);
+        }
+        .q-title { font-family: 'Baloo 2'; font-size: 1.4rem; color: var(--honey-orange); margin-bottom: 12px; border-bottom: 2px dashed rgba(240,147,43,0.3); padding-bottom: 8px; }
+        .q-text { font-size: 1.15rem; color: var(--text-primary); margin-bottom: 16px; line-height: 1.5; }
+        
+        .visual-container { text-align: center; margin: 20px 0; padding: 15px; background: rgba(249, 202, 36, 0.05); border-radius: var(--radius-sm); }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .opt-btn {
+            background: #ffffff; border: 2px solid #e2e3e5;
+            padding: 14px 18px; border-radius: var(--radius-sm); font-size: 1.1rem;
+            font-weight: bold; cursor: pointer; transition: all 0.2s;
+            display: flex; justify-content: space-between; align-items: center; font-family: 'Baloo 2';
+            color: var(--forest-dark);
+        }
+        .opt-btn:hover:not(:disabled) { border-color: var(--sky-blue); background: #f1f8ff; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .opt-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+        .opt-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .opt-btn:disabled { cursor: default; }
+        
+        .explanation {
+            display: none; margin-top: 20px; padding: 16px 20px;
+            background: rgba(45,138,78,0.08); border-left: 4px solid var(--leaf-vivid);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 1.05rem; color: var(--forest-dark);
+        }
+        .explanation.show { display: block; animation: slideUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .guide-box { background: rgba(240,147,43,0.1); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 24px; border: 1px solid rgba(240,147,43,0.3); }
+        
+        @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <audio id="clapSound" src="sound/clap.mp3"></audio>
     <script src="js/script.js"></script>
     <script>
-        renderTopNav('Game Pizza Planet', true, 'dashboard.html');
+        renderTopNav('Latihan Soal Pecahan', true, 'dashboard.html');
+    </script>
 
-        // ============ QUESTION DATABASE ============
-        // ============ QUESTION DATABASE ============
-const questions = [
-    {
-        id:'q1',
-        type:'mc',
-        q:'Adit membeli 1 pizza yang dipotong menjadi 8 bagian sama besar. Ia memakan 3 potong pizza. Pecahan yang menunjukkan bagian pizza yang dimakan Adit adalah …',
-        pizza:{ total:8, filled:3, color:'var(--comet-orange)' },
-        options:['3/8','5/8','8/3','1/8'],
-        correct:'3/8',
-        hint:'Pizza dibagi 8 bagian dan yang dimakan 3 bagian. Jadi pecahannya 3/8.'
-    },
-
-    {
-        id:'q2',
-        type:'mc',
-        q:'Sebuah pizza dipotong menjadi 6 bagian sama besar. Jika Cinta makan 2 potong, maka sisa pizza adalah …',
-        pizza:{ total:6, filled:4, color:'var(--aurora-green)' },
-        options:['2/6','3/6','4/6','5/6'],
-        correct:'4/6',
-        hint:'Total pizza 6 bagian. Dimakan 2, berarti sisa 4 bagian.'
-    },
-
-    {
-        id:'q3',
-        type:'mc',
-        q:'Reski memiliki pizza yang dipotong menjadi 4 bagian sama besar. Jika ia memakan 1 bagian, maka pecahan pizza yang belum dimakan adalah …',
-        pizza:{ total:4, filled:3, color:'var(--nova-pink)' },
-        options:['1/4','2/4','3/4','4/4'],
-        correct:'3/4',
-        hint:'Pizza ada 4 bagian. Dimakan 1, sisa 3 bagian.'
-    },
-
-    {
-        id:'q4',
-        type:'mc',
-        q:'Pizza Maria dipotong menjadi 10 bagian sama besar. Jika 5 potong dimakan, maka pecahan pizza yang dimakan adalah …',
-        pizza:{ total:10, filled:5, color:'var(--plasma-cyan)' },
-        options:['1/10','5/10','10/5','5/5'],
-        correct:'5/10',
-        hint:'Yang dimakan ada 5 dari total 10 bagian.'
-    },
-
-    {
-        id:'q5',
-        type:'mc',
-        q:'Caca dan temannya makan pizza bersama. Pizza dipotong menjadi 8 bagian. Jika Caa makan 4 bagian, maka pecahan pizza yang dimakan Caa adalah …',
-        pizza:{ total:8, filled:4, color:'var(--star-gold)' },
-        options:['1/8','2/8','4/8','8/4'],
-        correct:'4/8',
-        hint:'Pizza terdiri dari 8 bagian dan yang dimakan 4 bagian.'
-    },
-
-    {
-        id:'q6',
-        type:'mc',
-        q:'Sebuah pizza dipotong menjadi 12 bagian sama besar. Ria makan 6 bagian. Pecahan yang tepat adalah …',
-        pizza:{ total:12, filled:6, color:'var(--aurora-green)' },
-        options:['6/12','12/6','3/12','1/12'],
-        correct:'6/12',
-        hint:'Yang dimakan 6 bagian dari total 12 bagian.'
-    },
-
-    {
-        id:'q7',
-        type:'mc',
-        q:'Adit memiliki 1 pizza utuh. Pizza tersebut dipotong menjadi 5 bagian sama besar. Jika belum ada yang dimakan, maka pecahan pizza utuh adalah …',
-        pizza:{ total:5, filled:5, color:'var(--comet-orange)' },
-        options:['1/5','5/5','4/5','0/5'],
-        correct:'5/5',
-        hint:'Semua bagian masih utuh, berarti seluruh pizza = 5/5.'
-    },
-
-    {
-        id:'q8',
-        type:'mc',
-        q:'Pizza dipotong menjadi 9 bagian sama besar. Jika Cinta makan 1 bagian, maka pecahan sisa pizza adalah …',
-        pizza:{ total:9, filled:8, color:'var(--nova-pink)' },
-        options:['1/9','8/9','9/8','7/9'],
-        correct:'8/9',
-        hint:'Total pizza 9 bagian, dimakan 1 bagian, sisa 8 bagian.'
-    },
-
-    {
-        id:'q9',
-        type:'mc',
-        q:'Reski memesan pizza yang dipotong menjadi 8 bagian. Ia memberikan 2 bagian kepada temannya. Pecahan pizza yang diberikan adalah …',
-        pizza:{ total:8, filled:2, color:'var(--plasma-cyan)' },
-        options:['2/8','6/8','8/2','1/8'],
-        correct:'2/8',
-        hint:'Yang diberikan ke teman ada 2 bagian dari total 8 bagian.'
-    },
-
-    {
-        id:'q10',
-        type:'mc',
-        q:'Sebuah pizza dipotong menjadi 7 bagian sama besar. Jika Maria makan semua potongan pizza, maka pecahan pizza yang dimakan adalah …',
-        pizza:{ total:7, filled:7, color:'var(--star-gold)' },
-        options:['1/7','6/7','7/7','0/7'],
-        correct:'7/7',
-        hint:'Semua pizza dimakan, jadi seluruh bagian = 7/7.'
-    }
-];
-
-        let currentQ = 0, score = 0, gameXP = 0;
-
-       function renderPizzaSVG(cfg) {
-    const size = 220;
-    const cx = 110;
-    const cy = 110;
-    const r = 85;
-
-    let slices = '';
-    let toppings = '';
-
-    for (let i = 0; i < cfg.total; i++) {
-
-        const startAngle = ((i * 360 / cfg.total) - 90) * Math.PI / 180;
-        const endAngle = ((((i + 1) * 360 / cfg.total)) - 90) * Math.PI / 180;
-
-        const x1 = cx + r * Math.cos(startAngle);
-        const y1 = cy + r * Math.sin(startAngle);
-
-        const x2 = cx + r * Math.cos(endAngle);
-        const y2 = cy + r * Math.sin(endAngle);
-
-        const largeArc = (360 / cfg.total > 180) ? 1 : 0;
-
-        // WARNA POTONGAN
-        const fillColor =
-            i < cfg.filled
-                ? '#ffb347'
-                : 'rgba(255,255,255,0.08)';
-
-        // POTONGAN PIZZA
-        slices += `
-            <path
-                d="M${cx},${cy}
-                   L${x1},${y1}
-                   A${r},${r} 0 ${largeArc},1 ${x2},${y2}
-                   Z"
-                fill="${fillColor}"
-                stroke="#5a2d0c"
-                stroke-width="2"
-            />
-        `;
-
-        // TOPPING PEPERONI
-        if (i < cfg.filled) {
-            const midAngle = (startAngle + endAngle) / 2;
-
-            const tx = cx + (r * 0.55) * Math.cos(midAngle);
-            const ty = cy + (r * 0.55) * Math.sin(midAngle);
-
-            toppings += `
-                <circle cx="${tx}" cy="${ty}" r="10"
-                    fill="#d62828"
-                    stroke="#8b0000"
-                    stroke-width="2"/>
-
-                <circle cx="${tx-10}" cy="${ty+8}" r="6"
-                    fill="#ff0000aa"/>
-
-                <circle cx="${tx+12}" cy="${ty-6}" r="5"
-                    fill="#ff0000aa"/>
-            `;
-        }
-    }
-
-    return `
-    <svg width="${size}" height="${size}" viewBox="0 0 220 220">
-
-        <!-- SHADOW -->
-        <circle cx="${cx}" cy="${cy+6}" r="${r+18}"
-            fill="rgba(0,0,0,0.25)"/>
-
-        <!-- ROTI PINGGIR -->
-        <circle cx="${cx}" cy="${cy}" r="${r+14}"
-            fill="#d97706"
-            stroke="#92400e"
-            stroke-width="5"/>
-
-        <!-- KEJU -->
-        <circle cx="${cx}" cy="${cy}" r="${r}"
-            fill="#ffd166"/>
-
-        <!-- POTONGAN -->
-        ${slices}
-
-        <!-- TOPPING -->
-        ${toppings}
-
-        <!-- GARIS POTONG -->
-        <circle cx="${cx}" cy="${cy}" r="${r}"
-            fill="none"
-            stroke="#5a2d0c"
-            stroke-width="3"/>
-    </svg>
-    `;
-}
-
-        function loadQuestion() {
-            const q = questions[currentQ];
-            const state = SpaceStore.get();
-            const container = document.getElementById('gameArea');
-
-            let answersHTML = '';
-            if (q.type === 'mc') {
-                const shuffled = [...q.options].sort(() => Math.random() - 0.5);
-                answersHTML = `<div class="options-grid">${shuffled.map(o =>
-                    `<button class="opt-btn" onclick="checkMC(this,'${o}','${q.correct}')">${o}</button>`
-                ).join('')}</div>`;
-            } else {
-                const shuffled = [...q.dragOptions].sort(() => Math.random() - 0.5);
-                answersHTML = `
-                    <div class="dnd-area">
-                        ${shuffled.map(o => `<div class="drag-item" draggable="true" data-val="${o}">${o}</div>`).join('')}
-                    </div>
-                    <div style="text-align:center;margin:16px 0">
-                        <div class="drop-target" id="dropZone" data-correct="${q.correct}">Lepaskan jawaban di sini</div>
-                    </div>`;
-            }
-
-            const showHint = SpaceStore.shouldShowHint(q.id);
-
-            container.innerHTML = `
-                <div class="game-header">
-                    <span class="game-stat">Soal ${currentQ+1}/${questions.length}</span>
-                    <span class="combo-indicator ${state.isOnFire ? 'fire' : 'normal'}" id="comboInd">
-                        ${state.isOnFire ? '🔥 COMBO x1.5!' : `Combo: ${state.comboCount}/3`}
-                    </span>
-                    <span class="game-stat">🏆 ${score}</span>
-                </div>
-                <div id="xpBarGame"></div>
-                <div class="question-area">
-                    <div class="pizza-visual">${renderPizzaSVG(q.pizza)}</div>
-                    <div class="question-text">${q.q}</div>
-                    ${answersHTML}
-                    <div class="hint-area">
-                        <button class="btn-hint ${showHint ? 'visible' : ''}" id="hintBtn" onclick="showHint()">
-                            <span class="hint-icon">🦜</span> Petunjuk dari Enggang
-                        </button>
-                    </div>
-                    <div class="feedback-text" id="feedback"></div>
-                </div>`;
-
-            renderXPBar('xpBarGame', gameXP, questions.length * 150);
-
-            if (q.type === 'dnd') setupDnD();
-        }
-
-        function checkMC(btn, selected, correct) {
-            const q = questions[currentQ];
-            const allBtns = document.querySelectorAll('.opt-btn');
-            allBtns.forEach(b => b.style.pointerEvents = 'none');
-
-            if (selected === correct) {
-                btn.classList.add('correct');
-                handleCorrect();
-            } else {
-                btn.classList.add('wrong');
-                handleWrong(q.id);
-                setTimeout(() => {
-                    btn.classList.remove('wrong');
-                    allBtns.forEach(b => b.style.pointerEvents = 'auto');
-                }, 800);
-            }
-        }
-
-        function setupDnD() {
-            const items = document.querySelectorAll('.drag-item');
-            const zone = document.getElementById('dropZone');
-            if (!zone) return;
-
-            items.forEach(item => {
-                item.addEventListener('dragstart', e => {
-                    e.dataTransfer.setData('text/plain', item.dataset.val);
-                    item.classList.add('dragging');
-                });
-                item.addEventListener('dragend', () => item.classList.remove('dragging'));
-
-                // Touch support
-                let touchClone = null;
-                item.addEventListener('touchstart', e => {
-                    e.preventDefault();
-                    touchClone = item.cloneNode(true);
-                    touchClone.style.position = 'fixed';
-                    touchClone.style.pointerEvents = 'none';
-                    touchClone.style.zIndex = '9999';
-                    touchClone.style.opacity = '0.8';
-                    document.body.appendChild(touchClone);
-                    item.classList.add('dragging');
-                });
-                item.addEventListener('touchmove', e => {
-                    if (touchClone) {
-                        const t = e.touches[0];
-                        touchClone.style.left = (t.clientX - 40) + 'px';
-                        touchClone.style.top = (t.clientY - 20) + 'px';
-                    }
-                });
-                item.addEventListener('touchend', e => {
-                    if (touchClone) {
-                        touchClone.remove(); touchClone = null;
-                        item.classList.remove('dragging');
-                        const t = e.changedTouches[0];
-                        const dropEl = document.elementFromPoint(t.clientX, t.clientY);
-                        if (dropEl && (dropEl.id === 'dropZone' || dropEl.closest('#dropZone'))) {
-                            handleDrop(item.dataset.val);
-                        }
-                    }
-                });
-            });
-
-            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
-            zone.addEventListener('dragleave', () => zone.classList.remove('over'));
-            zone.addEventListener('drop', e => {
-                e.preventDefault(); zone.classList.remove('over');
-                handleDrop(e.dataTransfer.getData('text/plain'));
-            });
-        }
-
-        function handleDrop(val) {
-            const zone = document.getElementById('dropZone');
-            const q = questions[currentQ];
-            zone.textContent = val;
-            if (val === q.correct) {
-                zone.classList.add('correct');
-                handleCorrect();
-            } else {
-                zone.classList.add('wrong');
-                handleWrong(q.id);
-                setTimeout(() => {
-                    zone.classList.remove('wrong');
-                    zone.textContent = 'Lepaskan jawaban di sini';
-                }, 800);
-            }
-        }
-
-function handleCorrect() {
-            AudioManager.playCorrect();
-            SpaceStore.registerCorrectAnswer();
-            const timeBonus = 50; // simplified
-            const xpEarned = SpaceStore.addXP(100, timeBonus);
-            gameXP += xpEarned;
-            score += xpEarned;
-            document.getElementById('feedback').innerHTML = `<span class="fb-correct">✅ Benar! +${xpEarned} XP ${SpaceStore.get('isOnFire') ? '🔥' : ''}</span>`;
-            updateComboUI();
+    <main class="page-container">
+        <div class="glass-panel game-panel">
+            <h1 style="font-family:'Baloo 2'; color:var(--forest-dark); text-align:center; margin-bottom:20px;">Latihan Pecahan Interaktif</h1>
             
-            setTimeout(() => {
-                currentQ++;
-                if (currentQ >= questions.length) {
+            <div class="question-list">
+                <!-- CONTOH SOAL -->
+                <div class="guide-box fun-callout yellow">
+                    <strong style="color:var(--honey-orange); font-size:1.2rem;"><span class="bounce-emoji">💡</span> Panduan Mengerjakan:</strong><br>
+                    Perhatikan visualisasi gambar pada setiap soal, baca pertanyaannya dengan teliti, dan klik salah satu pilihan jawaban (A, B, C, atau D). Setelah menjawab, kamu dapat melihat penjelasan lengkapnya!
+                </div>  
+                <!-- LATIHAN SOAL -->
+                <h2 style="font-family:'Baloo 2'; color:var(--forest-dark); margin-top:24px; border-bottom:3px solid var(--leaf-vivid); padding-bottom:8px; margin-bottom: 24px;"><span class="wiggle">✨</span> Ayo Berlatih!</h2>
+        
+                
+                <div class="kid-card">
+                    <div class="q-title">Soal 1</div>
+                    <div class="q-text">Perhatikan gambar brownis berikut!<br>Sebuah kue brownies dipotong menjadi 4 bagian yang sama besar<br>Dari keempat potongan tersebut, ada 3 potongan yang diberi topping cokelat choco chips di atasnya, sedangkan potongan terakhir diberi krim vanilla putih.<br>Berapakah nilai pecahan yang menunjukkan potongan brownies dengan topping cokelat?</div>
+                    <div class="visual-container" style="text-align:center; margin:16px 0;">
+                        <img src="img/no2.png" alt="Gambar Brownis" style="max-width:100%; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); max-height:200px;">
+                    </div>
+                    <div class="options-grid">
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">A. 1/4</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">B. 2/4</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, true)">C. 3/4</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">D. 4/4</button>
+                    </div>
+                    <div class="explanation">
+                        <strong>Penjelasan:</strong> Jumlah seluruh bagian brownies ada 4 bagian (taruh angka 4 di bawah sebagai penyebut).
 
-                    // SOUND APRESIASI
-                    if (typeof AudioManager !== 'undefined' && AudioManager.playLevelUp) {
-                        AudioManager.playLevelUp();
-                    }
+Jumlah bagian brownies yang diberi topping coklat ada 3 bagian (taruh angka 3 di atas sebagai pembilang).
 
-                    try {
-                        SpaceStore.completeMission('mission2');
-                        SpaceStore.addBadge('🌟');
-                    } catch(e) { console.log(e); }
+Maka, pecahan brownies yang diberi topping coklat adalah 3/4.
+                    </div>
+                </div>
+                
+                <!-- CONTINUATION -->
+                <div class="kid-card">
+                    <div class="q-title">Soal 2</div>
+                    <div class="q-text">Ibu memotong semangka menjadi 8 bagian. Jika 2 bagian sudah dimakan, maka berapakah pecahan semangka yang dimakan?</div>
+                    <div class="options-grid" style="margin-top:20px;">
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">A. 1/8</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, true)">B. 2/8</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">C. 3/8</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">D. 8/8</button>
+                    </div>
+                    <div class="explanation">
+                        <strong>Penjelasan Cara Mengerjakan:</strong><br>
+                        • Jumlah seluruh potongan semangka yang dipotong Ibu ada 8 bagian (taruh angka 8 di bawah sebagai penyebut). <br>
+                        • Jumlah semangka yang sudah dimakan ada 2 bagian (taruh angka 2 di atas sebagai pembilang). <br>
+                        Maka, pecahan semangka yang dimakan adalah 2/8.
+                    </div>
+                </div>
+                
+                <div class="kid-card">
+                    <div class="q-title">Soal 3</div>
+                    <div class="q-text">Di halaman belakang rumah kakek terdapat kebun buah yang cukup luas. Di dalam kebun itu, ada 12 pohon mangga yang ditanam berbaris rapi. Saat musim panen tiba, kakek melihat ada 9 pohon mangga yang sudah berbuah lebat, sedangkan sisanya belum berbuah. Berapakah pecahan yang menunjukkan banyaknya pohon mangga yang sudah berbuah dibandingkan dengan seluruh pohon mangga yang ada di kebun kakek?</div>
+                    <div class="options-grid" style="margin-top:20px;">
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">A. 3/12</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, true)">B. 9/12</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">C. 12/9</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">D. 6/12</button>
+                    </div>
+                    <div class="explanation">
+                        <strong>Penjelasan Cara Mengerjakan:</strong><br>
+                        • Jumlah seluruh pohon mangga di kebun kakek adalah 12 pohon (menjadi penyebut di bawah). <br>
+                        • Jumlah pohon mangga yang sudah berbuah adalah 9 pohon (menjadi pembilang di atas). <br>
+                        Satukan keduanya menjadi bentuk pecahan, yaitu 9/12.
+                    </div>
+                </div>
 
-                    // TAMPILAN AKHIR YANG LEBIH KEREN
-                    document.getElementById('gameArea').innerHTML = `
-                        <style>
-                            .result-panel-cool {
-                                text-align: center;
-                                padding: 40px 20px;
-                                animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-                            }
-                            .stars-container {
-                                font-size: 3.5rem;
-                                margin-bottom: 10px;
-                                letter-spacing: 5px;
-                                filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
-                                animation: starBounce 1s ease forwards;
-                            }
-                            .result-title {
-                                font-size: 2.8rem;
-                                font-weight: 900;
-                                color: #ffffff;
-                                text-shadow: 0 0 15px var(--plasma-cyan, #00e5ff), 0 0 30px var(--plasma-cyan, #00e5ff);
-                                margin-bottom: 5px;
-                                font-family: 'Baloo 2', sans-serif;
-                            }
-                            .result-subtitle {
-                                font-size: 1.2rem;
-                                color: #b0bec5;
-                                margin-bottom: 30px;
-                            }
-                            .glow-score-box {
-                                background: rgba(0, 0, 0, 0.3);
-                                border: 2px solid var(--star-gold, #ffd700);
-                                border-radius: 20px;
-                                padding: 20px;
-                                display: inline-block;
-                                margin-bottom: 30px;
-                                box-shadow: 0 0 20px rgba(255, 215, 0, 0.2) inset, 0 0 20px rgba(255, 215, 0, 0.4);
-                                transform: scale(1);
-                                transition: transform 0.3s ease;
-                            }
-                            .glow-score-box:hover {
-                                transform: scale(1.05);
-                            }
-                            .score-label {
-                                font-size: 1rem;
-                                color: var(--star-gold, #ffd700);
-                                text-transform: uppercase;
-                                letter-spacing: 2px;
-                                margin-bottom: 5px;
-                            }
-                            .score-number {
-                                font-size: 4rem;
-                                font-weight: 900;
-                                color: white;
-                                text-shadow: 0 0 10px rgba(255,255,255,0.8);
-                                line-height: 1;
-                            }
-                            .btn-space {
-                                background: linear-gradient(135deg, var(--plasma-cyan, #00e5ff), #0077ff);
-                                color: white;
-                                font-size: 1.3rem;
-                                font-weight: 800;
-                                font-family: 'Baloo 2', sans-serif;
-                                padding: 16px 32px;
-                                border: none;
-                                border-radius: 50px;
-                                cursor: pointer;
-                                transition: all 0.3s ease;
-                                box-shadow: 0 8px 25px rgba(0, 229, 255, 0.4);
-                            }
-                            .btn-space:hover {
-                                transform: translateY(-5px) scale(1.05);
-                                box-shadow: 0 12px 30px rgba(0, 229, 255, 0.6);
-                            }
-                            
-                            @keyframes popIn {
-                                0% { transform: scale(0.8); opacity: 0; }
-                                100% { transform: scale(1); opacity: 1; }
-                            }
-                            @keyframes starBounce {
-                                0% { transform: translateY(-30px) scale(0.5); opacity: 0; }
-                                50% { transform: translateY(10px) scale(1.2); }
-                                100% { transform: translateY(0) scale(1); opacity: 1; }
-                            }
-                        </style>
+                <div class="kid-card">
+                    <div class="q-title">Soal 4</div>
+                    <div class="q-text">Bayangkan kamu punya sebuah pizza besar berbentuk lingkaran seperti pada gambar. Pizza tersebut dipotong menjadi 8 bagian yang sama besar. Kakak kemudian mengambil dan memakan 2 bagian yang diarsir warna hijau. Berapakah nilai pecahan untuk bagian pizza yang berwarna hijau tersebut?</div>
+                    <div class="visual-container" style="text-align:center; margin:16px 0;">
+                        <img src="img/no4.png" alt="Gambar Pizza" style="max-width:100%; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); max-height:200px;">
+                    </div>
+                    <div class="options-grid">
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">A. 1/8</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, true)">B. 2/8</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">C. 3/8</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">D. 4/8</button>
+                    </div>
+                    <div class="explanation">
+                        <strong>Penjelasan Cara Mengerjakan:</strong><br>
+                        • Pertama, hitung seluruh kotak potongan dalam lingkaran tersebut. Jika dihitung, totalnya ada 8 kotak (ini menjadi Penyebut atau angka di bawah). <br>
+                        • Kedua, hitung berapa kotak yang diberi warna hijau (diarsir). Jika dihitung, ada 2 kotak hijau (ini menjadi Pembilang atau angka di atas). <br>
+                        Gabungkan keduanya: angka 2 di atas dan angka 8 di bawah, ditulis menjadi 2/8.
+                    </div>
+                </div>
+                
+                <!-- CONTINUATION -->
+                <div class="kid-card">
+                    <div class="q-title">Soal 5</div>
+                    <div class="q-text">Fajar, Roni, dan Siska masing-masing mendapatkan satu batang cokelat yang ukurannya sama persis dari ibu. Cokelat mereka masing-masing sudah dibagi menjadi 10 kotak kecil.<br>Fajar memakan 7/10 bagian cokelatnya.<br>Roni memakan 5/10 bagian cokelatnya.<br>Siska memakan 8/10 bagian cokelatnya.<br>Jika kita melihat bagian yang mereka makan, siapakah anak yang memakan bagian cokelat paling banyak atau paling rakus?</div>
+                    <div class="options-grid">
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">A. Fajar</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">B. Roni</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, true)">C. Siska</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">D. Fajar dan Roni</button>
+                    </div>
+                    <div class="explanation">
+                        <strong>Penjelasan Cara Mengerjakan:</strong><br>
+                        • Karena semua pecahan memiliki angka bawah (penyebut) yang sama-sama 10, kita tidak perlu pusing memikirkan ukuran potongannya karena sudah pasti sama besar.<br> 
+                        • Kita hanya perlu melihat dan membandingkan angka yang ada di atas (pembilang), yaitu: 7 (Fajar), 5 (Roni), dan 8 (Siska). <br>
+                        Angka yang paling besar di antara 7, 5, dan 8 adalah 8. Karena angka 8 adalah bagian yang dimakan oleh Siska, maka Siskalah yang memakan cokelat paling banyak.
+                    </div>
+                </div>
 
-                        <div class="result-panel-cool">
-                            <div class="stars-container">⭐⭐⭐</div>
-                            
-                            <h1 class="result-title">MISI SELESAI! 🚀</h1>
-                            <div class="result-subtitle">Kamu berhasil menaklukkan resep rahasia Galaksi Pecahan!</div>
-                            
-                            <div class="glow-score-box">
-                                <div class="score-label">Total XP Terkumpul</div>
-                                <div class="score-number">${score}</div>
-                            </div>
-                            
-                            <br>
-                            
-                            <button class="btn-space" onclick="navigasiHalaman('dashboard.html')">
-                                Kembali ke Markas 🛸
-                            </button>
-                        </div>
-                    `;
+                <div class="kid-card">
+                    <div class="q-title">Soal 6</div>
+                    <div class="q-text">Ibu guru menuliskan lima angka pecahan secara acak di papan tulis, yaitu: 1/7, 4/7, 2/7, 6/7, dan 3/7. Ibu guru meminta kamu untuk menyusun kembali pecahan-pecahan tersebut mulai dari yang nilainya paling kecil hingga ke yang paling besar.<br><br>Setelah kamu berhasil menyusunnya dengan rapi, pecahan manakah yang posisinya berada tepat di tengah-tengah urutan?</div>
+                    <div class="options-grid" style="margin-top:20px;">
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">A. 2/7</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, true)">B. 3/7</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">C. 4/7</button>
+                        <button class="opt-btn" onclick="cekJawaban(this, false)">D. 6/7</button>
+                    </div>
+                    <div class="explanation">
+                        <strong>Penjelasan Cara Mengerjakan:</strong><br>
+                        • Perhatikan bahwa semua pecahan memiliki penyebut yang sama, yaitu 7. Jadi, kita cukup mengurutkan angka pembilangnya (angka yang di atas) dari yang paling kecil ke yang paling besar.<br> 
+                        • Angka pembilang yang kita punya adalah: 1, 4, 2, 6, dan 3. Jika diurutkan dari yang terkecil, menjadi: 1, 2, 3, 4, 6.<br> 
+                        Lalu tulis kembali dalam bentuk pecahan yang sudah rapi berurutan. Dari kelima pecahan di atas, pecahan yang berada di posisi nomor tiga atau tepat di tengah-tengah adalah 3/7. 
+                    </div>
+                </div>
+                
+                <div style="text-align:center; margin-top:40px; padding: 30px; background: rgba(255,255,255,0.8); border-radius: 12px; border: 2px dashed var(--leaf-vivid);">
+                    <h3 style="font-family:'Baloo 2'; color:var(--forest-dark); margin-bottom:15px; font-size: 1.8rem;">Hebat! Kamu sudah menyelesaikan semua latihan! 🎉</h3>
+                    <button class="btn-primary" onclick="selesaiGame()" style="font-size: 1.2rem; padding: 12px 30px;">Selesai & Kembali ke Menu 🚀</button>
+                </div>
+            </div>
+            
+        </div>
+    </main>
 
-                } else {
-                    loadQuestion();
+    <script>
+
+        function cekJawaban(btnElement, isCorrect) {
+            const grid = btnElement.closest('.options-grid');
+            const buttons = grid.querySelectorAll('.opt-btn');
+            
+            // Disable all buttons in this grid
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (isCorrect) {
+                btnElement.classList.add('correct');
+                btnElement.innerHTML += ' <span style="font-size:1.3rem;">✓</span>';
+                if (typeof AudioManager !== 'undefined' && typeof AudioManager.playCorrect === 'function') {
+                    AudioManager.playCorrect();
                 }
-            }, 1000);
-        }        function handleWrong(qId) {
-            AudioManager.playWrong();
-            const attempts = SpaceStore.registerWrongAnswer(qId);
-            score = Math.max(0, score - 20);
-            document.getElementById('feedback').innerHTML = `<span class="fb-wrong">❌ Coba lagi! (-20 poin)</span>`;
-            updateComboUI();
-            if (attempts > 2) {
-                const hintBtn = document.getElementById('hintBtn');
-                if (hintBtn) hintBtn.classList.add('visible');
+            } else {
+                btnElement.classList.add('wrong');
+                btnElement.innerHTML += ' <span style="font-size:1.3rem;">✗</span>';
+                if (typeof AudioManager !== 'undefined' && typeof AudioManager.playWrong === 'function') {
+                    AudioManager.playWrong();
+                }
+            }
+            
+            // Show explanation
+            const explanation = btnElement.closest('.kid-card').querySelector('.explanation');
+            if (explanation) {
+                explanation.classList.add('show');
             }
         }
 
-        function showHint() {
-            const q = questions[currentQ];
-            AudioManager.playClick();
-            document.getElementById('feedback').innerHTML = `<span style="color:var(--star-gold)">🦜 ${q.hint}</span>`;
-        }
-
-        function updateComboUI() {
-            const ci = document.getElementById('comboInd');
-            const s = SpaceStore.get();
-            if (ci) {
-                ci.className = 'combo-indicator ' + (s.isOnFire ? 'fire' : 'normal');
-                ci.textContent = s.isOnFire ? '🔥 COMBO x1.5!' : `Combo: ${s.comboCount}/3`;
+        function selesaiGame() {
+            if (typeof AudioManager !== 'undefined' && typeof AudioManager.playClick === 'function') {
+                AudioManager.playClick();
+            }
+            if (typeof SpaceStore !== 'undefined') {
+                SpaceStore.completeMission('mission2');
+                SpaceStore.addXP(100);
+                SpaceStore.addBadge('🍕');
+            }
+            
+            // Tampilkan perayaan kecil lalu pindah
+            if (typeof showCelebration === 'function') {
+                showCelebration(100, () => { navigasiHalaman('dashboard.html'); });
+            } else {
+                navigasiHalaman('dashboard.html');
             }
         }
-
-        document.body.insertAdjacentHTML('beforeend', `
-        <main class="page-container"><div class="glass-panel game-panel" id="gameArea">Memuat...</div></main>`);
-        loadQuestion();
     </script>
 </body>
 </html>

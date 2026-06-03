@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tentang Kami - Tim pengembang eLKPD Galaksi Pecahan.">
-    <title>Galaksi Pecahan - Tentang Kami</title>
+    <meta name="description" content="Tentang Kami - Tim pengembang eLKPD Rimba Pecahan.">
+    <title>Rimba Pecahan - Tentang Kami</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* Container Utama */
         .about-panel { max-width: 850px; margin: 40px auto; padding-top: 50px !important; }
         
-        .section-heading { font-family: 'Baloo 2'; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(0, 198, 255, 0.5); }
+        .section-heading { font-family: 'Baloo 2'; font-weight: 800; color: var(--forest-dark); text-shadow: 0 0 10px rgba(39, 174, 96, 0.3); }
 
         /* Role Box Modern */
         .role-box {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(45, 138, 78, 0.05);
             backdrop-filter: blur(5px);
             border-radius: 20px;
             padding: 20px;
             max-width: 550px;
             margin: 0 auto 25px auto;
             text-align: center;
-            border: 1px solid rgba(0, 198, 255, 0.3);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(45, 138, 78, 0.3);
+            box-shadow: 0 4px 15px rgba(45, 138, 78, 0.1);
         }
-        .role-box h4 { font-family: 'Baloo 2'; font-size: 1.3rem; color: #00d2ff; margin-bottom: 10px; }
-        .role-box p, .role-box ul { color: #f0f0f0; font-size: 1.05rem; list-style: none; padding: 0; margin: 0; }
+        .role-box h4 { font-family: 'Baloo 2'; font-size: 1.3rem; color: var(--forest-mid); margin-bottom: 10px; }
+        .role-box p, .role-box ul { color: var(--text-primary); font-size: 1.05rem; list-style: none; padding: 0; margin: 0; }
 
         /* Area Tim Penyusun */
         .team-wrapper {
@@ -33,20 +33,20 @@
             margin-top: 60px;
             padding: 40px 20px 20px 20px;
             border-radius: 25px;
-            border: 2px dashed rgba(0, 198, 255, 0.4);
-            background: rgba(0, 0, 0, 0.2);
+            border: 2px dashed rgba(45, 138, 78, 0.4);
+            background: rgba(45, 138, 78, 0.03);
         }
 
         /* Label Tim Penyusun yang Diselaraskan */
         .team-badge {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); /* Gradasi Nebula */
+            background: linear-gradient(135deg, var(--forest-mid) 0%, var(--leaf-vivid) 100%);
             color: white;
             padding: 10px 40px;
             border-radius: 50px;
             font-family: 'Baloo 2', cursive;
             font-size: 1.6rem;
-            border: 3px solid #1a1e29;
-            box-shadow: 0 0 20px rgba(37, 117, 252, 0.6);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(39, 174, 96, 0.4);
             position: absolute;
             top: -35px;
             left: 50%;
@@ -65,54 +65,63 @@
         }
 
         .dev-member { 
-            background: rgba(255, 255, 255, 0.07); 
+            background: rgba(255, 255, 255, 0.8); 
             padding: 20px 10px; 
             border-radius: 18px; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(45, 138, 78, 0.2); 
             text-align: center; 
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
 
         .dev-member:hover { 
             transform: translateY(-10px); 
-            background: rgba(255, 255, 255, 0.12);
-            border-color: #00d2ff;
-            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.3);
+            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--sunny-yellow);
+            box-shadow: 0 10px 25px rgba(249, 202, 36, 0.2);
         }
 
         .dev-ava img { 
             width: 70px; height: 70px; 
             border-radius: 50%; 
-            border: 3px solid #00d2ff; 
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+            border: 3px solid var(--sunny-yellow); 
+            box-shadow: 0 0 10px rgba(249, 202, 36, 0.3);
             margin: 0 auto 12px;
             object-fit: cover;
         }
 
-        .dev-name { font-family: 'Baloo 2'; font-weight: 700; color: #fff; font-size: 1rem; line-height: 1.2; margin-bottom: 5px; }
-        .dev-nim { font-size: 0.85rem; color: #ffd700; font-weight: bold; letter-spacing: 0.5px; }
+        .dev-name { font-family: 'Baloo 2'; font-weight: 700; color: var(--forest-mid); font-size: 1rem; line-height: 1.2; margin-bottom: 5px; }
+        .dev-nim { font-size: 0.85rem; color: var(--text-secondary); font-weight: bold; letter-spacing: 0.5px; }
 
         /* Universitas Badge */
         .univ-badge { 
             text-align: center; 
             margin-top: 40px; 
             padding: 25px; 
-            background: rgba(255, 215, 0, 0.05); 
-            border: 2px solid rgba(255, 215, 0, 0.3); 
+            background: rgba(249, 202, 36, 0.1); 
+            border: 2px solid rgba(249, 202, 36, 0.4); 
             border-radius: 20px; 
-            box-shadow: inset 0 0 15px rgba(255, 215, 0, 0.1);
+            box-shadow: inset 0 0 15px rgba(249, 202, 36, 0.15);
         }
-        .univ-badge h3 { font-family: 'Baloo 2'; color: #ffd700; font-size: 1.6rem; margin-bottom: 5px; }
+        .univ-badge h3 { font-family: 'Baloo 2'; color: var(--forest-dark); font-size: 1.6rem; margin-bottom: 5px; }
 
         /* Review Section */
-        .r-btn { border-radius: 15px; font-family: 'Baloo 2'; font-weight: 700; }
-        .r-btn.selected { background: #00d2ff !important; color: #000 !important; border-color: #fff !important; }
+        .r-btn { border-radius: 15px; font-family: 'Baloo 2'; font-weight: 700; border: 2px solid rgba(45, 138, 78, 0.2); background: rgba(255,255,255,0.7); cursor:pointer; padding:10px; transition:0.3s; color:var(--text-primary); }
+        .r-btn:hover { background: rgba(255,255,255,0.9); }
+        .r-btn.selected { background: var(--leaf-vivid) !important; color: white !important; border-color: var(--forest-mid) !important; }
         .btn-gold { 
-            background: linear-gradient(to bottom, #ffd700, #ffa500);
-            color: #000; font-weight: 800; padding: 12px 30px; border-radius: 50px;
+            background: linear-gradient(to bottom, var(--sunny-yellow), var(--honey-orange));
+            color: var(--wood-dark); font-weight: 800; padding: 12px 30px; border-radius: 50px;
             border: none; cursor: pointer; transition: 0.3s;
         }
-        .btn-gold:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+        .btn-gold:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(249, 202, 36, 0.6); }
+        
+        .rating-row { display: flex; gap: 10px; justify-content: center; margin-top: 10px; flex-wrap: wrap;}
+        .r-emoji { font-size: 2rem; border-radius: 50%; width: 60px; height: 60px; display:flex; align-items:center; justify-content:center;}
+        .r-text { padding: 10px 20px; }
+        .review-q { margin-bottom: 20px; text-align: left;}
+        .review-q p { font-weight: bold; color: var(--forest-mid); font-size: 1.1rem; text-align:center;}
+        .divider { border: 0; height: 1px; background: rgba(45, 138, 78, 0.2); margin: 40px 0; }
+        .section-title { font-family: 'Baloo 2'; font-size: 1.8rem; color: var(--forest-mid); font-weight: 800; margin-bottom: 20px;}
     </style>
 </head>
 <body>
@@ -123,24 +132,25 @@
         document.body.insertAdjacentHTML('beforeend', `
         <main class="page-container">
             <div class="glass-panel about-panel">
-                <div class="section-heading" style="text-align:center; font-size:2.2rem; margin-bottom:5px;">💡 Tentang Kami</div>
-                <div class="section-subtitle" style="text-align:center; margin-bottom:40px; color: #bdc3c7;">Pahlawan di balik layar Galaksi Pecahan!</div>
+                <div class="section-heading" style="text-align:center; font-size:2.2rem; margin-bottom:5px;">🦉 Tentang Kami</div>
+                <div class="section-subtitle" style="text-align:center; margin-bottom:40px;">Penjaga Hutan di balik Rimba Pecahan!</div>
 
                 <div class="role-box">
                     <h4>👨‍🏫 Dosen Pembimbing</h4>
                     <p>🎓 Dr. Fara Firgianita Pangadongan, M.Pd</p>
                 </div>
 
-                <div class="role-box" style="border-color: rgba(106, 17, 203, 0.4);">
+                <div class="role-box">
                     <h4>👩‍🏫 Dosen Validator</h4>
                     <ul>
-                        <li>✨ Nurdiah Kurniatui, S.Pd., M.Pd</li>
-                        <li>✨ Yana Supriyatna, S.Pd., M.Pd</li>
+                        <li>✨ Hetty Diana Septika, S.Pd., M.Pd</li>
+                        <li>✨ Fitri Aidah Sari, M.Pd</li>
+                        <li>✨ Ince Raudiah Zahra, S.Pd., M.Pd</li>
                     </ul>
                 </div>
                 
                 <div class="team-wrapper">
-                    <div class="team-badge">🌟 Tim Penyusun</div>
+                    <div class="team-badge">🌿 Tim Penyusun</div>
                     <div class="dev-grid">
                         <div class="dev-member">
                             <div class="dev-ava"><img src="img/andi.jpg" alt="Andi"></div>
@@ -176,50 +186,38 @@
                 </div>
 
                 <div class="univ-badge">
-                    <h3>🚀 PGSD E 🚀</h3>
-                    <h4 style="color: white; font-weight: bold;">UNIVERSITAS MULAWARMAN</h4>
+                    <h3>🌳 PGSD E 🌳</h3>
+                    <h4 style="color: var(--forest-dark); font-weight: bold;">UNIVERSITAS MULAWARMAN</h4>
                 </div>
 
                 <hr class="divider">
 
                 <div class="review-section" style="text-align:center">
-                    <div class="section-title">Beri Review & Bagikan Perasaanmu!</div>
+                    <div class="section-title">Kolom Saran & Masukan</div>
 
                     <div class="review-q">
-                        <p>1. Bagaimana perasaanmu belajar hari ini?</p>
-                        <div class="rating-row" id="moodRow">
-                            <button class="r-btn r-emoji" data-group="mood" onclick="selectRating(this)" title="Senang Sekali">🤩</button>
-                            <button class="r-btn r-emoji" data-group="mood" onclick="selectRating(this)" title="Senang">😊</button>
-                            <button class="r-btn r-emoji" data-group="mood" onclick="selectRating(this)" title="Biasa Saja">🤔</button>
-                            <button class="r-btn r-emoji" data-group="mood" onclick="selectRating(this)" title="Sedih">😔</button>
-                        </div>
+                        <p style="margin-bottom:10px; font-weight:normal; color:#555;">Punya saran atau masukan untuk aplikasi Rimba Pecahan? Tulis di bawah ini ya!</p>
+                        <textarea id="saranText" style="width:100%; min-height:120px; border-radius:12px; padding:15px; font-family:'Nunito', sans-serif; font-size:1rem; border:2px solid rgba(45,138,78,0.3);" placeholder="Tulis saranmu di sini..."></textarea>
                     </div>
 
-                    <div class="review-q">
-                        <p>2. Apakah materinya mudah dipahami?</p>
-                        <div class="rating-row" id="understandRow">
-                            <button class="r-btn r-text" data-group="understand" onclick="selectRating(this)"><span>✅</span> Gampang banget!</button>
-                            <button class="r-btn r-text" data-group="understand" onclick="selectRating(this)"><span>🟡</span> Lumayan paham.</button>
-                            <button class="r-btn r-text" data-group="understand" onclick="selectRating(this)"><span>❌</span> Masih bingung.</button>
-                        </div>
-                    </div>
-
-                    <button class="btn-gold" style="margin-top:20px" onclick="submitReview()">Kirim Review 🚀</button>
+                    <button class="btn-gold" style="margin-top:20px" onclick="submitSaran()">Kirim Saran 🚀</button>
                 </div>
             </div>
         </main>`);
 
-        function selectRating(btn) {
-            const group = btn.dataset.group;
-            document.querySelectorAll(`.r-btn[data-group='${group}']`).forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
+        function submitSaran() {
+            const text = document.getElementById('saranText').value.trim();
+            if (!text) {
+                alert('Tulis saranmu dulu ya! 😊');
+                return;
+            }
+            const s = SpaceStore.get();
+            // Simpan saran ke dalam sistem (akan ditambahkan di script.js)
+            SpaceStore.addFeedback(text, s.username, s.kelas);
+            
             if(typeof AudioManager !== 'undefined') AudioManager.playClick();
-        }
-
-        function submitReview() {
-            // Logika submit tetap sama
-            alert('Terima kasih reviewnya! 🚀');
-            window.location.href = 'dashboard.html';
+            alert('Terima kasih atas saran dan masukanmu! 🌿');
+            document.getElementById('saranText').value = '';
         }
     </script>
 </body>

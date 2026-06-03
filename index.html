@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Space Adventure Fractions - eLKPD Matematika Pecahan untuk siswa SD dengan tema petualangan luar angkasa.">
+    <meta name="description" content="Rimba Ajaib Pecahan - eLKPD Matematika Pecahan untuk siswa SD dengan tema hutan ajaib yang menyenangkan.">
     <title>E-LKPD Matematika - Universitas Mulawarman</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
@@ -11,58 +11,57 @@
             min-height: 100vh; display: flex;
             align-items: center; justify-content: center;
             padding: 24px; position: relative; overflow: hidden;
-            /* Vibrant space gradient for kids */
-            background: radial-gradient(circle at top right, #3b145e 0%, #111b3d 40%, #0a0e27 100%);
+            background: linear-gradient(160deg, #87ceeb 0%, #b8f0d0 50%, #78c896 100%);
         }
-        
+
         .login-panel {
             max-width: 500px; width: 100%;
             padding: 50px 40px;
             animation: slideUp 1s cubic-bezier(0.68,-0.55,0.265,1.55);
             text-align: center; z-index: 10;
-            background: rgba(255,255,255,0.08); /* slightly brighter glass */
-            border: 2px solid rgba(0, 229, 255, 0.3); /* Cyan glowing border */
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 229, 255, 0.1);
+            background: rgba(255,255,255,0.88);
+            border: 2px solid rgba(255,255,255,0.95);
+            box-shadow: 0 20px 60px rgba(45,138,78,0.2), 0 0 40px rgba(249,202,36,0.08);
         }
-        
+
         .logo-mascot {
             margin-bottom: 15px;
-            filter: drop-shadow(0 8px 20px rgba(0, 229, 255, 0.4));
+            filter: drop-shadow(0 8px 20px rgba(45,138,78,0.3));
             animation: float 3s ease-in-out infinite;
         }
-        
+
         .login-title {
             font-family: 'Baloo 2', sans-serif;
             font-size: 2.8rem; font-weight: 900;
-            background: linear-gradient(135deg, var(--plasma-cyan), #b388ff);
+            background: linear-gradient(135deg, #1a5c35, #27ae60);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text; margin-bottom: 6px;
-            line-height: 1.1; filter: drop-shadow(0 4px 10px rgba(0, 229, 255, 0.2));
-        }
-        
-        .login-sub { color: var(--star-gold); font-size: 1.25rem; font-weight: 800; margin-bottom: 30px; letter-spacing: 1px; }
-        
-        /* Dayak ornament - adjusted color to fit vibrant theme */
-        .dayak-ornament {
-            width: 120px; height: 30px; margin: 0 auto 20px;
-            background: linear-gradient(90deg, transparent, var(--plasma-cyan), transparent);
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 30'%3E%3Cpath d='M0 15Q15 0 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3Cpath d='M0 15Q15 30 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3C/svg%3E");
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 30'%3E%3Cpath d='M0 15Q15 0 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3Cpath d='M0 15Q15 30 30 15T60 15T90 15T120 15' stroke='white' stroke-width='4' fill='none'/%3E%3C/svg%3E");
-            opacity: 0.8;
+            line-height: 1.1;
         }
 
-        /* Floating Astronaut Mascots */
+        .login-sub { color: var(--honey-orange); font-size: 1.25rem; font-weight: 800; margin-bottom: 30px; letter-spacing: 1px; }
+
+        /* Forest vine ornament */
+        .forest-ornament {
+            width: 140px; height: 32px; margin: 0 auto 20px;
+            background: linear-gradient(90deg, transparent, var(--leaf-vivid), transparent);
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 32'%3E%3Cpath d='M0 16Q18 2 35 16T70 16T105 16T140 16' stroke='white' stroke-width='4' fill='none'/%3E%3Ccircle cx='20' cy='10' r='5' fill='white'/%3E%3Ccircle cx='55' cy='22' r='5' fill='white'/%3E%3Ccircle cx='90' cy='10' r='5' fill='white'/%3E%3Ccircle cx='125' cy='22' r='5' fill='white'/%3E%3C/svg%3E");
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 32'%3E%3Cpath d='M0 16Q18 2 35 16T70 16T105 16T140 16' stroke='white' stroke-width='4' fill='none'/%3E%3Ccircle cx='20' cy='10' r='5' fill='white'/%3E%3Ccircle cx='55' cy='22' r='5' fill='white'/%3E%3Ccircle cx='90' cy='10' r='5' fill='white'/%3E%3Ccircle cx='125' cy='22' r='5' fill='white'/%3E%3C/svg%3E");
+            opacity: 0.75;
+        }
+
+        /* Floating Forest Elements */
         .mascot-side {
             position: absolute; font-size: 4rem; animation: float 4s ease-in-out infinite;
-            filter: drop-shadow(0 4px 15px rgba(0,229,255,0.4)); pointer-events: none; z-index: 1;
+            filter: drop-shadow(0 4px 12px rgba(45,138,78,0.3)); pointer-events: none; z-index: 1;
         }
-        .mascot-left { left: 10%; top: 20%; animation-delay: 0.5s; }
-        .mascot-right { right: 10%; bottom: 25%; animation-delay: 1s; font-size: 4.5rem; }
-        .mascot-rocket { left: 15%; bottom: 15%; font-size: 3.5rem; animation: float 5s ease-in-out infinite alternate; filter: drop-shadow(0 0 10px rgba(255,107,53,0.5)); }
-        .mascot-planet { right: 15%; top: 15%; font-size: 5rem; animation: breathe 6s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(255,215,0,0.3)); }
+        .mascot-left   { left: 10%; top: 20%; animation-delay: 0.5s; }
+        .mascot-right  { right: 10%; bottom: 25%; animation-delay: 1s; font-size: 4.5rem; }
+        .mascot-flower { left: 15%; bottom: 15%; font-size: 3.5rem; animation: float 5s ease-in-out infinite alternate; }
+        .mascot-tree   { right: 15%; top: 15%; font-size: 5rem; animation: breathe 6s ease-in-out infinite; }
 
         .univ-title {
-            color: var(--text-primary);
+            color: var(--forest-mid);
             font-family: 'Baloo 2', sans-serif;
             font-size: 1.25rem;
             margin-bottom: 2px;
@@ -76,23 +75,23 @@
             font-size: 0.95rem;
             margin-bottom: 25px;
         }
-        
+
         .btn-mulai {
             display: block; width: 100%; text-decoration: none; padding: 18px; margin-top: 10px;
-            background: linear-gradient(135deg, var(--aurora-green), #00c853);
-            color: #003300; font-family: 'Baloo 2', sans-serif; font-weight: 900; font-size: 1.3rem;
-            border-radius: var(--radius-full); box-shadow: 0 6px 0 #009624, 0 0 20px rgba(57,255,20,0.4);
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 900; font-size: 1.3rem;
+            border-radius: var(--radius-full); box-shadow: 0 6px 0 #1e8449, 0 0 20px rgba(39,174,96,0.3);
             transition: all var(--transition-med); animation: pulseGlow 2s infinite;
         }
-        .btn-mulai:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #009624, 0 0 30px rgba(57,255,20,0.6); }
-        .btn-mulai:active { transform: translateY(4px); box-shadow: 0 0 0 #009624; }
+        .btn-mulai:hover  { transform: translateY(-3px); box-shadow: 0 9px 0 #1e8449, 0 0 30px rgba(39,174,96,0.5); }
+        .btn-mulai:active { transform: translateY(4px);  box-shadow: 0 0 0 #1e8449; }
 
         @media (max-width: 1024px) {
             .mascot-left { left: 5%; } .mascot-right { right: 5%; }
-            .mascot-rocket { left: 8%; } .mascot-planet { right: 8%; }
+            .mascot-flower { left: 8%; } .mascot-tree { right: 8%; }
         }
         @media (max-width: 768px) {
-            .mascot-left, .mascot-right, .mascot-rocket, .mascot-planet { opacity: 0.4; }
+            .mascot-left, .mascot-right, .mascot-flower, .mascot-tree { opacity: 0.4; }
             .mascot-right { bottom: 10%; } .mascot-left { top: 10%; }
         }
         @media (max-width: 600px) {
@@ -105,34 +104,38 @@
 <body>
 
     <main class="login-wrap">
-        <!-- Floating Space Elements -->
-        <div class="mascot-side mascot-left anim-breathe">👨‍🚀</div>
-        <div class="mascot-side mascot-right anim-float">👩‍🚀</div>
-        <div class="mascot-side mascot-rocket">🚀</div>
-        <div class="mascot-side mascot-planet">🪐</div>
-        
-        <!-- Stars layer from style.css -->
-        <div class="stars-layer layer1"></div>
-        <div class="stars-layer layer2"></div>
+        <!-- Floating Forest Elements -->
+        <div class="mascot-side mascot-left anim-breathe">🦋</div>
+        <div class="mascot-side mascot-right anim-float">🐝</div>
+        <div class="mascot-side mascot-flower">🌸</div>
+        <div class="mascot-side mascot-tree">🌳</div>
+
+        <!-- Forest leaf layers from style.css -->
+        <div class="forest-layer layer1"></div>
+        <div class="forest-layer layer2"></div>
 
         <section class="glass-panel login-panel">
-            
+
             <!-- University Logo -->
             <div class="logo-mascot">
-                <img src="img/univ.png" alt="Logo Universitas" style="width: 105px; height: 105px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,229,255,0.4));">
+                <img src="img/univ.png" alt="Logo Universitas" style="width: 105px; height: 105px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(45,138,78,0.3));">
             </div>
-            
+
             <h2 class="univ-title">Universitas Mulawarman</h2>
             <p class="univ-sub">Program Studi PGSD E</p>
 
-            <div class="dayak-ornament"></div>
-            
-            <h1 class="login-title">Galaksi Pecahan</h1>
-            <p class="login-sub">Petualangan Astronot Cilik! ✨</p>
+            <div class="forest-ornament"></div>
+
+            <h1 class="login-title">Rimba Pecahan</h1>
+            <p class="login-sub">Petualangan Hutan Ajaib! 🌿</p>
 
             <a href="login.html" class="btn-mulai" onclick="if(typeof AudioManager !== 'undefined') AudioManager.playClick();">
-                Mulai Berpetualang! 🚀
+                Mulai Berpetualang! 🌿
             </a>
+
+            <div style="margin-top: 24px; font-size: 0.9rem;">
+                <a href="admin_login.html" style="color: #555; text-decoration: none;">👑 Masuk sebagai Admin</a>
+            </div>
 
         </section>
     </main>

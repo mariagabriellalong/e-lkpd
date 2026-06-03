@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard Admin - Data Feedback & Refleksi Siswa">
+    <title>Admin - Dashboard Feedback</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-panel { max-width: 950px; margin: 24px auto; background: rgba(255,255,255,0.92); padding: 30px; border-radius: var(--radius-md); }
+        .feedback-text { font-size: 1rem; color: #333; line-height: 1.5; }
+        table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(45, 138, 78, 0.15); }
+        th { background: var(--forest-dark); color: white; font-size: 0.9rem; }
+        tr:nth-child(even) { background-color: rgba(45, 138, 78, 0.04); }
+        tr:hover { background-color: rgba(249, 202, 36, 0.08); }
+
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid rgba(45, 138, 78, 0.2); padding-bottom: 0; }
+        .tab-btn {
+            padding: 12px 24px; border: none; background: rgba(45,138,78,0.08);
+            cursor: pointer; border-radius: 10px 10px 0 0; font-family: 'Baloo 2';
+            font-weight: bold; font-size: 1rem; color: #777; transition: 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-btn:hover { background: rgba(45,138,78,0.15); color: #555; }
+        .tab-btn.active { background: var(--leaf-vivid); color: white; border-bottom-color: var(--forest-dark); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .action-bar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .action-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .action-btn {
+            padding: 10px 18px; border: none; border-radius: 8px; cursor: pointer;
+            font-weight: 700; font-size: 0.9rem; transition: 0.3s; display: inline-flex;
+            align-items: center; gap: 6px;
+        }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .btn-download { background: #27ae60; color: white; }
+        .btn-import { background: #2980b9; color: white; }
+        .btn-logout { background: #95a5a6; color: white; }
+        .btn-clear { background: #e74c3c; color: white; }
+
+        .stats-bar { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+        .stat-card {
+            flex: 1; min-width: 140px; padding: 16px; border-radius: 12px; text-align: center;
+            background: rgba(45,138,78,0.06); border: 1px solid rgba(45,138,78,0.2);
+        }
+        .stat-card .num { font-family: 'Baloo 2'; font-size: 2rem; font-weight: 800; color: var(--forest-mid); }
+        .stat-card .label { font-size: 0.85rem; color: #777; }
+
+        .empty-state {
+            text-align: center; padding: 50px 20px; background: rgba(255,255,255,0.5);
+            border-radius: 12px; border: 2px dashed rgba(45,138,78,0.2);
+        }
+        .empty-state .icon { font-size: 3.5rem; margin-bottom: 10px; }
+        .empty-state p { color: #888; font-size: 1.1rem; }
+        .empty-state small { color: #aaa; display: block; margin-top: 8px; }
+    </style>
+</head>
+<body>
+    <script src="js/script.js"></script>
+    <script>
+        if (localStorage.getItem('isAdmin') !== 'true') {
+            window.location.href = 'login.html';
+        }
+        renderTopNav('👑 Dashboard Admin', true, 'login.html');
+    </script>
+
+    <main class="page-container">
+        <div class="glass-panel admin-panel">
+            <div class="section-heading" style="font-size:1.8rem; margin-bottom:4px;">👑 Dashboard Admin Terpadu</div>
+            <div class="section-subtitle" style="margin-bottom:20px;">Semua data saran dan catatan hutan dari <b>seluruh siswa</b> yang telah mengisi di perangkat ini.</div>
+
+            <div id="statsBar" class="stats-bar"></div>
+
+            <div class="action-bar">
+                <div class="action-group">
+                    <button class="action-btn btn-download" onclick="SpaceStore.exportToJSON()">📥 Download (.json)</button>
+                    <label class="action-btn btn-import" style="cursor:pointer;">
+                        📤 Import (.json)
+                        <input type="file" id="importFile" accept=".json" style="display:none;" onchange="handleImport(event)">
+                    </label>
+                </div>
+                <div class="action-group">
+                    <button class="action-btn btn-logout" onclick="logoutAdmin()">🚪 Keluar</button>
+                    <button class="action-btn btn-clear" onclick="clearData()">🗑️ Kosongkan Semua</button>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" id="tabBtnSaran" onclick="switchTab('saran')">📝 Saran & Masukan</button>
+                <button class="tab-btn" id="tabBtnRefleksi" onclick="switchTab('refleksi')">🌺 Catatan Hutan</button>
+            </div>
+
+            <div id="tab-saran" class="tab-content active"></div>
+            <div id="tab-refleksi" class="tab-content"></div>
+        </div>
+    </main>
+
+    <script>
+        function renderData() {
+            // Ambil data dari key localStorage yang terpisah
+            const feedbacks = SpaceStore.getAllFeedbacks();
+            const reflections = SpaceStore.getAllReflections();
+
+            // Update stats cards
+            document.getElementById('statsBar').innerHTML = `
+                <div class="stat-card">
+                    <div class="num">${feedbacks.length + reflections.length}</div>
+                    <div class="label">Total Semua Data</div>
+                </div>
+                <div class="stat-card">
+                    <div class="num">${feedbacks.length}</div>
+                    <div class="label">Saran Masuk</div>
+                </div>
+                <div class="stat-card">
+                    <div class="num">${reflections.length}</div>
+                    <div class="label">Catatan Hutan</div>
+                </div>
+            `;
+
+            // Update tab button labels with counts
+            document.getElementById('tabBtnSaran').textContent = `📝 Saran & Masukan (${feedbacks.length})`;
+            document.getElementById('tabBtnRefleksi').textContent = `🌺 Catatan Hutan (${reflections.length})`;
+
+            // ========== Render Saran ==========
+            let htmlSaran = '';
+            if (feedbacks.length === 0) {
+                htmlSaran = `<div class="empty-state"><div class="icon">🍃</div><p>Belum ada saran yang masuk.</p><small>Saran akan muncul di sini ketika siswa mengirimkan dari halaman Tentang Kami.</small></div>`;
+            } else {
+                htmlSaran = `<table><thead><tr><th style="width:160px;">Waktu</th><th style="width:140px;">Nama / Kelas</th><th>Saran / Masukan</th></tr></thead><tbody>`;
+                feedbacks.slice().reverse().forEach(r => {
+                    const dateStr = new Date(r.date).toLocaleString('id-ID', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+                    htmlSaran += `<tr><td style="font-size:0.85rem;color:#888;">${dateStr}</td><td><b>${r.username || 'Anonim'}</b><br><small style="color:#999;">Kelas: ${r.kelas || '-'}</small></td><td class="feedback-text">${r.text}</td></tr>`;
+                });
+                htmlSaran += `</tbody></table>`;
+            }
+            document.getElementById('tab-saran').innerHTML = htmlSaran;
+
+            // ========== Render Refleksi ==========
+            let htmlRefleksi = '';
+            if (reflections.length === 0) {
+                htmlRefleksi = `<div class="empty-state"><div class="icon">🌺</div><p>Belum ada catatan hutan yang masuk.</p><small>Catatan akan muncul di sini ketika siswa mengirimkan dari halaman Catatan Hutan.</small></div>`;
+            } else {
+                htmlRefleksi = `<table><thead><tr><th style="width:160px;">Waktu</th><th style="width:140px;">Nama / Kelas</th><th style="width:70px;text-align:center">Mood</th><th>Catatan</th></tr></thead><tbody>`;
+                reflections.slice().reverse().forEach(r => {
+                    const dateStr = new Date(r.date).toLocaleString('id-ID', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+                    htmlRefleksi += `<tr><td style="font-size:0.85rem;color:#888;">${dateStr}</td><td><b>${r.username || 'Anonim'}</b><br><small style="color:#999;">Kelas: ${r.kelas || '-'}</small></td><td style="font-size:1.5rem;text-align:center;">${r.mood}</td><td class="feedback-text">${r.text}</td></tr>`;
+                });
+                htmlRefleksi += `</tbody></table>`;
+            }
+            document.getElementById('tab-refleksi').innerHTML = htmlRefleksi;
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('tabBtn' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+            if(typeof AudioManager !== 'undefined') AudioManager.playClick();
+        }
+
+        function clearData() {
+            if(confirm('Yakin ingin menghapus SEMUA data saran & catatan hutan?\n\nPastikan Anda sudah "Download (.json)" terlebih dahulu!')) {
+                SpaceStore.clearAllFeedbackData();
+                renderData();
+                alert('Semua data berhasil dihapus.');
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem('isAdmin');
+            window.location.href = 'login.html';
+        }
+
+        function handleImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const success = SpaceStore.importFromJSON(e.target.result);
+                if (success) {
+                    alert('Berhasil! Data dari file JSON telah digabungkan ke Dashboard.\nData duplikat otomatis dilewati.');
+                    renderData();
+                } else {
+                    alert('Gagal! Format file JSON tidak valid.');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // Migrasi data lama: pindahkan data dari rimbaAjaibState ke key terpisah (jika ada)
+        (function migrateOldData() {
+            try {
+                const oldState = JSON.parse(localStorage.getItem('rimbaAjaibState') || '{}');
+                if (oldState.reflections && oldState.reflections.length > 0) {
+                    const existing = JSON.parse(localStorage.getItem('rimbaReflections') || '[]');
+                    oldState.reflections.forEach(r => {
+                        const isDup = existing.some(e => e.date === r.date && e.text === r.text);
+                        if (!isDup) existing.push(r);
+                    });
+                    localStorage.setItem('rimbaReflections', JSON.stringify(existing));
+                    // Hapus dari state lama
+                    oldState.reflections = [];
+                    localStorage.setItem('rimbaAjaibState', JSON.stringify(oldState));
+                }
+                if (oldState.feedbacks && oldState.feedbacks.length > 0) {
+                    const existing = JSON.parse(localStorage.getItem('rimbaFeedbacks') || '[]');
+                    oldState.feedbacks.forEach(f => {
+                        const isDup = existing.some(e => e.date === f.date && e.text === f.text);
+                        if (!isDup) existing.push(f);
+                    });
+                    localStorage.setItem('rimbaFeedbacks', JSON.stringify(existing));
+                    oldState.feedbacks = [];
+                    localStorage.setItem('rimbaAjaibState', JSON.stringify(oldState));
+                }
+            } catch(e) { console.log('Migrasi: ', e); }
+        })();
+
+        // Render awal
+        renderData();
+        SpaceStore.subscribe(renderData);
+    </script>
+</body>
+</html>

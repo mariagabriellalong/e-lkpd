@@ -3,66 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Dashboard Galaksi Pecahan - Peta misi belajar pecahan untuk siswa SD.">
-    <title>Galaksi Pecahan - Dashboard Kosmik</title>
+    <meta name="description" content="Dashboard Rimba Pecahan - Peta jalur belajar pecahan di hutan ajaib untuk siswa SD.">
+    <title>Rimba Pecahan - Peta Hutan</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .dashboard-grid { display: grid; grid-template-columns: 280px 1fr; gap: 24px; margin-top: 24px; }
+
         /* Profile Sidebar */
         .sidebar { display: flex; flex-direction: column; gap: 20px; }
         .profile-card { text-align: center; }
-        .profile-avatar { width: 90px; height: 90px; font-size: 3rem; margin: 0 auto 12px;
+        .profile-avatar {
+            width: 90px; height: 90px; font-size: 3rem; margin: 0 auto 12px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(135deg, var(--nebula-purple), var(--space-blue));
-            border: 3px solid var(--star-gold); box-shadow: 0 0 20px rgba(255,215,0,0.3);
-            animation: breathe 4s ease-in-out infinite; }
-        .profile-name { font-family: 'Baloo 2', sans-serif; font-size: 1.4rem; font-weight: 800;
-            color: var(--star-gold); margin-bottom: 2px; }
+            background: linear-gradient(135deg, #52b788, #74b9ff);
+            border: 3px solid var(--sunny-yellow); box-shadow: 0 0 20px rgba(249,202,36,0.3);
+            animation: breathe 4s ease-in-out infinite;
+        }
+        .profile-name {
+            font-family: 'Baloo 2', sans-serif; font-size: 1.4rem; font-weight: 800;
+            color: var(--forest-mid); margin-bottom: 2px;
+        }
         .profile-class { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px; }
-        .rank-badge { display: inline-block; padding: 4px 14px; border-radius: var(--radius-full);
-            background: linear-gradient(135deg, var(--star-gold), var(--comet-orange));
-            color: var(--deep-navy); font-weight: 800; font-size: 0.8rem;
-            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+        .rank-badge {
+            display: inline-block; padding: 4px 14px; border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--forest-mid), var(--leaf-vivid));
+            color: white; font-weight: 800; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px;
+        }
         .stats-row { display: flex; justify-content: center; gap: 16px; margin-top: 10px; }
         .stat-item { text-align: center; }
-        .stat-val { font-family: 'Baloo 2', sans-serif; font-size: 1.3rem; font-weight: 800;
-            color: var(--plasma-cyan); }
+        .stat-val {
+            font-family: 'Baloo 2', sans-serif; font-size: 1.3rem; font-weight: 800;
+            color: var(--forest-mid);
+        }
         .stat-label { font-size: 0.75rem; color: var(--text-secondary); }
 
         /* Badges section */
         .badges-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 10px 0; }
-        .badge-slot { width: 40px; height: 40px; border-radius: 10px; display: flex;
+        .badge-slot {
+            width: 40px; height: 40px; border-radius: 10px; display: flex;
             align-items: center; justify-content: center; font-size: 1.4rem;
-            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); }
-        .badge-slot.earned { background: rgba(255,215,0,0.1); border-color: var(--star-gold);
-            box-shadow: 0 0 8px rgba(255,215,0,0.3); }
-        .badge-slot.empty { opacity: 0.3; font-size: 1rem; }
+            background: rgba(45,138,78,0.06); border: 1px solid rgba(45,138,78,0.2);
+        }
+        .badge-slot.earned {
+            background: rgba(249,202,36,0.1); border-color: var(--sunny-yellow);
+            box-shadow: 0 0 8px rgba(249,202,36,0.3);
+        }
+        .badge-slot.empty { opacity: 0.35; font-size: 1rem; }
 
-        /* Mission Map */
+        /* Mission Map - Forest Path */
         .mission-map-panel { padding: 30px; }
-        .map-title { font-family: 'Baloo 2', sans-serif; font-size: 1.5rem; font-weight: 800;
-            color: var(--text-primary); margin-bottom: 20px; text-align: center; }
+        .map-title {
+            font-family: 'Baloo 2', sans-serif; font-size: 1.5rem; font-weight: 800;
+            color: var(--forest-mid); margin-bottom: 20px; text-align: center;
+        }
         .mission-path { display: flex; flex-direction: column; gap: 0; align-items: center; position: relative; }
-        .mission-connector { width: 3px; height: 30px; background: var(--glass-border); }
-        .mission-connector.done { background: var(--aurora-green); }
-        .mission-node { display: flex; align-items: center; gap: 16px; width: 100%;
+        .mission-connector { width: 3px; height: 30px; background: rgba(45,138,78,0.2); }
+        .mission-connector.done { background: var(--leaf-vivid); }
+        .mission-node {
+            display: flex; align-items: center; gap: 16px; width: 100%;
             padding: 16px; border-radius: var(--radius-md); cursor: pointer;
             transition: all var(--transition-med); border: 2px solid transparent;
-            background: rgba(255,255,255,0.03); }
-        .mission-node:hover:not(.locked) { background: rgba(255,255,255,0.08);
-            border-color: var(--star-gold); transform: translateX(6px); }
-        .mission-node.locked { opacity: 0.4; cursor: not-allowed; }
-        .mission-node.completed { border-color: rgba(57,255,20,0.3); }
-        .planet-icon { width: 60px; height: 60px; border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+        }
+        .mission-node:hover:not(.locked) {
+            background: rgba(255,255,255,0.9);
+            border-color: var(--sunny-yellow); transform: translateX(6px);
+        }
+        .mission-node.locked { opacity: 0.45; cursor: not-allowed; }
+        .mission-node.completed { border-color: rgba(39,174,96,0.4); background: rgba(39,174,96,0.06); }
+        .planet-icon {
+            width: 60px; height: 60px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; flex-shrink: 0; border: 2px solid var(--glass-border);
-            transition: all var(--transition-med); }
-        .mission-node.unlocked .planet-icon { border-color: var(--star-gold);
-            box-shadow: 0 0 15px rgba(255,215,0,0.3); animation: pulseGlow 3s ease-in-out infinite; }
-        .mission-node.completed .planet-icon { border-color: var(--aurora-green);
-            box-shadow: 0 0 15px rgba(57,255,20,0.4); background: rgba(57,255,20,0.1); }
-        .mission-node.locked .planet-icon { filter: grayscale(1) brightness(0.4); }
-        .mission-info h3 { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 1.1rem; margin-bottom: 2px; }
+            font-size: 2rem; flex-shrink: 0; border: 2px solid rgba(45,138,78,0.25);
+            transition: all var(--transition-med); background: rgba(255,255,255,0.7);
+        }
+        .mission-node.unlocked .planet-icon {
+            border-color: var(--sunny-yellow);
+            box-shadow: 0 0 15px rgba(249,202,36,0.35); animation: pulseGlow 3s ease-in-out infinite;
+        }
+        .mission-node.completed .planet-icon {
+            border-color: var(--leaf-vivid);
+            box-shadow: 0 0 15px rgba(39,174,96,0.4); background: rgba(39,174,96,0.1);
+        }
+        .mission-node.locked .planet-icon { filter: grayscale(1) brightness(0.6); }
+        .mission-info h3 {
+            font-family: 'Baloo 2', sans-serif; font-weight: 800;
+            font-size: 1.1rem; margin-bottom: 2px; color: var(--forest-mid);
+        }
         .mission-info p { font-size: 0.85rem; color: var(--text-secondary); }
         .mission-status { margin-left: auto; font-size: 1.2rem; flex-shrink: 0; }
 
@@ -74,15 +102,15 @@
 <body>
     <script src="js/script.js"></script>
     <script>
-        renderTopNav('Dashboard Kosmik', false);
+        renderTopNav('Peta Hutan', false);
 
         const state = SpaceStore.get();
         const missions = [
-            { id: 'mission1', icon: '📖', title: 'Stasiun Belajar', desc: 'Tonton video & baca materi pecahan', href: 'belajar_pecahan.html' },
-            { id: 'mission2', icon: '🍕', title: 'Game Pizza Planet', desc: 'Latihan interaktif pecahan dengan pizza', href: 'game_pecahan.html' },
-            { id: 'mission3', icon: '🏆', title: 'Kuis Tantangan', desc: 'Uji kemampuanmu & raih bintang emas', href: 'kuis_tantangan.html' },
-            { id: 'mission4', icon: '🎨', title: 'Refleksi Ceria', desc: 'Ceritakan pengalamanmu hari ini', href: 'refleksi.html' },
-            { id: 'mission5', icon: '💡', title: 'Tentang Kami', desc: 'Kenalan dengan tim pengembang', href: 'about.html' },
+            { id: 'mission1', icon: '📚', title: 'Ruang Belajar',      desc: 'Tonton video & baca materi pecahan',          href: 'belajar_pecahan.html' },
+            { id: 'mission2', icon: '🍕', title: 'Latihan Soal',       desc: 'Latihan interaktif pecahan dengan pizza',      href: 'game_pecahan.html'   },
+            { id: 'mission3', icon: '🌟', title: 'Ujian Kemampuan',    desc: 'Uji kemampuanmu & raih bintang emas',          href: 'kuis_tantangan.html' },
+            { id: 'mission4', icon: '🌺', title: 'Refleksi',      desc: 'Ceritakan pengalamanmu hari ini',              href: 'refleksi.html'       },
+            { id: 'mission5', icon: '🦉', title: 'Tentang Kami',       desc: 'Kenalan dengan tim pengembang',                href: 'about.html'          },
         ];
 
         // Determine mission states
@@ -93,7 +121,6 @@
         }
 
         const maxXP = SpaceStore.getXPForLevel(state.currentLevel);
-        const xpPct = Math.round((state.totalXP / maxXP) * 100);
         const badgeSlots = ['⭐','🌟','🏅','🎖️','💎','🔥'];
 
         document.body.insertAdjacentHTML('beforeend', `
@@ -101,8 +128,9 @@
             <div class="dashboard-grid">
                 <!-- SIDEBAR -->
                 <aside class="sidebar">
-                    <div class="glass-panel profile-card">
-                        <div class="profile-avatar">👨‍🚀</div>
+                    <div class="kid-card profile-card">
+                        <div class="card-accent orange"></div>
+                        <div class="profile-avatar wiggle">🦉</div>
                         <div class="profile-name">${state.username}</div>
                         <div class="profile-class">Kelas ${state.kelas}</div>
                         <div class="rank-badge">${state.currentRank}</div>
@@ -116,29 +144,31 @@
                             <div class="stat-item"><div class="stat-val">${state.collectedBadges.length}</div><div class="stat-label">Lencana</div></div>
                         </div>
                     </div>
-                    <div class="glass-panel" style="padding:20px">
-                        <div style="font-weight:700;margin-bottom:8px;text-align:center;font-size:0.9rem">🎖️ Koleksi Lencana</div>
+                    <div class="kid-card" style="padding:20px; text-align: center;">
+                        <div class="card-accent blue"></div>
+                        <div style="font-weight:900;margin-bottom:12px;font-size:1.1rem;color:var(--forest-dark); font-family: 'Baloo 2';"><span class="bounce-emoji">🎖️</span> Koleksi Lencana</div>
                         <div class="badges-grid">
                             ${badgeSlots.map((b,i) => `<div class="badge-slot ${i < state.collectedBadges.length ? 'earned' : 'empty'}">${i < state.collectedBadges.length ? state.collectedBadges[i] : '🔒'}</div>`).join('')}
                         </div>
                     </div>
-                    <a href="profil.html" class="btn-secondary" style="text-align:center;text-decoration:none;display:block" onclick="event.preventDefault();navigasiHalaman('profil.html')">👤 Lihat Profil Lengkap</a>
+                    <a href="profil.html" class="btn-secondary" style="text-align:center;text-decoration:none;display:block" onclick="event.preventDefault();navigasiHalaman('profil.html')">🦉 Lihat Profil Lengkap</a>
                 </aside>
 
-                <!-- MISSION MAP -->
-                <section class="glass-panel mission-map-panel">
-                    <div class="map-title">🗺️ Peta Misi Belajar</div>
+                <!-- MISSION MAP (Forest Path) -->
+                <section class="kid-card mission-map-panel">
+                    <div class="card-accent green"></div>
+                    <div class="map-title" style="font-size: 2rem;"><span class="sparkle-text">🗺️ Peta Jalur Rimba</span></div>
                     <div class="mission-path">
                         ${missions.map((m, i) => {
                             const s = getMissionState(m, i);
                             const connectorClass = i > 0 ? (state.lessonProgress[missions[i-1].id] ? 'done' : '') : '';
                             const connector = i > 0 ? `<div class="mission-connector ${connectorClass}"></div>` : '';
                             return `${connector}
-                            <div class="mission-node ${s}" data-href="${m.href}" data-state="${s}" onclick="handleMissionClick(this)" style="animation: slideUp 0.6s ${i*0.15}s both">
-                                <div class="planet-icon">${m.icon}</div>
+                            <div class="mission-node ${s}" data-href="${m.href}" data-state="${s}" onclick="handleMissionClick(this)" style="animation: slideUp 0.6s ${i*0.15}s both; background: ${s === 'completed' ? 'rgba(39,174,96,0.1)' : s === 'unlocked' ? 'rgba(249,202,36,0.15)' : 'rgba(255,255,255,0.5)'}; border: 2px solid ${s === 'completed' ? 'var(--leaf-vivid)' : s === 'unlocked' ? 'var(--sunny-yellow)' : 'transparent'};">
+                                <div class="planet-icon ${s !== 'locked' ? 'bounce-emoji' : ''}">${m.icon}</div>
                                 <div class="mission-info">
-                                    <h3>${m.title}</h3>
-                                    <p>${m.desc}</p>
+                                    <h3 style="font-size: 1.25rem;">${m.title}</h3>
+                                    <p style="font-size: 0.95rem;">${m.desc}</p>
                                 </div>
                                 <div class="mission-status">${s === 'completed' ? '✅' : s === 'unlocked' ? '▶️' : '🔒'}</div>
                             </div>`;

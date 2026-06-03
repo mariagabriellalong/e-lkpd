@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - Rimba Pecahan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-wrap {
+            min-height: 100vh; display: flex;
+            align-items: center; justify-content: center;
+            background: linear-gradient(160deg, #2c3e50 0%, #34495e 100%);
+            padding: 24px;
+        }
+        .login-panel {
+            max-width: 400px; width: 100%;
+            padding: 40px; background: rgba(255,255,255,0.95);
+            border-radius: var(--radius-md); text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .login-title { font-size: 2rem; color: #2c3e50; margin-bottom: 20px; font-family: 'Baloo 2', sans-serif; }
+        .input-field { background: white; border: 1px solid #ccc; width: 100%; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 1rem; box-sizing: border-box; }
+        .btn-mulai { background: #e67e22; border: none; padding: 14px; width: 100%; color: white; font-weight: bold; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: background 0.3s; }
+        .btn-mulai:hover { background: #d35400; }
+        .error-msg { color: #e74c3c; margin-bottom: 15px; display: none; font-size: 0.9rem; }
+        .back-link { display: block; margin-top: 20px; color: #7f8c8d; text-decoration: none; font-size: 0.9rem; }
+        .back-link:hover { color: #34495e; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <main class="login-wrap">
+        <section class="login-panel">
+            <h1 class="login-title">👑 Login Admin</h1>
+            <p style="color: #7f8c8d; margin-bottom: 24px;">Silakan masukkan password untuk mengakses panel Admin.</p>
+            <div id="errorMsg" class="error-msg">Password salah! Coba lagi.</div>
+            <form id="adminForm">
+                <input type="password" id="password" class="input-field" placeholder="Password Admin" required>
+                <button type="submit" class="btn-mulai">Masuk</button>
+            </form>
+            <a href="login.html" class="back-link">⬅ Kembali ke Halaman Siswa</a>
+        </section>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.getElementById('adminForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const pw = document.getElementById('password').value;
+            // Password default admin adalah: admin123
+            if (pw === 'admin123') {
+                localStorage.setItem('isAdmin', 'true');
+                if(typeof AudioManager !== 'undefined') AudioManager.playClick();
+                navigasiHalaman('admin_feedback.html');
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+                if(typeof AudioManager !== 'undefined') AudioManager.playWrong();
+            }
+        });
+    </script>
+</body>
+</html>

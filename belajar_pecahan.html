@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Stasiun Belajar Pecahan - Materi pembelajaran pecahan interaktif untuk siswa SD.">
-    <title>Galaksi Pecahan - Stasiun Belajar</title>
+    <meta name="description" content="Gubuk Belajar Pecahan - Materi pembelajaran pecahan interaktif untuk siswa SD di hutan ajaib.">
+    <title>Rimba Pecahan - Gubuk Belajar</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .station-panel {
@@ -14,23 +14,23 @@
         }
 
         .objective-banner {
-            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(57, 255, 20, 0.05));
-            border: 1px solid rgba(0, 229, 255, 0.2);
+            background: linear-gradient(135deg, rgba(82, 183, 136, 0.15), rgba(46, 204, 113, 0.1));
+            border: 2px solid rgba(82, 183, 136, 0.3);
             border-radius: var(--radius-md);
             padding: 20px;
             margin-bottom: 24px;
         }
 
         .objective-banner h3 {
-            color: var(--plasma-cyan);
+            color: var(--forest-dark);
             font-family: 'Baloo 2';
             font-size: 1.1rem;
             margin-bottom: 6px;
         }
 
         .objective-banner p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
             line-height: 1.5;
         }
 
@@ -49,36 +49,226 @@
 
         .content-card h2 {
             font-family: 'Baloo 2';
-            font-size: 1.6rem;
-            color: var(--star-gold);
-            margin-bottom: 12px;
+            font-size: 2rem;
+            color: var(--forest-dark);
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 0px #fff, 2px 2px 0px rgba(45, 138, 78, 0.1);
         }
 
         .content-card p {
-            color: var(--text-secondary);
+            color: var(--text-primary);
             line-height: 1.7;
-            font-size: 1rem;
+            font-size: 1.05rem;
             margin-bottom: 12px;
         }
 
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
+        /* Fun custom styles for kid-friendly learning */
+        #step1 .content-card .bubble-paragraph {
+            background: linear-gradient(135deg, #ffffff, var(--cream));
+            border: 3px solid var(--forest-light);
             border-radius: var(--radius-md);
-            margin: 16px 0;
-            background: rgba(0, 0, 0, 0.4);
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(45, 138, 78, 0.08);
+            position: relative;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #1a4a2a;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        .mascot-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(249, 202, 36, 0.15), rgba(240, 147, 43, 0.1));
+            border-radius: var(--radius-md);
+            padding: 15px 24px;
+            border: 2px dashed var(--sunny-yellow);
+        }
+        
+        .mascot-avatar {
+            font-size: 3.5rem;
+            animation: breathe 3s ease-in-out infinite;
+        }
+        
+        .mascot-text {
+            font-family: 'Baloo 2';
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--forest-dark);
         }
 
-        .video-wrapper iframe {
+        #step2 .content-card {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-top: 15px;
+        }
+
+        .topic-card {
+            background: #ffffff;
+            border: 2px solid rgba(82, 183, 136, 0.15);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            box-shadow: 0 6px 16px rgba(45, 138, 78, 0.04);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .topic-card::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
+            width: 8px;
+            height: 100%;
+            background: var(--forest-light);
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(45, 138, 78, 0.12);
+            border-color: rgba(82, 183, 136, 0.35);
+        }
+        
+        .topic-card h3 {
+            font-family: 'Baloo 2';
+            font-size: 1.35rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .topic-card p {
+            margin: 0 !important;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Color variations for topic cards */
+        .topic-card.card-1::before { background: var(--honey-orange); }
+        .topic-card.card-1 { border-color: rgba(240, 147, 43, 0.15); }
+        .topic-card.card-1:hover { border-color: var(--honey-orange); }
+
+        .topic-card.card-2::before { background: var(--sky-blue); }
+        .topic-card.card-2 { border-color: rgba(116, 185, 255, 0.15); }
+        .topic-card.card-2:hover { border-color: var(--sky-blue); }
+
+        .topic-card.card-3::before { background: #6c5ce7; }
+        .topic-card.card-3 { border-color: rgba(108, 92, 231, 0.15); }
+        .topic-card.card-3:hover { border-color: #6c5ce7; }
+
+        .topic-card.card-4::before { background: #fd79a8; }
+        .topic-card.card-4 { border-color: rgba(253, 121, 168, 0.15); }
+        .topic-card.card-4:hover { border-color: #fd79a8; }
+
+        .topic-card.card-5::before { background: var(--leaf-bright); }
+        .topic-card.card-5 { border-color: rgba(46, 204, 113, 0.15); }
+        .topic-card.card-5:hover { border-color: var(--leaf-bright); }
+
+        /* ===== YouTube Thumbnail Player ===== */
+        .yt-player {
+            position: relative;
+            width: 100%;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 16px 0;
+            background: #000;
+            box-shadow: 0 8px 40px rgba(45,138,78,0.3);
+            cursor: pointer;
+            aspect-ratio: 16/9;
+        }
+
+        .yt-player img.yt-thumb {
             width: 100%;
             height: 100%;
-            border: 0;
-            border-radius: var(--radius-md);
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease, filter 0.4s ease;
+            filter: brightness(0.85);
+        }
+
+        .yt-player:hover img.yt-thumb {
+            transform: scale(1.03);
+            filter: brightness(0.7);
+        }
+
+        .yt-player .yt-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(to top, rgba(26,92,53,0.7) 0%, rgba(26,92,53,0.1) 60%);
+            transition: background 0.3s ease;
+        }
+
+        .yt-player:hover .yt-overlay {
+            background: linear-gradient(to top, rgba(26,92,53,0.85) 0%, rgba(26,92,53,0.25) 60%);
+        }
+
+        .yt-play-btn {
+            width: 72px;
+            height: 72px;
+            background: #FF0000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 6px rgba(255,0,0,0.25), 0 4px 24px rgba(45,138,78,0.4);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .yt-player:hover .yt-play-btn {
+            transform: scale(1.15);
+            box-shadow: 0 0 0 10px rgba(255,0,0,0.3), 0 6px 30px rgba(45,138,78,0.6);
+        }
+
+        .yt-play-btn svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+            margin-left: 4px;
+        }
+
+        .yt-label {
+            color: white;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            letter-spacing: 0.5px;
+        }
+
+        .yt-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255,0,0,0.9);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'Baloo 2', sans-serif;
+            letter-spacing: 1px;
         }
 
         .fraction-visual {
@@ -88,7 +278,8 @@
             gap: 20px;
             padding: 24px;
             margin: 16px 0;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(45, 138, 78, 0.2);
             border-radius: var(--radius-md);
         }
 
@@ -97,7 +288,7 @@
         }
 
         .fraction-svg-box .label {
-            color: var(--text-primary);
+            color: var(--forest-dark);
             font-family: 'Baloo 2';
             font-weight: 800;
             font-size: 1.3rem;
@@ -112,8 +303,8 @@
         }
 
         .key-point {
-            background: rgba(255, 215, 0, 0.08);
-            border-left: 4px solid var(--star-gold);
+            background: rgba(249, 202, 36, 0.15);
+            border-left: 4px solid var(--sunny-yellow);
             padding: 14px 18px;
             border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
             margin: 12px 0;
@@ -122,7 +313,7 @@
         }
 
         .astronaut-idle {
-            font-size: 4rem;
+            font-size: 4.5rem;
             text-align: center;
             animation: breathe 4s ease-in-out infinite;
             margin: 16px 0;
@@ -133,7 +324,7 @@
 <body>
     <script src="js/script.js"></script>
     <script>
-        renderTopNav('Stasiun Belajar', true, 'dashboard.html');
+        renderTopNav('Gubuk Belajar', true, 'dashboard.html');
 
         const totalSteps = 3;
         let currentStep = 1;
@@ -141,85 +332,104 @@
         document.body.insertAdjacentHTML('beforeend', `
         <main class="page-container">
             <div class="glass-panel station-panel">
-                <!-- Objective Panel (CP/TP) -->
-                <div class="objective-banner">
-                    <h3>🎯 Alur Tujuan Pembelajaran</h3>
-                    <p>- Peserta didik mampu mengenali dan menyebutkan bentuk pecahan sederhana dengan bantuan gambar visual, sehingga siswa dapat memahami hubungan antara simbol pecahan dan bentuk nyata.</p>
-                    <p>- Peserta didik mampu menentukan nilai pecahan dari suatu gambar dengan mengamati bagian yang diambil maupun yang tersisa, sehingga kemampuan berpikir numerasi siswa mulai berkembang secara bertahap.</p>
-                    <p>- Peserta didik mampu membandingkan pecahan sederhana menggunakan media visual interaktif, sehingga siswa dapat memahami mana pecahan yang lebih besar atau lebih kecil.</p>
-                    <p>- Peserta didik menunjukkan peningkatan fokus dan keaktifan dalam pembelajaran melalui penggunaan media E-LKPD interaktif yang dirancang sesuai dengan karakteristik siswa sekolah dasar.</p>
-                    </div>
                 <!-- Stepper -->
                 <div class="stepper" id="stepper"></div>
 
-                <!-- Step 1: Video -->
+                <!-- Step 1: Tujuan Pembelajaran -->
                 <div class="step-content active" id="step1">
-                    <div class="content-card">
-                        <div class="astronaut-idle">👨‍🚀</div>
-                        <h2>🎬 Apa itu Pecahan?</h2>
-                        <p>Halo, Kadet Angkasa! Sebelum kita menjelajah galaksi, yuk tonton video seru ini untuk mengenal apa itu pecahan!</p>
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/nwXZV4fLwx8" title="Video Pembelajaran Pecahan" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                    <div class="kid-card">
+                        <div class="card-accent green"></div>
+                        <h2 style="font-size: 2.4rem; margin-bottom: 24px; color: var(--forest-dark); font-family: 'Baloo 2', cursive;">🎯 Alur Tujuan Belajar Kita</h2>
+                        <div class="fun-callout green">
+                            <h3 style="font-family: 'Baloo 2'; color: var(--forest-dark); margin-bottom: 8px;"><span class="bounce-emoji">1️⃣</span> Bagian Pertama</h3>
+                            <p style="font-size: 1.1rem;">Murid dapat melakukan perbandingan dan pengurutan pecahan dengan pembilang satu dan antar pecahan dengan penyebut yang sama; mengenal dan dapat menerapkan pecahan senilai, memiliki intuisi pecahan dan desimal,serta dapat menentukan pecahan sebagai desimal dan persen.</p>
                         </div>
-                        <div class="key-point">💡 <strong>Ingat!</strong> Pecahan adalah bagian dari sesuatu yang utuh. Contohnya: jika kamu memotong pizza jadi 2 bagian sama besar, setiap bagian adalah ½ (setengah).</div>
                     </div>
                 </div>
 
-                <!-- Step 2: Visual Fractions -->
+                <!-- Step 2: YouTube Video -->
                 <div class="step-content" id="step2">
-                    <div class="content-card">
-                        <h2>🍕 Mengenal Pecahan dengan Gambar</h2>
-                        <p>Perhatikan gambar di bawah ini! Setiap gambar menunjukkan pecahan yang berbeda-beda.</p>
-
-                        <div class="fraction-visual">
-                            <div class="fraction-svg-box">
-                                <svg width="120" height="120" viewBox="0 0 120 120">
-                                    <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
-                                    <path d="M60 5 A55 55 0 0 1 60 115" fill="var(--comet-orange)" stroke="var(--star-gold)" stroke-width="2"/>
-                                    <path d="M60 115 A55 55 0 0 1 60 5" fill="rgba(255,255,255,0.1)" stroke="var(--star-gold)" stroke-width="2"/>
-                                    <line x1="60" y1="5" x2="60" y2="115" stroke="var(--star-gold)" stroke-width="2"/>
-                                </svg>
-                                <div class="label">½</div>
-                            </div>
-                            <div class="fraction-svg-box">
-                                <svg width="120" height="120" viewBox="0 0 120 120">
-                                    <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
-                                    <path d="M60 60 L60 5 A55 55 0 0 1 115 60 Z" fill="var(--plasma-cyan)" stroke="var(--star-gold)" stroke-width="2"/>
-                                    <path d="M60 60 L115 60 A55 55 0 0 1 60 115 Z" fill="rgba(255,255,255,0.08)" stroke="var(--star-gold)" stroke-width="2"/>
-                                    <path d="M60 60 L60 115 A55 55 0 0 1 5 60 Z" fill="rgba(255,255,255,0.08)" stroke="var(--star-gold)" stroke-width="2"/>
-                                    <path d="M60 60 L5 60 A55 55 0 0 1 60 5 Z" fill="rgba(255,255,255,0.08)" stroke="var(--star-gold)" stroke-width="2"/>
-                                </svg>
-                                <div class="label">¼</div>
-                            </div>
-                            <div class="fraction-svg-box">
-                                <svg width="120" height="120" viewBox="0 0 120 120">
-                                    <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
-                                    <path d="M60 60 L60 5 A55 55 0 0 1 107.5 87.5 Z" fill="var(--nova-pink)" stroke="var(--star-gold)" stroke-width="2"/>
-                                    <path d="M60 60 L107.5 87.5 A55 55 0 0 1 12.5 87.5 Z" fill="rgba(255,255,255,0.08)" stroke="var(--star-gold)" stroke-width="2"/>
-                                    <path d="M60 60 L12.5 87.5 A55 55 0 0 1 60 5 Z" fill="rgba(255,255,255,0.08)" stroke="var(--star-gold)" stroke-width="2"/>
-                                </svg>
-                                <div class="label">⅓</div>
-                            </div>
+                    <div class="kid-card">
+                        <div class="card-accent blue"></div>
+                        <div class="astronaut-idle wiggle">🦉</div>
+                        <h2 style="font-size: 2.2rem; font-family: 'Baloo 2'; color: var(--forest-dark); text-align: center; margin-bottom: 12px;"><span class="sparkle-text">🎬 Apa itu Pecahan?</span></h2>
+                        <p style="text-align:center; font-size: 1.15rem; margin-bottom:20px; color: var(--forest-mid); font-weight: bold;">Halo, Penjelajah Rimba! Sebelum kita menjelajah lebih jauh, yuk tonton video seru ini untuk mengenal apa itu pecahan!</p>
+                        <!-- YouTube Embedded Player -->
+                        <div class="yt-player">
+                            <iframe 
+                                style="width: 100%; height: 100%; border: none;"
+                                src="https://www.youtube.com/embed/nwXZV4fLwx8" 
+                                title="Video Pembelajaran Pecahan" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
                         </div>
-
-                        <div class="key-point">💡 <strong>Pembilang</strong> = bagian yang diambil (angka atas). <strong>Penyebut</strong> = total bagian keseluruhan (angka bawah).</div>
-                        <div class="key-point">🦜 <strong>Tips dari Kami:</strong> Bayangkan sebuah kue yang dipotong. Penyebut memberitahu berapa potongan, pembilang memberitahu berapa yang kamu ambil!</div>
+                        <p style="text-align:center;color:var(--sunny-yellow);font-size:1.1rem;margin-top:16px;font-weight:900; background: var(--forest-dark); padding: 8px; border-radius: 20px;">📺 Tonton video di atas langsung di halaman ini ya!</p>
                     </div>
                 </div>
 
-                <!-- Step 3: Summary -->
+                <!-- Step 3: Detailed Explanation -->
                 <div class="step-content" id="step3">
-                    <div class="content-card">
-                        <h2>📝 Rangkuman Materi</h2>
-                        <p>Hebat, Kadet! Kamu sudah belajar tentang pecahan. Yuk kita ingat kembali:</p>
+                    <div class="kid-card">
+                        <div class="card-accent orange"></div>
+                        <h2 style="font-family: 'Baloo 2'; font-size: 2.4rem; color: var(--forest-dark); text-align: center; margin-bottom: 20px;">Penjelasan Pecahan 🍰</h2>
+                        
+                        <div class="fun-callout yellow">
+                            <p style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 12px;">
+                                <strong>Pecahan</strong> adalah bilangan yang menunjukkan bagian dari sesuatu yang dibagi sama besar. Pecahan ditulis seperti ini:
+                            </p>
+                            <div style="display: flex; justify-content: center; align-items: center; gap: 20px; background: white; padding: 15px; border-radius: 12px; margin: 15px 0;">
+                                <div class="fraction-display">
+                                    <span class="numerator">Pembilang</span>
+                                    <div class="fraction-line"></div>
+                                    <span class="denominator">Penyebut</span>
+                                </div>
+                                <div style="font-size: 1.1rem; font-weight: bold; color: var(--forest-mid);">
+                                    🔢 <strong>Pembilang</strong> = bagian yang diambil<br>
+                                    🔢 <strong>Penyebut</strong> = jumlah seluruh bagian
+                                </div>
+                            </div>
+                            <div style="background: rgba(46, 204, 113, 0.2); padding: 12px; border-radius: 10px; border-left: 4px solid var(--leaf-vivid);">
+                                <strong>Contoh:</strong> 1/2 artinya 1 bagian dari 2 bagian yang sama besar!
+                            </div>
+                        </div>
 
-                        <div class="key-point">1️⃣ <strong>Pecahan</strong> menyatakan bagian dari keseluruhan.</div>
-                        <div class="key-point">2️⃣ <strong>½ (setengah)</strong> artinya 1 dari 2 bagian yang sama besar.</div>
-                        <div class="key-point">3️⃣ <strong>¼ (seperempat)</strong> artinya 1 dari 4 bagian yang sama besar.</div>
-                        <div class="key-point">4️⃣ <strong>⅓ (sepertiga)</strong> artinya 1 dari 3 bagian yang sama besar.</div>
+                        <hr class="rainbow-divider">
+                        
+                        <h2 style="font-family: 'Baloo 2'; font-size: 2rem; color: var(--forest-dark); margin-bottom: 20px;"><span class="sparkle-text">Yang akan kamu pelajari:</span></h2>
+                        
+                        <div class="topic-grid">
+                            <div class="kid-card" style="margin-bottom: 0; padding: 15px;">
+                                <div class="card-accent orange"></div>
+                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2';"><span class="bounce-emoji">🍕</span> Menentukan Pecahan dari Gambar</h3>
+                                <p style="font-size: 1.1rem;">Hitung semua bagiannya, lalu hitung bagian yang diarsir!</p>
+                            </div>
 
-                        <div class="astronaut-idle" style="font-size:5rem">🎉</div>
-                        <p style="text-align:center;color:var(--star-gold);font-weight:700;font-size:1.2rem">Materi selesai! Siap untuk Game Pizza Planet?</p>
+                            <div class="kid-card" style="margin-bottom: 0; padding: 15px;">
+                                <div class="card-accent blue"></div>
+                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2';"><span class="bounce-emoji">⚖️</span> Membandingkan Pecahan</h3>
+                                <p style="font-size: 1.1rem;">Kalau penyebutnya sama, pembilang yang lebih besar = nilainya lebih besar!<br>Contoh: <strong style="color: #e74c3c; font-size: 1.2rem;">3/4 &gt; 2/4</strong></p>
+                            </div>
+
+                            <div class="kid-card" style="margin-bottom: 0; padding: 15px;">
+                                <div class="card-accent purple"></div>
+                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2';"><span class="bounce-emoji">🟰</span> Pecahan Senilai</h3>
+                                <p style="font-size: 1.1rem;">Pecahan yang berbeda tapi nilainya sama!<br>Contoh: <strong style="color: #8e44ad; font-size: 1.2rem;">1/2 = 2/4 = 3/6</strong></p>
+                            </div>
+
+                            <div class="kid-card" style="margin-bottom: 0; padding: 15px;">
+                                <div class="card-accent pink"></div>
+                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2';"><span class="bounce-emoji">✂️</span> Menyederhanakan Pecahan</h3>
+                                <p style="font-size: 1.1rem;">Bagi pembilang dan penyebut dengan angka yang sama sampai tidak bisa dibagi lagi!</p>
+                            </div>
+
+                            <div class="kid-card" style="margin-bottom: 0; padding: 15px;">
+                                <div class="card-accent green"></div>
+                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2';"><span class="bounce-emoji">➕➖</span> Penjumlahan & Pengurangan Pecahan</h3>
+                                <p style="font-size: 1.1rem;">Kalau penyebutnya sama, tinggal jumlahkan atau kurangkan pembilangnya saja!</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -249,7 +459,7 @@
                 if (next > totalSteps) {
                     SpaceStore.completeMission('mission1');
                     SpaceStore.addXP(50);
-                    SpaceStore.addBadge('⭐');
+                    SpaceStore.addBadge('📚');
                     navigasiHalaman('dashboard.html');
                 }
                 return;
@@ -264,7 +474,7 @@
             currentStep = n;
             renderStepper();
             document.getElementById('btnPrev').style.display = n > 1 ? '' : 'none';
-            document.getElementById('btnNext').textContent = n === totalSteps ? 'Selesai & Lanjut 🚀' : 'Selanjutnya ➡';
+            document.getElementById('btnNext').textContent = n === totalSteps ? 'Selesai & Lanjut 🌿' : 'Selanjutnya ➡';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
