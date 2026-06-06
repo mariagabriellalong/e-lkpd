@@ -104,8 +104,8 @@
     <script>
         renderTopNav('Peta Hutan', false);
 
-        const state = SpaceStore.get();
-        const missions = [
+        var state = SpaceStore.get();
+        var missions = [
             { id: 'mission1', icon: '📚', title: 'Ruang Belajar',      desc: 'Tonton video & baca materi pecahan',          href: 'belajar_pecahan.html' },
             { id: 'mission2', icon: '🍕', title: 'Latihan Soal',       desc: 'Latihan interaktif pecahan dengan pizza',      href: 'game_pecahan.html'   },
             { id: 'mission3', icon: '🌟', title: 'Ujian Kemampuan',    desc: 'Uji kemampuanmu & raih bintang emas',          href: 'kuis_tantangan.html' },
@@ -120,8 +120,8 @@
             return 'locked';
         }
 
-        const maxXP = SpaceStore.getXPForLevel(state.currentLevel);
-        const badgeSlots = ['⭐','🌟','🏅','🎖️','💎','🔥'];
+        var maxXP = SpaceStore.getXPForLevel(state.currentLevel);
+        var badgeSlots = ['⭐','🌟','🏅','🎖️','💎','🔥'];
 
         document.body.insertAdjacentHTML('beforeend', `
         <main class="page-container">

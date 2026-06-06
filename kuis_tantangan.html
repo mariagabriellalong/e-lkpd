@@ -56,7 +56,7 @@
 renderTopNav('Tantangan Rimba', true, 'dashboard.html');
 
 // ================= QUIZ DATA =================
-const quizQs = [
+var quizQs = [
     {
         id:'kq1',
         q:'Perhatikan gambar martabak manis berikut!<br><br>Bayangkan kamu membeli sebuah martabak manis berbentuk lingkaran seperti pada deskripsi gambar di atas. Martabak tersebut sudah dipotong menjadi 6 bagian yang sama besar. Kamu lalu memberikan 4 bagian yang berwarna kuning kepada teman-temanmu.<br><br>Berapakah nilai pecahan untuk bagian martabak yang berwarna kuning tersebut?',
@@ -112,7 +112,7 @@ function renderVisualQuiz(q) {
 }
 
 // ================= QUIZ =================
-let qi = 0,
+var qi = 0,
     qScore = 0,
     qCorrect = 0;
 

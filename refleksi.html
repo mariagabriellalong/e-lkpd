@@ -33,8 +33,8 @@
     <script src="js/script.js"></script>
     <script>
         renderTopNav('Catatan Hutan', true, 'dashboard.html');
-        const s = SpaceStore.get();
-        let selectedMood = '';
+        var s = SpaceStore.get();
+        var selectedMood = '';
 
         document.body.insertAdjacentHTML('beforeend', `
         <main class="page-container">

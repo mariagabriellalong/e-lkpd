@@ -42,9 +42,9 @@
     <script src="js/script.js"></script>
     <script>
         renderTopNav('Profil Penjelajah', true, 'dashboard.html');
-        const s = SpaceStore.get();
-        const maxXP = SpaceStore.getXPForLevel(s.currentLevel);
-        const accuracy = s.totalAnswered > 0 ? Math.round((s.totalCorrect/s.totalAnswered)*100) : 0;
+        var s = SpaceStore.get();
+        var maxXP = SpaceStore.getXPForLevel(s.currentLevel);
+        var accuracy = s.totalAnswered > 0 ? Math.round((s.totalCorrect/s.totalAnswered)*100) : 0;
 
         document.body.insertAdjacentHTML('beforeend', `
         <main class="page-container">
