@@ -390,6 +390,17 @@ function navigasiHalaman(url) {
       const doc = parser.parseFromString(text, 'text/html');
       
       document.title = doc.title;
+      
+      // Hapus style khusus halaman sebelumnya
+      document.head.querySelectorAll('style').forEach(s => s.remove());
+      
+      // Tambahkan style khusus halaman yang baru
+      doc.head.querySelectorAll('style').forEach(s => {
+          const newStyle = document.createElement('style');
+          newStyle.textContent = s.textContent;
+          document.head.appendChild(newStyle);
+      });
+      
       document.body.innerHTML = doc.body.innerHTML;
       
       // Re-run inline scripts from the new page
