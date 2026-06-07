@@ -160,27 +160,6 @@
             line-height: 1.6;
         }
 
-        /* Color variations for topic cards */
-        .topic-card.card-1::before { background: var(--honey-orange); }
-        .topic-card.card-1 { border-color: rgba(240, 147, 43, 0.15); }
-        .topic-card.card-1:hover { border-color: var(--honey-orange); }
-
-        .topic-card.card-2::before { background: var(--sky-blue); }
-        .topic-card.card-2 { border-color: rgba(116, 185, 255, 0.15); }
-        .topic-card.card-2:hover { border-color: var(--sky-blue); }
-
-        .topic-card.card-3::before { background: #6c5ce7; }
-        .topic-card.card-3 { border-color: rgba(108, 92, 231, 0.15); }
-        .topic-card.card-3:hover { border-color: #6c5ce7; }
-
-        .topic-card.card-4::before { background: #fd79a8; }
-        .topic-card.card-4 { border-color: rgba(253, 121, 168, 0.15); }
-        .topic-card.card-4:hover { border-color: #fd79a8; }
-
-        .topic-card.card-5::before { background: var(--leaf-bright); }
-        .topic-card.card-5 { border-color: rgba(46, 204, 113, 0.15); }
-        .topic-card.card-5:hover { border-color: var(--leaf-bright); }
-
         /* ===== YouTube Thumbnail Player ===== */
         .yt-player {
             position: relative;
@@ -248,68 +227,11 @@
             margin-left: 4px;
         }
 
-        .yt-label {
-            color: white;
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 700;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-            letter-spacing: 0.5px;
-        }
-
-        .yt-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(255,0,0,0.9);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-family: 'Baloo 2', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        .fraction-visual {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            padding: 24px;
-            margin: 16px 0;
-            background: rgba(255, 255, 255, 0.6);
-            border: 2px solid rgba(45, 138, 78, 0.2);
-            border-radius: var(--radius-md);
-        }
-
-        .fraction-svg-box {
-            text-align: center;
-        }
-
-        .fraction-svg-box .label {
-            color: var(--forest-dark);
-            font-family: 'Baloo 2';
-            font-weight: 800;
-            font-size: 1.3rem;
-            margin-top: 8px;
-        }
-
         .step-nav {
             display: flex;
             justify-content: space-between;
             margin-top: 24px;
             gap: 12px;
-        }
-
-        .key-point {
-            background: rgba(249, 202, 36, 0.15);
-            border-left: 4px solid var(--sunny-yellow);
-            padding: 14px 18px;
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-            margin: 12px 0;
-            color: var(--text-primary);
-            font-size: 0.95rem;
         }
 
         .astronaut-idle {
@@ -326,34 +248,33 @@
     <script>
         renderTopNav('Gubuk Belajar', true, 'dashboard.html');
 
-        var totalSteps = 3;
+        var totalSteps = 4; // Diubah dari 3 ke 4 untuk halaman kesimpulan
         var currentStep = 1;
 
         document.body.insertAdjacentHTML('beforeend', `
         <main class="page-container">
             <div class="glass-panel station-panel">
-                <!-- Stepper -->
                 <div class="stepper" id="stepper"></div>
 
-                <!-- Step 1: Tujuan Pembelajaran -->
                 <div class="step-content active" id="step1">
                     <div class="kid-card">
                         <div class="card-accent green"></div>
-                        <h2 style="font-size: 2.4rem; margin-bottom: 24px; color: var(--forest-dark); font-family: 'Baloo 2', cursive;">🎯 Alur Tujuan Belajar Kita</h2>
+                        <h2 style="font-size: 2.4rem; margin-bottom: 24px; color: var(--forest-dark); font-family: 'Baloo 2', cursive;"> Alur Tujuan Pembelajaran</h2>
                         <div class="fun-callout green">
-                            <p style="font-size: 1.1rem;">Murid dapat melakukan perbandingan dan pengurutan pecahan dengan pembilang satu dan antar pecahan dengan penyebut yang sama; mengenal dan dapat menerapkan pecahan senilai, memiliki intuisi pecahan dan desimal,serta dapat menentukan pecahan sebagai desimal dan persen.</p>
+                            <p style="font-size: 1.1rem;">• Murid dapat menunjukkan pemahaman pecahan sebagai konteks membagi sebuah benda.</p>
+                        </div>
+                        <div class="fun-callout red">
+                            <p style="font-size: 1.1rem;">• Murid dapat melakukan perbandingan dan pengurutan pecahan dengan  pembilang satu dan antar pecahan dengan penyebut yang sama.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 2: YouTube Video -->
                 <div class="step-content" id="step2">
                     <div class="kid-card">
                         <div class="card-accent blue"></div>
                         <div class="astronaut-idle wiggle">🦉</div>
                         <h2 style="font-size: 2.2rem; font-family: 'Baloo 2'; color: var(--forest-dark); text-align: center; margin-bottom: 12px;"><span class="sparkle-text">🎬 Apa itu Pecahan?</span></h2>
                         <p style="text-align:center; font-size: 1.15rem; margin-bottom:20px; color: var(--forest-mid); font-weight: bold;">Halo, Penjelajah Rimba! Sebelum kita menjelajah lebih jauh, yuk tonton video seru ini untuk mengenal apa itu pecahan!</p>
-                        <!-- YouTube Embedded Player -->
                         <div class="yt-player">
                             <iframe 
                                 style="width: 100%; height: 100%; border: none;"
@@ -368,71 +289,111 @@
                     </div>
                 </div>
 
-                <!-- Step 3: Detailed Explanation -->
                 <div class="step-content" id="step3">
                     <div class="kid-card">
                         <div class="card-accent orange"></div>
                         <h2 style="font-family: 'Baloo 2'; font-size: 2.4rem; color: var(--forest-dark); text-align: center; margin-bottom: 20px;">Penjelasan Pecahan 🍰</h2>
                         
                         <div class="fun-callout yellow">
+                            <h3 style="color:var(--forest-dark); font-family:'Baloo 2'; font-size: 1.4rem; margin-bottom: 8px;">1. Pecahan</h3>
                             <p style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 12px;">
-                                <strong>Pecahan</strong> adalah bilangan yang menunjukkan bagian dari sesuatu yang dibagi sama besar. Pecahan ditulis seperti ini:
+                                Pecahan adalah bilangan yang digunakan untuk menyatakan bagian dari suatu keseluruhan. Pecahan menunjukkan bahwa suatu benda atau kumpulan benda dibagi menjadi beberapa bagian yang sama besar. Pecahan ditulis dalam bentuk:
                             </p>
                             <div style="display: flex; justify-content: center; align-items: center; gap: 20px; background: white; padding: 15px; border-radius: 12px; margin: 15px 0;">
                                 <div class="fraction-display">
-                                    <span class="numerator">Pembilang</span>
-                                    <div class="fraction-line"></div>
-                                    <span class="denominator">Penyebut</span>
+                                    <span class="numerator" style="font-size: 1.5rem; font-weight: 900;">a</span>
+                                    <div class="fraction-line" style="border-bottom: 3px solid var(--forest-dark); width: 100%;"></div>
+                                    <span class="denominator" style="font-size: 1.5rem; font-weight: 900;">b</span>
                                 </div>
                                 <div style="font-size: 1.1rem; font-weight: bold; color: var(--forest-mid);">
-                                    🔢 <strong>Pembilang</strong> = bagian yang diambil<br>
-                                    🔢 <strong>Penyebut</strong> = jumlah seluruh bagian
+                                    <strong>Keterangan:</strong><br>
+                                    🔢 <strong>a disebut pembilang</strong>, yaitu angka yang menunjukkan banyaknya bagian yang diambil atau diperhatikan.<br>
+                                    🔢 <strong>b disebut penyebut</strong>, yaitu angka yang menunjukkan jumlah seluruh bagian yang sama besar.
                                 </div>
                             </div>
-                            <div style="background: rgba(46, 204, 113, 0.2); padding: 12px; border-radius: 10px; border-left: 4px solid var(--leaf-vivid);">
-                                <strong>Contoh:</strong> 1/2 artinya 1 bagian dari 2 bagian yang sama besar!
+                            <div style="background: rgba(46, 204, 113, 0.2); padding: 12px; border-radius: 10px; border-left: 4px solid var(--leaf-vivid); font-size: 1.1rem;">
+                                <strong>Contoh:</strong> ¾ <br>
+                                Pada pecahan tersebut:<br>
+                                • Angka 3 adalah pembilang<br>
+                                • Angka 4 adalah penyebut
                             </div>
                         </div>
 
                         <hr class="rainbow-divider">
                         
-                        <h2 style="font-family: 'Baloo 2'; font-size: 2rem; color: var(--forest-dark); margin-bottom: 20px;"><span class="sparkle-text">Yang akan kamu pelajari:</span></h2>
-                        
                         <div class="topic-grid">
-                            <div class="kid-card" style="margin-bottom: 0; padding: 15px;">
-                                <div class="card-accent orange"></div>
-                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2';"><span class="bounce-emoji">🍕</span> Menentukan Pecahan dari Gambar</h3>
-                                <p style="font-size: 1.1rem;">Hitung semua bagiannya, lalu hitung bagian yang diarsir!</p>
-                            </div>
-
-                            <div class="kid-card" style="margin-bottom: 0; padding: 15px;">
+                            <div class="kid-card" style="margin-bottom: 0; padding: 20px;">
                                 <div class="card-accent blue"></div>
-                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2';"><span class="bounce-emoji">⚖️</span> Membandingkan Pecahan</h3>
-                                <p style="font-size: 1.1rem;">Kalau penyebutnya sama, pembilang yang lebih besar = nilainya lebih besar!<br>Contoh: <strong style="color: #e74c3c; font-size: 1.2rem;">3/4 &gt; 2/4</strong></p>
+                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2'; font-size: 1.4rem; margin-bottom: 10px;"><span class="bounce-emoji">⚖️</span> 2. Membandingkan Pecahan</h3>
+                                <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 12px;">
+                                    Membandingkan pecahan adalah proses menentukan hubungan nilai antara dua pecahan pecahan atau lebih untuk mengetahui pecahan mana yang nilainya lebih besar (>), lebih kecil (<) atau sama besar (=). Proses ini dilakukan dengan melihat porsi atau ukuran bagian dari keseluruhan yang diwakili oleh pecahan-pecahan tersebut.
+                                </p>
+                                <div style="background: rgba(116, 185, 255, 0.2); padding: 12px; border-radius: 10px; border-left: 4px solid var(--sky-blue); font-size: 1.1rem;">
+                                    <strong>Contoh:</strong> ½ > ¼ <br>
+                                    Artinya, satu per dua lebih besar daripada satu per empat karena satu benda yang dibagi menjadi 2 bagian menghasilkan potongan yang lebih besar dibandingkan jika dibagi menjadi 4 bagian.
+                                </div>
                             </div>
 
-                            <div class="kid-card" style="margin-bottom: 0; padding: 15px;">
+                            <div class="kid-card" style="margin-bottom: 0; padding: 20px;">
                                 <div class="card-accent purple"></div>
-                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2';"><span class="bounce-emoji">🟰</span> Pecahan Senilai</h3>
-                                <p style="font-size: 1.1rem;">Pecahan yang berbeda tapi nilainya sama!<br>Contoh: <strong style="color: #8e44ad; font-size: 1.2rem;">1/2 = 2/4 = 3/6</strong></p>
-                            </div>
-
-                            <div class="kid-card" style="margin-bottom: 0; padding: 15px;">
-                                <div class="card-accent pink"></div>
-                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2';"><span class="bounce-emoji">✂️</span> Menyederhanakan Pecahan</h3>
-                                <p style="font-size: 1.1rem;">Bagi pembilang dan penyebut dengan angka yang sama sampai tidak bisa dibagi lagi!</p>
-                            </div>
-
-                            <div class="kid-card" style="margin-bottom: 0; padding: 15px;">
-                                <div class="card-accent green"></div>
-                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2';"><span class="bounce-emoji">➕➖</span> Penjumlahan & Pengurangan Pecahan</h3>
-                                <p style="font-size: 1.1rem;">Kalau penyebutnya sama, tinggal jumlahkan atau kurangkan pembilangnya saja!</p>
+                                <h3 style="color:var(--forest-dark); font-family:'Baloo 2'; font-size: 1.4rem; margin-bottom: 10px;"><span class="bounce-emoji">📊</span> 3. Mengurutkan Pecahan</h3>
+                                <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 12px;">
+                                    Mengurutkan pecahan adalah proses menyusun tiga pecahan atau lebih secara berurutan berdasarkan nilainya. Penyusunan ini dapat dilakukan dengan dua cara:
+                                </p>
+                                <ul style="font-size: 1.1rem; line-height: 1.6; margin-left: 20px; color: var(--forest-dark);">
+                                    <li style="margin-bottom: 8px;"><strong>Urutan Naik (Ascending):</strong> Menyusun pecahan mulai dari nilai yang paling kecil ke paling besar.</li>
+                                    <li><strong>Urutan Turun (Descending):</strong> Menyusun pecahan mulai dari nilai yang paling besar ke paling kecil.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step Navigation -->
+                <div class="step-content" id="step4">
+                    <div class="kid-card">
+                        <div class="card-accent green"></div>
+                        <h2 style="font-family: 'Baloo 2'; font-size: 2.4rem; color: var(--forest-dark); text-align: center; margin-bottom: 20px;">Kesimpulan Belajar Kita 🎉</h2>
+                        
+                        <div class="fun-callout green" style="margin-bottom: 16px;">
+                            <h3 style="color:var(--forest-dark); font-family:'Baloo 2'; font-size: 1.3rem; margin-bottom: 8px;">🍰 1. Apa itu Pecahan?</h3>
+                            <p style="font-size: 1.1rem; line-height: 1.6; color: var(--forest-dark);">
+                                <strong>Pecahan</strong> adalah bilangan yang menyatakan sebagian dari keseluruhan. Pecahan terdiri atas pembilang dan penyebut. Pembilang menunjukkan banyak bagian yang diambil, sedangkan penyebut menunjukkan jumlah seluruh bagian yang sama besar.
+                            </p>
+                        </div>
+
+                        <div class="fun-callout blue" style="margin-bottom: 16px;">
+                            <h3 style="color:var(--forest-dark); font-family:'Baloo 2'; font-size: 1.3rem; margin-bottom: 8px;">⚖️ 2. Membandingkan Pecahan</h3>
+                            <p style="font-size: 1.1rem; line-height: 1.6; color: var(--forest-dark);">
+                                Membandingkan pecahan dilakukan untuk mengetahui pecahan yang lebih besar, lebih kecil, atau sama besar. 
+                                <br><br>
+                                • Pada pecahan dengan <strong>pembilang satu</strong>: semakin <em>kecil</em> penyebutnya, maka semakin <strong>besar</strong> nilai pecahannya.<br>
+                                • Pada pecahan dengan <strong>penyebut yang sama</strong>: semakin <em>besar</em> pembilangnya, maka semakin <strong>besar</strong> nilai pecahannya.
+                            </p>
+                        </div>
+
+                        <div class="fun-callout purple" style="margin-bottom: 20px;">
+                            <h3 style="color:var(--forest-dark); font-family:'Baloo 2'; font-size: 1.3rem; margin-bottom: 8px;">📊 3. Mengurutkan Pecahan</h3>
+                            <p style="font-size: 1.1rem; line-height: 1.6; color: var(--forest-dark); margin-bottom: 12px;">
+                                Mengurutkan pecahan adalah menyusun beberapa pecahan berdasarkan nilainya.
+                            </p>
+                            
+                            <div style="background: rgba(255, 255, 255, 0.7); padding: 15px; border-radius: 10px; border-left: 4px solid #9b59b6; font-size: 1.1rem;">
+                                <strong>Contoh:</strong> 2/7, 5/7, 3/7 <br><br>
+                                Urutan dari yang terkecil ke terbesar adalah:<br>
+                                <strong style="color: var(--forest-dark); font-size: 1.3rem;">2/7, 3/7, 5/7</strong> <br><br>
+                                <em>💡 Ingat: Karena penyebutnya sama, semakin besar pembilangnya, semakin besar pula nilai pecahannya!</em>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(82, 183, 136, 0.3);">
+                            <div style="font-size: 3rem; margin-bottom: 10px; animation: bounce 2s infinite;">🌟</div>
+                            <p style="font-size: 1.2rem; font-weight: bold; color: var(--forest-dark);">
+                                Tetap semangat berlatihnya ya! Semakin sering berlatih, kamu pasti akan semakin jago! 🦉✨
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="step-nav">
                     <button class="btn-secondary" id="btnPrev" style="display:none" onclick="changeStep(-1)">⬅ Sebelumnya</button>
                     <div style="flex:1"></div>
@@ -457,7 +418,6 @@
             if (next < 1 || next > totalSteps) {
                 if (next > totalSteps) {
                     SpaceStore.completeMission('mission1');
-                    SpaceStore.addXP(50);
                     SpaceStore.addBadge('📚');
                     navigasiHalaman('dashboard.html');
                 }

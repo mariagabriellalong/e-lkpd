@@ -50,6 +50,14 @@
 
         .guide-box { background: rgba(240,147,43,0.1); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 24px; border: 1px solid rgba(240,147,43,0.3); }
         
+        .feedback-badge {
+            display: inline-block; padding: 6px 14px; border-radius: 20px;
+            font-family: 'Baloo 2'; font-weight: 800; font-size: 1rem;
+            margin-top: 10px; animation: fadeIn 0.3s ease;
+        }
+        .feedback-badge.correct { background: rgba(39,174,96,0.15); color: var(--leaf-vivid); border: 2px solid var(--leaf-vivid); }
+        .feedback-badge.wrong { background: rgba(231,76,60,0.12); color: #e74c3c; border: 2px solid #e74c3c; }
+
         @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -64,12 +72,10 @@
             <h1 style="font-family:'Baloo 2'; color:var(--forest-dark); text-align:center; margin-bottom:20px;">Latihan Pecahan Interaktif</h1>
             
             <div class="question-list">
-                <!-- CONTOH SOAL -->
                 <div class="guide-box fun-callout yellow">
                     <strong style="color:var(--honey-orange); font-size:1.2rem;"><span class="bounce-emoji">💡</span> Panduan Mengerjakan:</strong><br>
                     Perhatikan visualisasi gambar pada setiap soal, baca pertanyaannya dengan teliti, dan klik salah satu pilihan jawaban (A, B, C, atau D). Setelah menjawab, kamu dapat melihat penjelasan lengkapnya!
                 </div>  
-                <!-- LATIHAN SOAL -->
                 <h2 style="font-family:'Baloo 2'; color:var(--forest-dark); margin-top:24px; border-bottom:3px solid var(--leaf-vivid); padding-bottom:8px; margin-bottom: 24px;"><span class="wiggle">✨</span> Ayo Berlatih!</h2>
         
                 
@@ -87,14 +93,11 @@
                     </div>
                     <div class="explanation">
                         <strong>Penjelasan:</strong> Jumlah seluruh bagian brownies ada 4 bagian (taruh angka 4 di bawah sebagai penyebut).
-
-Jumlah bagian brownies yang diberi topping coklat ada 3 bagian (taruh angka 3 di atas sebagai pembilang).
-
-Maka, pecahan brownies yang diberi topping coklat adalah 3/4.
+                        Jumlah bagian brownies yang diberi topping coklat ada 3 bagian (taruh angka 3 di atas sebagai pembilang).
+                        Maka, pecahan brownies yang diberi topping coklat adalah 3/4.
                     </div>
                 </div>
                 
-                <!-- CONTINUATION -->
                 <div class="kid-card">
                     <div class="q-title">Soal 2</div>
                     <div class="q-text">Ibu memotong semangka menjadi 8 bagian. Jika 2 bagian sudah dimakan, maka berapakah pecahan semangka yang dimakan?</div>
@@ -145,11 +148,10 @@ Maka, pecahan brownies yang diberi topping coklat adalah 3/4.
                         <strong>Penjelasan Cara Mengerjakan:</strong><br>
                         • Pertama, hitung seluruh kotak potongan dalam lingkaran tersebut. Jika dihitung, totalnya ada 8 kotak (ini menjadi Penyebut atau angka di bawah). <br>
                         • Kedua, hitung berapa kotak yang diberi warna hijau (diarsir). Jika dihitung, ada 2 kotak hijau (ini menjadi Pembilang atau angka di atas). <br>
-                        Gabungkan keduanya: angka 2 di atas dan angka 8 di bawah, ditulis menjadi 2/8.
+                        Gabungkan keduanya: angka 2 di atas and angka 8 di bawah, ditulis menjadi 2/8.
                     </div>
                 </div>
                 
-                <!-- CONTINUATION -->
                 <div class="kid-card">
                     <div class="q-title">Soal 5</div>
                     <div class="q-text">Fajar, Roni, dan Siska masing-masing mendapatkan satu batang cokelat yang ukurannya sama persis dari ibu. Cokelat mereka masing-masing sudah dibagi menjadi 10 kotak kecil.<br>Fajar memakan 7/10 bagian cokelatnya.<br>Roni memakan 5/10 bagian cokelatnya.<br>Siska memakan 8/10 bagian cokelatnya.<br>Jika kita melihat bagian yang mereka makan, siapakah anak yang memakan bagian cokelat paling banyak atau paling rakus?</div>
@@ -194,51 +196,93 @@ Maka, pecahan brownies yang diberi topping coklat adalah 3/4.
     </main>
 
     <script>
+        // ===== SISTEM LOGIKA JAWABAN & BINTANG =====
+        var totalSoal = 6;      
+        var maxBintang = 5;     
+        var bintangSaat = maxBintang; // Mulai dari 5 bintang, berkurang kalau salah
+        var soalDijawab = 0;
+        var jawabanBenar = 0;
 
         function cekJawaban(btnElement, isCorrect) {
             const grid = btnElement.closest('.options-grid');
             const buttons = grid.querySelectorAll('.opt-btn');
-            
-            // Disable all buttons in this grid
+            const card = btnElement.closest('.kid-card');
+
+            // Disable semua tombol di grid ini biar ga bisa klik dua kali
             buttons.forEach(btn => btn.disabled = true);
-            
+
+            soalDijawab++;
+
+            // Hapus badge feedback lama jika ada
+            const oldBadge = card.querySelector('.feedback-badge');
+            if (oldBadge) oldBadge.remove();
+
+            const feedbackEl = document.createElement('div');
+
             if (isCorrect) {
                 btnElement.classList.add('correct');
                 btnElement.innerHTML += ' <span style="font-size:1.3rem;">✓</span>';
-                if (typeof AudioManager !== 'undefined' && typeof AudioManager.playCorrect === 'function') {
-                    AudioManager.playCorrect();
-                }
+                jawabanBenar++;
+                feedbackEl.className = 'feedback-badge correct';
+                feedbackEl.textContent = '⭐ Benar! Jawabanmu hebat!';
+                if (typeof AudioManager !== 'undefined') AudioManager.playCorrect();
             } else {
                 btnElement.classList.add('wrong');
                 btnElement.innerHTML += ' <span style="font-size:1.3rem;">✗</span>';
-                if (typeof AudioManager !== 'undefined' && typeof AudioManager.playWrong === 'function') {
-                    AudioManager.playWrong();
+                
+                // Kurangi bintang di background logic
+                if (bintangSaat > 0) {
+                    bintangSaat--;
                 }
+                feedbackEl.className = 'feedback-badge wrong';
+                feedbackEl.textContent = '❌ Kurang tepat! Ayo pelajari penjelasannya!';
+                if (typeof AudioManager !== 'undefined') AudioManager.playWrong();
             }
-            
-            // Show explanation
-            const explanation = btnElement.closest('.kid-card').querySelector('.explanation');
+
+            // Tampilkan penjelasannya langsung di bawah soal
+            const explanation = card.querySelector('.explanation');
             if (explanation) {
                 explanation.classList.add('show');
+                explanation.insertAdjacentElement('beforebegin', feedbackEl);
+            } else {
+                grid.insertAdjacentElement('afterend', feedbackEl);
             }
         }
 
         function selesaiGame() {
-            if (typeof AudioManager !== 'undefined' && typeof AudioManager.playClick === 'function') {
-                AudioManager.playClick();
-            }
+            if (typeof AudioManager !== 'undefined') AudioManager.playClick();
+
+            // Simpan kemajuan misi
             if (typeof SpaceStore !== 'undefined') {
                 SpaceStore.completeMission('mission2');
-                SpaceStore.addXP(100);
                 SpaceStore.addBadge('🍕');
             }
-            
-            // Tampilkan perayaan kecil lalu pindah
-            if (typeof showCelebration === 'function') {
-                showCelebration(100, () => { navigasiHalaman('dashboard.html'); });
-            } else {
-                navigasiHalaman('dashboard.html');
+
+            // BINTANG BARU DI-RENDER DAN MUNCUL DI OVERLAY HASIL AKHIR INI
+            const overlay = document.createElement('div');
+            overlay.className = 'celebration-overlay active';
+            let starsHtml = '';
+            for (let i = 0; i < maxBintang; i++) {
+                starsHtml += `<span style="font-size:2.5rem; margin:0 4px; display:inline-block; filter: drop-shadow(0 0 6px rgba(249,202,36,0.6));">${i < bintangSaat ? '⭐' : '☆'}</span>`;
             }
+            
+            overlay.innerHTML = `
+                <div style="font-size:3.5rem;margin-bottom:8px; animation: fadeIn 0.5s ease;">🎉</div>
+                <div style="font-family:'Baloo 2',sans-serif;font-size:1.6rem;color:#fff;margin:6px 0;font-weight:800;">Latihan Selesai!</div>
+                <div style="display:flex;gap:4px;justify-content:center;margin:18px 0;flex-wrap:wrap;">${starsHtml}</div>
+                <div style="color:rgba(255,255,255,0.9);font-family:'Baloo 2';font-size:1.2rem;margin-bottom:6px;">
+                    Bintang yang Didapat: <strong>${bintangSaat} / ${maxBintang}</strong>
+                </div>
+                <div style="color:rgba(255,255,255,0.75);font-size:1rem;margin-bottom:20px;">
+                    Benar: ${jawabanBenar} dari ${totalSoal} soal
+                </div>
+                <button class="btn-gold" id="celebClose" style="padding:10px 24px; font-weight:bold; cursor:pointer;">Kembali ke Menu 🗺️</button>
+            `;
+            document.body.appendChild(overlay);
+            document.getElementById('celebClose').addEventListener('click', () => {
+                overlay.remove();
+                navigasiHalaman('dashboard.html');
+            });
         }
     </script>
 </body>

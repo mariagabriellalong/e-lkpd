@@ -30,13 +30,6 @@
             color: white; font-weight: 800; font-size: 0.8rem;
             text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px;
         }
-        .stats-row { display: flex; justify-content: center; gap: 16px; margin-top: 10px; }
-        .stat-item { text-align: center; }
-        .stat-val {
-            font-family: 'Baloo 2', sans-serif; font-size: 1.3rem; font-weight: 800;
-            color: var(--forest-mid);
-        }
-        .stat-label { font-size: 0.75rem; color: var(--text-secondary); }
 
         /* Badges section */
         .badges-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 10px 0; }
@@ -120,13 +113,11 @@
             return 'locked';
         }
 
-        var maxXP = SpaceStore.getXPForLevel(state.currentLevel);
         var badgeSlots = ['⭐','🌟','🏅','🎖️','💎','🔥'];
 
         document.body.insertAdjacentHTML('beforeend', `
         <main class="page-container">
             <div class="dashboard-grid">
-                <!-- SIDEBAR -->
                 <aside class="sidebar">
                     <div class="kid-card profile-card">
                         <div class="card-accent orange"></div>
@@ -134,15 +125,6 @@
                         <div class="profile-name">${state.username}</div>
                         <div class="profile-class">Kelas ${state.kelas}</div>
                         <div class="rank-badge">${state.currentRank}</div>
-                        <div id="xpBarDash"></div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px">
-                            Level ${state.currentLevel} — ${state.totalXP}/${maxXP} XP
-                        </div>
-                        <div class="stats-row">
-                            <div class="stat-item"><div class="stat-val">${state.totalCorrect}</div><div class="stat-label">Benar</div></div>
-                            <div class="stat-item"><div class="stat-val">${state.totalAnswered}</div><div class="stat-label">Dijawab</div></div>
-                            <div class="stat-item"><div class="stat-val">${state.collectedBadges.length}</div><div class="stat-label">Lencana</div></div>
-                        </div>
                     </div>
                     <div class="kid-card" style="padding:20px; text-align: center;">
                         <div class="card-accent blue"></div>
@@ -154,7 +136,6 @@
                     <a href="profil.html" class="btn-secondary" style="text-align:center;text-decoration:none;display:block" onclick="event.preventDefault();navigasiHalaman('profil.html')">🦉 Lihat Profil Lengkap</a>
                 </aside>
 
-                <!-- MISSION MAP (Forest Path) -->
                 <section class="kid-card mission-map-panel">
                     <div class="card-accent green"></div>
                     <div class="map-title" style="font-size: 2rem;"><span class="sparkle-text">🗺️ Peta Jalur Rimba</span></div>
@@ -177,8 +158,6 @@
                 </section>
             </div>
         </main>`);
-
-        renderXPBar('xpBarDash', state.totalXP, maxXP);
 
         function handleMissionClick(el) {
             const s = el.dataset.state;

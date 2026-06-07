@@ -80,8 +80,23 @@
             AudioManager.playCorrect();
             document.getElementById('reflText').value = '';
             document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+            selectedMood = '';
             renderPastReflections();
-            showCelebration(SpaceStore.get('totalXP'), () => navigasiHalaman('dashboard.html'));
+
+            // Tampilkan pesan sukses tanpa XP
+            const overlay = document.createElement('div');
+            overlay.className = 'celebration-overlay active';
+            overlay.innerHTML = `
+                <div style="font-size:4rem;margin-bottom:10px;">🌺</div>
+                <div style="font-family:'Baloo 2',sans-serif;font-size:1.8rem;color:#fff;font-weight:800;margin-bottom:8px;">Catatan Tersimpan!</div>
+                <div style="color:rgba(255,255,255,0.85);font-size:1.1rem;margin-bottom:24px;">Terima kasih sudah berbagi ceritamu hari ini 😊</div>
+                <button class="btn-gold" id="reflClose">Kembali ke Peta Rimba 🗺️</button>
+            `;
+            document.body.appendChild(overlay);
+            document.getElementById('reflClose').addEventListener('click', () => {
+                overlay.remove();
+                navigasiHalaman('dashboard.html');
+            });
         }
 
         function renderPastReflections() {

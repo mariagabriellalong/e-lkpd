@@ -31,15 +31,15 @@
         .quiz-fb { text-align: center; font-weight: 700; font-size: 1.15rem; min-height: 28px; margin-top: 10px; }
         .result-panel { text-align: center; animation: zoomIn 0.6s ease; }
         .result-emoji { font-size: 5rem; margin-bottom: 12px; }
-        .result-score { font-family: 'Baloo 2'; font-size: 2.8rem; font-weight: 900;
-            color: var(--sunny-yellow); text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .result-stars { display: flex; justify-content: center; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
+        .result-star { font-size: 2.8rem; transition: transform 0.3s ease; }
+        .result-star.earned { filter: drop-shadow(0 0 8px rgba(249,202,36,0.9)); }
+        .result-star.empty { filter: grayscale(1) brightness(0.45); }
         .result-detail { color: var(--text-secondary); margin: 10px 0 24px; font-size: 1.15rem; }
-        
-        /* RESPONSIVE DESIGN - Make mobile look like desktop but scaled */
+
+        /* RESPONSIVE DESIGN */
         @media(max-width:500px) { 
-            /* Keep 2 columns on mobile to match desktop layout */
             .quiz-opts { grid-template-columns: repeat(2,1fr); gap: 12px; } 
-            /* Prevent fonts from being too big on mobile */
             .qopt { font-size: 1.15rem; padding: 14px; } 
             .quiz-q { font-size: 1.1rem; padding: 16px; } 
             .quiz-stat { font-size: 1rem; padding: 6px 12px; }
@@ -48,324 +48,253 @@
 </head>
 <body>
     <script src="js/script.js"></script>
-    <!-- SOUND APRESIASI -->
-<audio id="horeSound" src="sound/hore.mp3"></audio>
-<audio id="clapSound" src="sound/clap.mp3"></audio>
-<script>
+    <audio id="horeSound" src="sound/hore.mp3"></audio>
+    <audio id="clapSound" src="sound/clap.mp3"></audio>
+    <script>
 
-renderTopNav('Tantangan Rimba', true, 'dashboard.html');
+    renderTopNav('Tantangan Rimba', true, 'dashboard.html');
 
-// ================= QUIZ DATA =================
-var quizQs = [
-    {
-        id:'kq1',
-        q:'Perhatikan gambar martabak manis berikut!<br><br>Bayangkan kamu membeli sebuah martabak manis berbentuk lingkaran seperti pada deskripsi gambar di atas. Martabak tersebut sudah dipotong menjadi 6 bagian yang sama besar. Kamu lalu memberikan 4 bagian yang berwarna kuning kepada teman-temanmu.<br><br>Berapakah nilai pecahan untuk bagian martabak yang berwarna kuning tersebut?',
-        img:'game1.png',
-        opts:['2/6','4/6','5/6','6/6'],
-        correct:'4/6',
-        hint:'Ada 4 bagian kuning dari total 6 bagian martabak.'
-    },
-    {
-        id:'kq3',
-        q:'Di dalam kotak mainan Dino, terdapat 10 buah kelereng dengan ukuran yang sama. Setelah dilihat dengan teliti, ada 3 kelereng berwarna merah, sedangkan sisanya berwarna biru.<br><br>Berapakah pecahan yang menunjukkan banyaknya kelereng berwarna merah dibandingkan dengan seluruh kelereng yang ada di dalam kotak Dino?',
-        opts:['3/10','7/10','10/3','2/10'],
-        correct:'3/10',
-        hint:'Ada 3 kelereng merah dari total 10 kelereng.'
-    },
-    {
-        id:'kq4',
-        q:'Andi, Beni, dan Cici masing-masing mendapatkan satu gulung tali rafi yang ukurannya sama persis dari ayah untuk membuat kerajinan tangan. Tali mereka masing-masing sudah ditandai menjadi 12 potongan kecil yang sama panjang.<br><br>Andi menggunakan 4/12 bagian talinya.<br><br>Beni menggunakan 7/12 bagian talinya.<br><br>Cici menggunakan 5/12 bagian talinya.<br><br>Jika kita melihat bagian yang mereka gunakan, siapakah anak yang menggunakan tali paling panjang?',
-        opts:['Andi','Beni','Cici','Andi dan Cici'],
-        correct:'Beni',
-        hint:'Bandingkan pembilangnya. Angka 7 lebih besar dari 4 dan 5.'
-    },
-    {
-        id:'kq5',
-        q:'Kakak menuliskan lima angka pecahan secara acak di selembar kertas, yaitu: 5/9, 2/9, 8/9, 1/9, dan 4/9. Kakak memintamu untuk menyusun kembali pecahan-pecahan tersebut mulai dari yang nilainya paling kecil hingga ke yang paling besar.<br><br>Setelah kamu berhasil menyusunnya dengan rapi, pecahan manakah yang posisinya berada tepat di tengah-tengah urutan?',
-        opts:['2/9','4/9','5/9','8/9'],
-        correct:'4/9',
-        hint:'Urutkan dari yang terkecil: 1/9, 2/9, 4/9, 5/9, 8/9. Mana yang posisinya di tengah?'
-    },
-    {
-        id:'kq2',
-        q:'Perhatikan gambar kue lapis berikut!<br><br>Sebuah kue lapis dipotong menjadi 5 bagian yang sama besar seperti pada ilustrasi di atas. Dari kelima potongan tersebut, ada 2 potongan yang diberi topping keju parut di atasnya, sedangkan potongan sisanya dibiarkan polos.<br><br>Berapakah nilai pecahan yang menunjukkan potongan kue lapis dengan topping keju?',
-        img:'game2.png',
-        opts:['1/5','2/5','3/5','5/5'],
-        correct:'2/5',
-        hint:'Ada 2 potong dengan topping keju dari total 5 potong kue.'
-    },
-    {
-        id:'kq6',
-        q:'Ibu membeli sebuah roti tawar panjang di supermarket. Roti tersebut kemudian dipotong-potong menjadi 8 bagian sama besar. Sebelum sarapan dimulai, Siska mengambil 3 bagian roti untuk dimakan bersama susu.<br><br>Maka, bentuk pecahan untuk bagian roti yang diambil oleh Siska adalah....',
-        opts:['1/8','3/8','5/8','8/8'],
-        correct:'3/8',
-        hint:'Siska mengambil 3 bagian dari total 8 bagian roti.'
+    // ================= QUIZ DATA =================
+    var quizQs = [
+        {
+            id:'kq1',
+            qTop:'Perhatikan gambar martabak manis berikut!',
+            qBot:'Bayangkan kamu membeli sebuah martabak manis berbentuk lingkaran seperti pada gambar di atas. Martabak tersebut sudah dipotong menjadi 6 bagian yang sama besar. Kamu lalu memberikan 4 bagian yang berwarna kuning kepada teman-temanmu.<br><br>Berapakah nilai pecahan untuk bagian martabak yang berwarna kuning tersebut?',
+            img:'game1.png',
+            opts:['2/6','4/6','5/6','6/6'],
+            correct:'4/6',
+            hint:'Ada 4 bagian kuning dari total 6 bagian martabak.'
+        },
+        {
+            id:'kq3',
+            q:'Di dalam kotak mainan Dino, terdapat 10 buah kelereng dengan ukuran yang sama. Setelah dilihat dengan teliti, ada 3 kelereng berwarna merah, sedangkan sisanya berwarna biru.<br><br>Berapakah pecahan yang menunjukkan banyaknya kelereng berwarna merah dibandingkan dengan seluruh kelereng yang ada di dalam kotak Dino?',
+            opts:['3/10','7/10','10/3','2/10'],
+            correct:'3/10',
+            hint:'Ada 3 kelereng merah dari total 10 kelereng.'
+        },
+        {
+            id:'kq4',
+            q:'Andi, Beni, dan Cici masing-masing mendapatkan satu gulung tali rafi yang ukurannya sama persis dari ayah untuk membuat kerajinan tangan. Tali mereka masing-masing sudah ditandai menjadi 12 potongan kecil yang sama panjang.<br><br>Andi menggunakan 4/12 bagian talinya.<br><br>Beni menggunakan 7/12 bagian talinya.<br><br>Cici menggunakan 5/12 bagian talinya.<br><br>Jika kita melihat bagian yang mereka gunakan, siapakah anak yang menggunakan tali paling panjang?',
+            opts:['Andi','Beni','Cici','Andi dan Cici'],
+            correct:'Beni',
+            hint:'Bandingkan pembilangnya. Angka 7 lebih besar dari 4 dan 5.'
+        },
+        {
+            id:'kq5',
+            q:'Kakak menuliskan lima angka pecahan secara acak di selembar kertas, yaitu: 5/9, 2/9, 8/9, 1/9, dan 4/9. Kakak memintamu untuk menyusun kembali pecahan-pecahan tersebut mulai dari yang nilainya paling kecil hingga ke yang paling besar.<br><br>Setelah kamu berhasil menyusunnya dengan rapi, pecahan manakah yang posisinya berada tepat di tengah-tengah urutan?',
+            opts:['2/9','4/9','5/9','8/9'],
+            correct:'4/9',
+            hint:'Urutkan dari yang terkecil: 1/9, 2/9, 4/9, 5/9, 8/9. Mana yang posisinya di tengah?'
+        },
+        {
+            id:'kq2',
+            qTop:'Perhatikan gambar kue lapis berikut!',
+            qBot:'Sebuah kue lapis dipotong menjadi 5 bagian yang sama besar seperti pada ilustrasi di atas. Dari kelima potongan tersebut, ada 2 potongan yang diberi topping keju parut di atasnya, sedangkan potongan sisanya dibiarkan polos.<br><br>Berapakah nilai pecahan yang menunjukkan potongan kue lapis dengan topping keju?',
+            img:'game2.png',
+            opts:['1/5','2/5','3/5','5/5'],
+            correct:'2/5',
+            hint:'Ada 2 potong dengan topping keju dari total 5 potong kue.'
+        },
+        {
+            id:'kq6',
+            q:'Ibu membeli sebuah roti tawar panjang di supermarket. Roti tersebut kemudian dipotong-potong menjadi 8 bagian sama besar. Sebelum sarapan dimulai, Siska mengambil 3 bagian roti untuk dimakan bersama susu.<br><br>Maka, bentuk pecahan untuk bagian roti yang diambil oleh Siska adalah....',
+            opts:['1/8','3/8','5/8','8/8'],
+            correct:'3/8',
+            hint:'Siska mengambil 3 bagian dari total 8 bagian roti.'
+        },
+        {
+            id:'kq7',
+            qTop:'Perhatikan gambar lampu berikut!',
+            qBot:'Terdapat 5 buah lampu yang dipasang sejajar. 2 lampu menyala warna merah dan 3 lampu sisanya menyala warna kuning.<br><br>Pecahan yang menunjukkan jumlah lampu yang menyala warna merah dari seluruh lampu adalah....',
+            img:'soalbaru.png',
+            opts:['3/5','2/5','5/2','1/5'],
+            correct:'2/5',
+            hint:'Ada 2 lampu merah dari total 5 lampu. Jadi pembilangnya 2 dan penyebutnya 5.'
+        }
+    ];
+
+    // ================= GAMBAR KUIS =================
+    function renderVisualQuiz(q) {
+        if (q.img) {
+            return `<img src="img/${q.img}" alt="Visualisasi Kuis" style="max-width:100%; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); max-height:250px;">`;
+        }
+        return '';
     }
-];
 
-// ================= GAMBAR KUIS =================
-function renderVisualQuiz(q) {
-    if (q.img) {
-        return `<img src="img/${q.img}" alt="Visualisasi Kuis" style="max-width:100%; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); max-height:250px;">`;
-    }
-    return '';
-}
+    // ================= QUIZ =================
+    var qi = 0,
+        qCorrect = 0,
+        maxQuizStars = 5,              
+        quizStars = maxQuizStars;      
 
-// ================= QUIZ =================
-var qi = 0,
-    qScore = 0,
-    qCorrect = 0;
+    function startTimer() { }
 
-function startTimer() { }
+    function loadQuiz() {
+        const q = quizQs[qi];
+        const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+        const showHint = SpaceStore.shouldShowHint(q.id);
 
-function loadQuiz() {
-
-    const q = quizQs[qi];
-
-    const shuffled =
-        [...q.opts].sort(() => Math.random() - 0.5);
-
-    const showHint =
-        SpaceStore.shouldShowHint(q.id);
-
-    document.getElementById('quizArea').innerHTML = `
-
-        <div class="quiz-header">
-
-            <span class="quiz-stat">
-                Soal ${qi+1}/${quizQs.length}
-            </span>
-
-            <span class="quiz-stat">
-                ✅ ${qCorrect}/${qi}
-            </span>
-
-            <span class="quiz-stat">
-                🏆 ${qScore}
-            </span>
-
-        </div>
-
-        <div class="quiz-q fun-callout yellow">
-
-            <div class="quiz-visual" style="margin: ${q.img ? '0 0 20px 0' : '0'};">
-                ${renderVisualQuiz(q)}
+        document.getElementById('quizArea').innerHTML = `
+            <div class="quiz-header">
+                <span class="quiz-stat">
+                    Soal ${qi+1}/${quizQs.length}
+                </span>
+                <span class="quiz-stat">
+                    ✅ ${qCorrect}/${qi}
+                </span>
             </div>
 
-            ${q.q}
+            <div class="quiz-q fun-callout yellow">
+                <!-- TAMPILKAN TEKS ATAS JIKA ADA, ATAU TEKS FULL JIKA TIDAK ADA PEMISAH -->
+                ${q.qTop ? `<div style="margin-bottom: 16px;">${q.qTop}</div>` : (q.q ? `<div>${q.q}</div>` : '')}
+                
+                <!-- TAMPILKAN GAMBAR -->
+                <div class="quiz-visual">
+                    ${renderVisualQuiz(q)}
+                </div>
 
-        </div>
+                <!-- TAMPILKAN TEKS BAWAH JIKA ADA -->
+                ${q.qBot ? `<div style="margin-top: 16px;">${q.qBot}</div>` : ''}
+            </div>
 
-        <div class="quiz-opts">
+            <div class="quiz-opts">
+                ${shuffled.map(o => `
+                    <button class="qopt" onclick="checkQuiz(this,'${o}')">
+                        ${o}
+                    </button>
+                `).join('')}
+            </div>
 
-            ${shuffled.map(o => `
-
-                <button class="qopt"
-                    onclick="checkQuiz(this,'${o}')">
-
-                    ${o}
-
+            <div style="text-align:center;margin-top:10px">
+                <button class="btn-hint ${showHint ? 'visible' : ''}" id="quizHintBtn" onclick="showQuizHint()">
+                    <span class="hint-icon">🦩</span>
+                    Petunjuk dari Tuan Enggang
                 </button>
+            </div>
 
-            `).join('')}
+            <div class="quiz-fb" id="quizFb"></div>
+        `;
 
-        </div>
+        startTimer();
+    }
 
-        <div style="text-align:center;margin-top:10px">
+    function checkQuiz(btn, val) {
+        const q = quizQs[qi];
+        document.querySelectorAll('.qopt').forEach(b => b.style.pointerEvents = 'none');
 
-            <button class="btn-hint ${showHint ? 'visible' : ''}"
-                id="quizHintBtn"
-                onclick="showQuizHint()">
+        if (val === q.correct) {
+            btn.classList.add('correct');
+            AudioManager.playCorrect();
+            SpaceStore.registerCorrectAnswer();
+            qCorrect++;
 
-                <span class="hint-icon">🦉</span>
+            document.getElementById('quizFb').innerHTML =
+                `<span style="color:var(--leaf-vivid)">✅ Benar! Jawabanmu hebat!</span>`;
 
-                Petunjuk dari Tuan Enggang
+            setTimeout(() => {
+                qi++;
+                qi >= quizQs.length ? showResult() : loadQuiz();
+            }, 1500);
 
-            </button>
+        } else {
+            btn.classList.add('wrong');
+            AudioManager.playWrong();
+            const attempts = SpaceStore.registerWrongAnswer(q.id);
 
-        </div>
+            if (quizStars > 0) {
+                quizStars--;
+            }
 
-        <div class="quiz-fb" id="quizFb"></div>
-    `;
+            document.getElementById('quizFb').innerHTML =
+                '<span style="color:#e74c3c">❌ Kurang tepat! Lanjut ke soal berikutnya...</span>';
 
-    startTimer();
-}
+            if (attempts > 2) {
+                const hb = document.getElementById('quizHintBtn');
+                if (hb) hb.classList.add('visible');
+            }
 
-function checkQuiz(btn, val) {
+            setTimeout(() => {
+                qi++;
+                qi >= quizQs.length ? showResult() : loadQuiz();
+            }, 1800);
+        }
+    }
 
-    const q = quizQs[qi];
-
-    document.querySelectorAll('.qopt')
-        .forEach(b => b.style.pointerEvents = 'none');
-
-    if (val === q.correct) {
-
-        btn.classList.add('correct');
-
-        AudioManager.playCorrect();
-
-        SpaceStore.registerCorrectAnswer();
-
-        const xp = SpaceStore.addXP(100, 0);
-
-        qScore += xp;
-
-        qCorrect++;
-
+    function showQuizHint() {
+        AudioManager.playClick();
         document.getElementById('quizFb').innerHTML =
-            `<span style="color:var(--leaf-vivid)">✅ Benar! +${xp} XP</span>`;
+            `<span style="color:var(--honey-orange)">🦉 ${quizQs[qi].hint}</span>`;
+    }
 
-    } else {
+    function showResult() {
+        document.getElementById('horeSound').play();
+        setTimeout(() => {
+            document.getElementById('clapSound').play();
+        }, 1000);
 
-        btn.classList.add('wrong');
+        SpaceStore.completeMission('mission3');
+        SpaceStore.addBadge('🌟');
 
-        AudioManager.playWrong();
+        const pct = Math.round((qCorrect / quizQs.length) * 100);
+        const emoji = quizStars >= maxQuizStars ? '🌟🌟🌟' : quizStars >= Math.ceil(maxQuizStars / 2) ? '👍' : '💪';
 
-        const attempts =
-            SpaceStore.registerWrongAnswer(q.id);
-
-        qScore = Math.max(0, qScore - 20);
-
-        document.getElementById('quizFb').innerHTML =
-            '<span style="color:#e74c3c">❌ Jawaban salah!</span>';
-
-        if (attempts > 2) {
-
-            const hb =
-                document.getElementById('quizHintBtn');
-
-            if (hb)
-                hb.classList.add('visible');
+        let starsHtml = '';
+        for (let i = 0; i < maxQuizStars; i++) {
+            starsHtml += `<span class="result-star ${i < quizStars ? 'earned' : 'empty'}">${i < quizStars ? '⭐' : '☆'}</span>`;
         }
 
-        setTimeout(() => {
+        document.getElementById('quizArea').innerHTML = `
+            <div class="result-panel">
+                <div class="result-emoji">${emoji}</div>
 
-            document.querySelectorAll('.qopt')
-                .forEach(b => {
+                <div style="
+                    font-family:'Baloo 2';
+                    font-size:1.8rem;
+                    font-weight:800;
+                    margin-bottom:6px;
+                    color:var(--forest-dark)">
+                    🎉 Ujian Selesai! 🎉
+                </div>
 
-                    if (!b.classList.contains('wrong'))
-                        b.style.pointerEvents = 'auto';
-                });
+                <div class="result-stars">
+                    ${starsHtml}
+                </div>
 
-        }, 800);
+                <div style="font-family:'Baloo 2';font-size:1.5rem;font-weight:900;color:var(--sunny-yellow);margin-bottom:6px;">
+                    ${quizStars} / ${maxQuizStars} Bintang
+                </div>
 
-        return;
+                <div class="result-detail">
+                    ${qCorrect} dari ${quizQs.length} soal benar (${pct}%)
+                </div>
+
+                <h2 style="
+                    color:var(--sunny-yellow);
+                    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+                    margin-bottom:20px;
+                    animation:pulse 1s infinite;
+                ">
+                    🥳 HOREE! KAMU HEBAT! 🥳
+                </h2>
+
+                <button class="btn-gold" onclick="navigasiHalaman('dashboard.html')">
+                    Kembali ke Peta Rimba 🗺️
+                </button>
+            </div>
+        `;
     }
 
-    setTimeout(() => {
-
-        qi++;
-
-        qi >= quizQs.length
-            ? showResult()
-            : loadQuiz();
-
-    }, 1500);
-}
-
-function showQuizHint() {
-
-    AudioManager.playClick();
-
-    document.getElementById('quizFb').innerHTML =
-        `<span style="color:var(--honey-orange)">🦉 ${quizQs[qi].hint}</span>`;
-}
-
-function showResult() {
-
-    // MAINKAN SOUND APRESIASI
-    document.getElementById('horeSound').play();
-    setTimeout(() => {
-        document.getElementById('clapSound').play();
-    }, 1000);
-
-    SpaceStore.completeMission('mission3');
-
-    SpaceStore.addBadge('🌟');
-
-    const pct =
-        Math.round((qCorrect / quizQs.length) * 100);
-
-    const emoji =
-        pct >= 80 ? '🌟'
-        : pct >= 60 ? '👍'
-        : '💪';
-
-    document.getElementById('quizArea').innerHTML = `
-
-        <div class="result-panel">
-
-            <div class="result-emoji">${emoji}</div>
-
-            <div style="
-                font-family:'Baloo 2';
-                font-size:1.8rem;
-                font-weight:800;
-                margin-bottom:6px;
-                color:var(--forest-dark)">
-
-                🎉 Kuis Selesai! 🎉
-
+    document.body.insertAdjacentHTML(
+        'beforeend',
+        `<main class="page-container">
+            <div class="kid-card quiz-panel" id="quizArea">
+                <div class="card-accent rainbow"></div>
+                Memuat...
             </div>
+        </main>`
+    );
 
-            <div class="result-score"
-                id="resScore">
-
-                0
-
-            </div>
-
-            <div class="result-detail">
-
-                ${qCorrect} dari ${quizQs.length}
-                soal benar (${pct}%)
-
-            </div>
-
-            <h2 style="
-                color:var(--sunny-yellow);
-                text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-                margin-bottom:20px;
-                animation:pulse 1s infinite;
-            ">
-                🥳 HOREE! KAMU HEBAT! 🥳
-            </h2>
-
-            <button class="btn-gold"
-                onclick="navigasiHalaman('dashboard.html')">
-
-                Kembali ke Peta Rimba 🗺️
-
-            </button>
-
-        </div>
-    `;
-
-    setTimeout(() => {
-
-        animateCounter(
-            document.getElementById('resScore'),
-            0,
-            qScore,
-            1200
-        );
-
-    }, 300);
-}
-document.body.insertAdjacentHTML(
-    'beforeend',
-    `<main class="page-container">
-        <div class="kid-card quiz-panel"
-            id="quizArea">
-            <div class="card-accent rainbow"></div>
-            Memuat...
-
-        </div>
-    </main>`
-);
-
-loadQuiz();
-
-</script>
+    loadQuiz();
+    </script>
 </body>
 </html>
