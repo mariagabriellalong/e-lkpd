@@ -273,7 +273,7 @@ const AudioManager = {
 
   init() {
     if (!this._bgmAudio) {
-      this._bgmAudio = new Audio('sound/pou.mp3');
+      this._bgmAudio = new Audio('sound/backsound.mp3');
       this._bgmAudio.loop = true;
       this._bgmAudio.volume = 0.12; // Suara dikecilkan
       
